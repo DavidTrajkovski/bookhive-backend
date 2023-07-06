@@ -1,0 +1,83 @@
+﻿@model BookHiveDB.Domain.DomainModels.Book
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="isbn" class="control-label"></label>
+                <input asp-for="isbn" class="form-control" />
+                <span asp-validation-for="isbn" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="name" class="control-label"></label>
+                <input asp-for="name" class="form-control" />
+                <span asp-validation-for="name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="description" class="control-label"></label>
+                <input asp-for="description" class="form-control" />
+                <span asp-validation-for="description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="datePublished" class="control-label"></label>
+                <input asp-for="datePublished" class="form-control" />
+                <span asp-validation-for="datePublished" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="coverImageUrl" class="control-label"></label>
+                <input asp-for="coverImageUrl" class="form-control" />
+                <span asp-validation-for="coverImageUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="isValid" /> @Html.DisplayNameFor(model => model.isValid)
+                </label>
+            </div>
+
+
+            <h4>Select the authors of the book</h4>
+            <select class="form-control" name="authors" multiple required>
+                @foreach (Author author in ViewData["authors"] as IList<Author>)
+                {
+                    <option value="@author.Id">
+                        @author.name
+                    </option>
+                }
+
+            </select>
+            <div>
+                <h4>Select the genre/s of the book</h4>
+                <select class="form-control" name="genres" multiple required>
+                    @foreach (Genre genre in ViewData["genres"] as IList<Genre>)
+                    {
+                        <option value="@genre.Id">
+                            @genre.GenreName
+                        </option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group mt-2">
+                <input type="submit" value="Create" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-primary">Back to List</a>
+</div>
+

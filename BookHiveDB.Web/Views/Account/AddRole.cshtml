@@ -1,0 +1,15 @@
+﻿@model BookHiveDB.Domain.DomainModels.AddToRoleModel
+<h2>Додади улога на соодветниот корисник</h2>
+<br />
+<br />
+
+@using (Html.BeginForm("AddRole", "Account"))
+{
+    <div class="form-group">
+        @Html.DropDownListFor(x => x.Username, new SelectList(Model.usernames), new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.DropDownListFor(x => x.SelectedRole, new SelectList(Model.roles), new { @class = "form-control" })
+    </div>
+    <button type="submit" class="btn btn-default">Save</button>
+}

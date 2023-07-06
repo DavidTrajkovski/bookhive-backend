@@ -1,0 +1,98 @@
+﻿@model BookHiveDB.Domain.DTO.UserRegistrationDto
+@{
+    ViewData["Title"] = "Register";
+    Layout = null; ;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #9ed9cc;
+        }
+
+        #container {
+            width: 550px;
+            height: 400px;
+            margin: auto;
+            margin-top: 100px;
+        }
+
+        input {
+            width: 200px;
+            height: 40px;
+            margin: 20px;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid whitesmoke;
+            box-shadow: none;
+            font-size: 20px;
+            color: #fff;
+        }
+
+        input:hover {
+            border-bottom: 3px solid darkslategrey;
+        }
+
+        ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+            color: black;
+            opacity: 1; /* Firefox */
+        }
+
+        #registerbtn {
+            width: 20%;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .logo {
+            margin-top: 30px;
+            text-align: center;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 40px;
+        }
+        .inside input {
+            width: 230px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <h3 class="logo">Bookhive</h3>
+    <form method="post" action="/account/register">
+        <div id="container">
+            @Html.ValidationSummary()
+            <div class="inside">
+                @Html.TextBoxFor(m => m.Name, new { placeholder = "Name", @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Name)
+
+                @Html.TextBoxFor(m => m.LastName, new { placeholder = "Last Name", @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.LastName)
+            </div>
+            <div class="inside">
+                @Html.TextBoxFor(m => m.Email, new { placeholder = "Email", @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Email)
+            </div>
+
+            <div class="inside">
+                @Html.PasswordFor(m => m.Password, new { placeholder = "Password", @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Password)
+
+                @Html.PasswordFor(m => m.ConfirmPassword, new { placeholder = "Confirm Password", @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.ConfirmPassword)
+
+            </div>
+
+        </div>
+        <button id="registerbtn" class="btn btn-dark btn-lg" type="submit">Register</button>
+    </form>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</body>
+</html>

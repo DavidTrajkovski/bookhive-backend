@@ -1,0 +1,66 @@
+﻿@model BookHiveDB.Domain.DTO.BookClubsLoggedInUser
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<div class="container">
+    <div class="row my-5 align-items-start justify-content-start">
+        <a asp-action="Create" class="btn text-white" style="width: 200px; background-color: #008C76;">
+            Create BookClub
+        </a>
+    </div>
+    <div class="row w-50 my-4 mx-auto" id="searchCont">
+        <form method="get" asp-action="Index">
+            <input type="text" class="form-control" placeholder="Enter a book club name..." name="search">
+            <button class="btn btn-dark w-100 mt-2" type="submit"><i class="fa fa-search"></i>Search</button>
+        </form>
+    </div>
+    @foreach (var item in Model.bookClubs)
+    {
+        <div class="row mb-3 justify-content-center">
+            <div class="card shadow-sm col-6">
+                <div class="card-body ">
+                    <h5 class="card-title">@item.name</h5>
+                    <p class="card-text">@item.description</p>
+                    <div class="d-grid gap-2 d-md-block">
+                        @if (item.isMember(Model.user) || item.BookHiveApplicationUser.Equals(Model.user))
+                        {
+                            <a class="btn btn-primary"
+                               asp-action="Details" asp-route-id="@item.Id">
+                                View
+                            </a>
+                        }
+                        @if (!item.isMember(Model.user) && !item.BookHiveApplicationUser.Equals(Model.user))
+                        {
+                            <a class="btn btn-success"
+                               asp-action="RequestBookclubMembership" asp-route-id="@item.Id">
+                                Request Membership
+                            </a>
+                        }
+                        @if (item.BookHiveApplicationUser.Equals(Model.user))
+                        {
+                            <a class="btn btn-warning"
+                               asp-action="EditPage" asp-route-id="@item.Id">
+                                Edit
+                            </a>
+                        }
+                        @if (item.BookHiveApplicationUser.Equals(Model.user))
+                        {
+                            <a class="btn btn-danger"
+                               asp-action="DeletePage" asp-route-id="@item.Id">
+                                Delete
+                            </a>
+                        }
+                    </div>
+                </div>
+                <hr />
+                <div class="text-muted pt-0 pb-2">
+                    Owner: <span> @item.BookHiveApplicationUser.FirstName </span> <span> @item.BookHiveApplicationUser.LastName </span>
+                </div>
+            </div>
+            
+        </div>
+    }
+</div>

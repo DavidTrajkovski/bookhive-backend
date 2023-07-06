@@ -1,0 +1,119 @@
+﻿@model IEnumerable<BookHiveDB.Domain.DomainModels.Book>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container-lg">
+    @if (User.IsInRole("Administrator"))
+    {
+        <div class="row col-lg-2 my-5 align-items-start justify-content-start">
+            <a asp-action="Create" class="btn text-white" style="background-color: #008C76;">
+                Add Book
+            </a>
+        </div>
+    }
+    <div class="row my-5 justify-content-center">
+        @foreach (var item in Model)
+        {
+            <div class="col-4 mb-4">
+                <div class="card shadow border-0 w-100 h-100">
+                    <div class="card-body text-center py-4">
+                        <img class="card-img w-100"
+                             src=@item.coverImageUrl
+                             th:alt=@item.name style="height: 400px;" />
+                        <h5 class="card-title mt-3 mb-0">
+                            @item.name
+                        </h5>
+                        <p class="card-subtitle fs-6 fst-italic mt-0 mb-3">
+
+                            @foreach (var author in item.authorBooks)
+                            {
+                                <span>@author.Author.name @author.Author.surname, </span>
+                            }
+
+                        </p>
+                        <p class="card-text text-muted d-none d-lg-block">@item.description</p>
+                        <br /><br /><br />
+                                    <div class="me-2">
+
+
+                                        <div style="position: absolute; bottom: 75px; left: 30px; width: 85%;">
+                                            <p style="font-weight: bolder">Price: @item.Price $</p>
+                                        </div>
+                                        
+
+
+                                        @if (User.IsInRole("StandardUser"))
+                                        {
+                                            <div style="position: absolute; bottom: 60px; left: 30px; width: 85%;">
+                                                <form method="get" asp-controller="Books" asp-action="AddBookToCart" asp-route-id="@item.Id">
+                                                    <button type="submit" class="btn btn-sm text-white mt-3" style="background-color: #008C76; width: 100%">
+                                                        Add book to cart
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        }
+
+
+                                        <div style="position: absolute; bottom: 20px; left: 30px; width: 85%; display: flex; justify-content: space-between">
+
+                                            @if (User.IsInRole("Administrator"))
+                                            {
+                                                <form style="width: 30%" class="d-inline-block" th:method="POST" asp-action="Delete" asp-route-id="@item.Id">
+                                                    <button type="submit" class="btn btn-sm text-white mt-3" style="margin: 0; width: 100%; background-color: #008C76;">
+                                                        Delete
+                                                    </button>
+                                                </form>
+                                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm text-white mt-3" style="width: 30%; background-color: #008C76;">
+                                                    Edit
+                                                </a>
+                                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm text-white mt-3" style="width: 30%; background-color: #008C76;">
+                                                    Details
+                                                </a>
+                                            }
+
+
+
+                                            @if (User.IsInRole("StandardUser"))
+                                            {
+                                                <form style="width: 30%" class="d-inline-block" method="post" asp-controller="User" asp-action="AddBookToMyWishList" asp-route-bookId="@item.Id">
+                                                    <button type="submit" class="btn btn-sm text-white mt-3" style="margin: 0; width: 100%; background-color: #008C76;">
+                                                        Wishlist
+                                                    </button>
+                                                </form>
+                                                <form style="width: 30%" class="d-inline-block" method="POST" asp-controller="UserBooks" asp-action="Create" asp-route-id="@item.Id">
+
+                                                    <button type="submit" class="btn btn-sm text-white mt-3" style="margin: 0; width: 100%; background-color: #008C76;">
+                                                        My Books
+                                                    </button>
+                                                </form>
+                                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm text-white mt-3" style="width: 30%; background-color: #008C76;">
+                                                    Details
+                                                </a>
+                                            }
+
+
+                                        </div>
+                                        <br>
+                                    </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="row col-lg-2 my-5 align-items-start justify-content-start">
+    </div>
+    @*<nav class="row my-5 align-items-center justify-content-center" aria-label="Page navigation example">
+            <ul class="pagination pagination-lg align-items-center justify-content-center">
+                <li th:if="${books.totalPages}"
+                    th:each="pageNumber : ${pageNumbers}"
+                    class="page-item">
+                    <a th:class="${pageNumber==books.number + 1} ? 'page-link activelink' : 'page-link'"
+                       th:href="@{/books(size=${books.size}, page=${pageNumber-1})}"
+                       th:text="${pageNumber}"></a>
+                </li>
+            </ul>
+        </nav>*@
+</div>

@@ -1,0 +1,49 @@
+﻿@model BookHiveDB.Domain.DTO.BookClubMembersDTO
+
+@{
+    ViewData["Title"] = "Members";
+}
+
+<div class="container">
+    <div>
+        <h3>Members</h3>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Surname</th>
+                <th scope="col">E-mail</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.members)
+            {
+                <tr>
+                    <td>@item.FirstName</td>
+                    <td>@item.LastName</td>
+                    <td>@item.Email</td>
+                    @if (Model.bookClub.BookHiveApplicationUser.Equals(Model.user))
+                    {
+                <td>
+@*                    <a asp-controller="BookClub" asp-action="removeMemberFromBookClub" asp-route-memberId="@item.Id"  asp-route-id="@Model.bookClub.Id" class="btn btn-danger"
+                       type="button" onclick="BookClub">
+                        Kick Member
+                    </a>*@
+                    <form class="d-inline-block"
+                          asp-controller="BookClub" asp-action="removeMemberFromBookClub">
+                        <input type="hidden" name="memberId" value="@item.Id" />
+                        <input type="hidden" name="id" value="@Model.bookClub.Id" />
+                        <button class="btn btn-danger" type="submit">Kick Member</button>
+                      </form>
+                </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div>
+        <a asp-action="Details" asp-route-id="@Model.bookClub.Id" class="btn btn-primary">Back to List</a>
+    </div>
+</div>

@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Create Topic";
+    Guid bookClubId = @ViewBag.bookClubId;
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <form class="col-lg-6" method=post asp-action="addNewTopic">
+            <input id="bookClubId" name="bookClubId" type="text" hidden value=@bookClubId />
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="title" name="title">
+            </div>
+            <a asp-controller="BookClub" asp-action="Details" asp-route-id="@bookClubId" type="submit" class="btn btn-primary">Back</a>
+            <button type="submit" class="btn text-white" style="background-color: #008C76;">Create</button>
+        </form>
+    </div>
+</div>

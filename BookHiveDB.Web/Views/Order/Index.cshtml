@@ -1,0 +1,50 @@
+﻿@model List<BookHiveDB.Domain.DomainModels.Order>
+
+
+
+
+
+<div class="container">
+
+    <div class="m-5">
+
+
+
+
+
+
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Customer details</th>
+                    <th scope="col">Number of tickets</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    var item = Model[i];
+
+                    <tr>
+                        <th scope="row">@(i + 1)</th>
+                        <td>@item.User.UserName</td>
+                        <td>@item.BooksInOrders.Count()</td>
+                        <td><a asp-route-id="@item.Id" asp-action="Details" class="btn btn-info">View Order</a></td>
+                        <td scope="col"><a class="btn btn-outline-dark" asp-action="CreateInvoice" asp-route-id="@item.Id">Create invoice</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+
+
+
+
+
+    </div>
+
+</div>

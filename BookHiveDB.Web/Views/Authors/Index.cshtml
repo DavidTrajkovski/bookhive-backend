@@ -1,0 +1,43 @@
+﻿@model IEnumerable<BookHiveDB.Domain.DomainModels.Author>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container">
+    @if (User.IsInRole("Administrator"))
+    {
+        <a asp-action="Create" class="btn text-white mb-3" style="background-color: #008C76;">Add Author</a>
+    }
+    @if (User.IsInRole("Administrator"))
+    {
+        <a asp-action="ImportAuthorsView" class="btn text-white mb-3" style="background-color: #008C76;">Import Authors</a>
+    }
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Surname</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>@item.name</td>
+                <td>@item.surname</td>
+                @if (User.IsInRole("Administrator"))
+                {
+                    <td colspan="2">
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Details</a>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                }
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

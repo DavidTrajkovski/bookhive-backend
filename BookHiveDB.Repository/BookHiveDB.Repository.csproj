@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20220814003546_book_class_finished.cs" />
+    <Compile Remove="Migrations\20220814003546_book_class_finished.Designer.cs" />
+    <Compile Remove="Migrations\20220814003847_test.cs" />
+    <Compile Remove="Migrations\20220814003847_test.Designer.cs" />
+    <Compile Remove="Migrations\20220814003912_test.cs" />
+    <Compile Remove="Migrations\20220814003912_test.Designer.cs" />
+    <Compile Remove="Migrations\20220814003944_test.cs" />
+    <Compile Remove="Migrations\20220814003944_test.Designer.cs" />
+    <Compile Remove="Migrations\20220815220016_post_shopping_cart_migration.cs" />
+    <Compile Remove="Migrations\20220815220016_post_shopping_cart_migration.Designer.cs" />
+    <Compile Remove="Migrations\20220815220109_post_shopping_cart_migration.cs" />
+    <Compile Remove="Migrations\20220815220109_post_shopping_cart_migration.Designer.cs" />
+    <Compile Remove="Migrations\20220818002729_test123.cs" />
+    <Compile Remove="Migrations\20220818002729_test123.Designer.cs" />
+    <Compile Remove="Migrations\20220820145223_test.cs" />
+    <Compile Remove="Migrations\20220820145223_test.Designer.cs" />
+    <Compile Remove="Migrations\20220926002855_test.cs" />
+    <Compile Remove="Migrations\20220926002855_test.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BookHiveDB.Domain\BookHiveDB.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

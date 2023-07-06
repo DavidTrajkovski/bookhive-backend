@@ -1,0 +1,51 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32802.440
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BookHiveDB", "BookHiveDB", "{AB5D30EE-B17B-4BDF-8D5F-190274A05CF4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookHiveDB.Web", "BookHiveDB.Web\BookHiveDB.Web.csproj", "{01B111D4-66BE-457A-B79D-1B930CB83715}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookHiveDB.Domain", "BookHiveDB.Domain\BookHiveDB.Domain.csproj", "{FE52CBE1-8347-4E3E-AC6B-5F80CD0FA703}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookHiveDB.Repository", "BookHiveDB.Repository\BookHiveDB.Repository.csproj", "{D01E8E39-1B47-4E0D-8688-34618AE10D12}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookHiveDB.Service", "BookHiveDB.Service\BookHiveDB.Service.csproj", "{13A8E34B-BE8E-43C1-A44E-9B7BCCF9D6D3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{01B111D4-66BE-457A-B79D-1B930CB83715}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01B111D4-66BE-457A-B79D-1B930CB83715}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01B111D4-66BE-457A-B79D-1B930CB83715}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01B111D4-66BE-457A-B79D-1B930CB83715}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE52CBE1-8347-4E3E-AC6B-5F80CD0FA703}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE52CBE1-8347-4E3E-AC6B-5F80CD0FA703}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE52CBE1-8347-4E3E-AC6B-5F80CD0FA703}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE52CBE1-8347-4E3E-AC6B-5F80CD0FA703}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D01E8E39-1B47-4E0D-8688-34618AE10D12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D01E8E39-1B47-4E0D-8688-34618AE10D12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D01E8E39-1B47-4E0D-8688-34618AE10D12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D01E8E39-1B47-4E0D-8688-34618AE10D12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13A8E34B-BE8E-43C1-A44E-9B7BCCF9D6D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13A8E34B-BE8E-43C1-A44E-9B7BCCF9D6D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13A8E34B-BE8E-43C1-A44E-9B7BCCF9D6D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13A8E34B-BE8E-43C1-A44E-9B7BCCF9D6D3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{01B111D4-66BE-457A-B79D-1B930CB83715} = {AB5D30EE-B17B-4BDF-8D5F-190274A05CF4}
+		{FE52CBE1-8347-4E3E-AC6B-5F80CD0FA703} = {AB5D30EE-B17B-4BDF-8D5F-190274A05CF4}
+		{D01E8E39-1B47-4E0D-8688-34618AE10D12} = {AB5D30EE-B17B-4BDF-8D5F-190274A05CF4}
+		{13A8E34B-BE8E-43C1-A44E-9B7BCCF9D6D3} = {AB5D30EE-B17B-4BDF-8D5F-190274A05CF4}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3C821940-A397-46BB-B2C3-988478799807}
+	EndGlobalSection
+EndGlobal

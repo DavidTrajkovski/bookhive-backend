@@ -1,0 +1,62 @@
+﻿@model List<BookHiveDB.Domain.Relations.BookInWishList>
+@{
+    ViewData["Title"] = "My WishList";
+}
+
+<div class="container">
+    <div class="p-3">
+        <h1>List of books in wishlist</h1>
+    </div>
+    @foreach (var item in Model)
+    {
+        <div class="row">
+            <div class="shadow card mb-3  mx-auto" style="max-width: 820px;">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="@item.Book.coverImageUrl" alt="@item.Book.name"
+                             class="img-fluid p-2" />
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title" style="font-weight: bold">@item.Book.name</h5>
+                            <p class="card-text">@item.Book.description</p>
+
+                            @foreach (var author in item.Book.authorBooks)
+                            {
+                                <p class="card-text">
+                                    <small class="text-muted">author:</small>
+                                    <small class="text-muted">@author.Author.name</small>
+                                    <small class="text-muted">@author.Author.surname</small>
+                                </p>
+                            }
+
+                        <div class="button-box" style="font-family: sans-serif">
+                            <div class="d-inline-block p-0">
+                                <a asp-controller="Books" asp-action="Details" asp-route-id="@item.Book.Id" class="btn btn-info">Details</a>
+                            </div>
+                            <div class="d-inline-block p-0">
+                                <form method="post"
+                                      asp-controller="UserBooks" asp-action="Create" asp-route-id="@item.Book.Id">
+                                    <button type="submit" class="btn btn-success">
+                                        Add to My Books
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="d-inline-block p-0">
+                                <form method="post" asp-controller="User" asp-action="RemoveBookPage" asp-route-bookId="@item.Book.Id">
+                                    <button type="submit" class="btn btn-danger">
+                                        Remove
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    <div class="p-3">
+        <a asp-controller="User" asp-action="Index" class="btn btn-primary">Back</a>
+    </div>
+</div>

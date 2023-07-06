@@ -1,0 +1,92 @@
+﻿@model BookHiveDB.Domain.DTO.BookClubWithTopics
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="container">
+    <div class="row">
+        <section class="p-5 mb-3 bg-light rounded-3">
+            <div class="container-fluid">
+                <h1 class="display-5 fw-bold">@Model.BookClub.name</h1>
+                <p class="col-md-8 fs-4">@Model.BookClub.description</p>
+                <div class="d-grid gap-2 d-md-block">
+                    <a asp-controller="BookClub" asp-action="GetBookClubMembersPage" asp-route-id="@Model.BookClub.Id" class="btn btn-info"
+                       type="button">Members</a>
+                    @if (Model.BookClub.BookHiveApplicationUser.Equals(Model.user))
+                    {
+                        <form method="post" asp-controller="Invitation" asp-action="InvitationPage" class="d-inline-block">
+                            <input type="text" name="bookClubId" id="bookClubId" value="@Model.BookClub.Id" hidden>
+                            <button class="btn btn-info d-inline-block" type="submit">Invite</button>
+                        </form>
+                    }
+                    @if (Model.BookClub.BookHiveApplicationUser.Equals(Model.user))
+                    {
+                        <a asp-controller="BookClub" asp-action="GetBookclubMembershipRequestsPage" asp-route-id="@Model.BookClub.Id" class="btn btn-info"
+                           type="button">View Requests</a>
+                    }
+                    @if (!Model.BookClub.BookHiveApplicationUser.Equals(Model.user))
+                    {
+                        @*                        <a asp-controller="BookClub" asp-action="leaveBookClubAsync" asp-route-id="@Model.BookClub.Id" class="btn btn-danger"
+                            type="button">Leave</a>*@
+                        <form method="post" asp-controller="BookClub" asp-action="LeaveBookClub" class="d-inline-block">
+                            <input type="text" name="id" id="bookClubId" value="@Model.BookClub.Id" hidden>
+                            <button class="btn btn-danger d-inline-block" type="submit">Leave</button>
+                        </form>
+                    }
+
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="row justify-content-start">
+        <section class="p-5 mb-4 bg-light rounded-3">
+            <div class="mb-3">
+                <h1>List of topics</h1>
+            </div>
+            <div class="mb-3">
+                <a asp-controller="Topic" asp-action="GetAddTopicForm" asp-route-id="@Model.BookClub.Id" class="btn text-white"
+                   style="background-color: #008C76;">Create New Topic</a>
+            </div>
+
+            @foreach (var item in Model.Topics)
+            {
+                <div class="card shadow-sm mt-3">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a asp-controller="Topic" asp-action="GetTopicById" asp-route-id="@item.Id" class="text-decoration-none link-dark">
+                                @item.title
+                            </a>
+                        </h5>
+                        <hr />
+                        <div class="text-muted">
+                            <p>
+                                Created by: <span class="pe-3">@item.BookHiveApplicationUser.FirstName @item.BookHiveApplicationUser.LastName</span>
+                                Date created: <span>@item.date.ToShortDateString()</span>
+                            </p>
+                        </div>
+                        <div class="row">
+                            <div class="col-10">
+
+                            </div>
+                            @if (Model.BookClub.BookHiveApplicationUserId.Equals(Model.user.Id) ||
+                               Model.user.Id.Equals(item.BookHiveApplicationUserId))
+                            {
+                                <div class="col-2">
+                                    <a asp-action="DeleteTopic" asp-route-id="@item.Id" class="btn btn-danger text-white">Delete Topic</a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </section>
+    </div>
+
+
+    <div class="">
+        <a asp-action="Index" class="btn btn-primary">Back to List</a>
+    </div>
+
+</div>

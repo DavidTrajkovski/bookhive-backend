@@ -1,0 +1,91 @@
+﻿@model BookHiveDB.Domain.DomainModels.Order
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Book Name
+            </th>
+            <th>
+                Quantity
+            </th>
+            <th>
+                Genres
+            </th>
+            <th>
+                Book Price
+            </th>
+            <th>
+                Date Published
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.BooksInOrders)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book.name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @*@Html.DisplayFor(modelItem => item.Book.BookGenres)*@
+
+                    @{
+                        var genreCount = item.Book.BookGenres.Select(x => x.Genre).ToList().Count() - 1;
+                        var genreList = item.Book.BookGenres.Select(x => x.Genre).ToList();
+
+                        foreach (Genre genre in genreList)
+                        {
+                            if (genreList.FindLastIndex(z => z.Id.Equals(genre.Id)) == genreCount)
+                            {
+                                <span>@genre.GenreName</span>
+                            }
+                            else
+                            {
+                                <span>@genre.GenreName,</span>
+                            }
+
+
+
+
+                        }
+
+
+
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book.Price) $
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book.datePublished)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+@{
+    double total = 0;
+    @foreach (var item in Model.BooksInOrders)
+    {
+        total += item.Quantity * item.Book.Price;
+    }
+
+
+
+
+    <div class="alert alert-success" style="border-radius: 10px; width: 15%; background-color: #008C76; " >
+        <h3 class="text-center" style="margin: 0; color: white; font-size: 20px;">Total: @total $</h3>
+    </div>
+
+}

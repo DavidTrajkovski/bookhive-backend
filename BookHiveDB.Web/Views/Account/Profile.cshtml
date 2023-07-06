@@ -1,0 +1,94 @@
+﻿@model BookHiveDB.Domain.Identity.BookHiveApplicationUser
+
+@{
+    ViewData["Title"] = "My Profile";
+}
+
+<style>
+    .form-control{
+        width: 500px;
+    }
+
+</style>
+
+<div id="container">
+    <div class="ms-4" id="left">
+        @if (ViewData["error"] != null && (bool)ViewData["error"])
+        {
+            <h4 class="text-danger">Your passwords do not match. Please try again.</h4>
+        }
+        @if (ViewData["success"] != null && (bool)ViewData["success"])
+        {
+            <h4 class="text-success">Successfully updated user</h4>
+        }
+        @if (ViewData["passwordShort"] != null && (bool)ViewData["passwordShort"])
+        {
+            <h4 class="text-danger">Password needs to be at least 6 characters long</h4>
+        }
+        <form method="post" action="/account/editprofile">
+            <div class=" mt-3">
+                @*<div>
+                    <h4>Your Email:</h4>
+                </div>
+                <br />*@
+                <h3>
+                    @*<input value="@Model.Email" type="text" placeholder="Enter your email" name="email">*@
+                    @Model.Email
+                </h3>
+            </div>
+            <br />
+
+
+            <div>
+                <div>
+                    <span>Name</span>
+                </div>
+                <div>
+                    <input class="form-control" value="@Model.FirstName" type="text" placeholder="Enter your name" name="name">
+                </div>
+            </div>
+            <div class=" mt-3">
+                <div>
+                    <span>Last Name</span>
+                </div>
+                <div>
+                    <input class="form-control" value="@Model.LastName" type="text" placeholder="Enter your last name" name="lastname">
+                </div>
+            </div>
+            <div class="mt-3">
+                <div>
+                    <span>Address</span>
+                </div>
+                <div>
+                    <input class="form-control" value="@Model.Address" type="text" placeholder="Enter your address" name="address">
+                </div>
+            </div>
+
+            @if (Model.PasswordHash != null)
+            {
+
+                <div class="mt-3">
+                    <div>
+                        <span>Password</span>
+                    </div>
+                    <div>
+                        <input class="form-control" placeholder="Enter a new password or leave blank to use the old one" type="password" name="password">
+                    </div>
+                </div>
+
+
+                <div class="mt-3">
+                    <div>
+                        <span>Confirm Password</span>
+                    </div>
+                    <div>
+                        <input class="form-control" placeholder="Confirm new password" type="password" name="confirmPassword">
+                    </div>
+                </div>
+            }
+            <div style="display: flex; align-items: stretch; width: 15%; margin-top: 20px;">
+                <button style="flex: 1; font-size: 15px;" class="btn btn-success btn-lg m-2 w-25" id="submit" type="submit">Save</button>
+            </div>
+        </form>
+    </div>
+</div>

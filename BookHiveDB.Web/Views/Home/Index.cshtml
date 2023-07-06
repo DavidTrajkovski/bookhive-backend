@@ -1,0 +1,263 @@
+﻿@model BookHiveDB.Domain.DTO.UserLoginDto
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="http://fonts.cdnfonts.com/css/roboto" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel="stylesheet">
+    <style>
+
+        body {
+            background-color: #174a45
+        }
+
+        #container {
+            display: flex;
+            width: 1000px;
+            height: 500px;
+            justify-content: space-between;
+            margin: 40px auto auto;
+        }
+
+        #registerlinks {
+            display: flex;
+            margin-top: 5px;
+        }
+
+        #registerbtn {
+            flex: 1;
+            margin-left: 10px;
+        }
+
+        input {
+            width: 100%;
+            height: 40px;
+            margin-bottom: 30px;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid whitesmoke;
+            box-shadow: none;
+            font-size: 16px;
+            color: #fff;
+        }
+
+            input:hover {
+                border-bottom: 3px solid greenyellow;
+            }
+
+        ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+            color: white;
+            font-family: "Segoe UI", sans-serif;
+            opacity: 1; /* Firefox */
+        }
+/*
+        #loginbtn {
+            width: 100%;
+            margin-top: 20px;
+            display: block;
+        }*/
+
+        #logo {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 50px;
+            color: white;
+        }
+
+        #form {
+            margin-top: 70px;
+        }
+        /*
+        ========================
+              BUTTON ONE
+        ========================
+        */
+        .btn-one {
+            font-family: 'Open Sans Condensed', sans-serif;
+            font-size: 25px;
+            line-height: 50px;
+            height: 50px;
+            text-align: center;
+            width: 320px;
+            cursor: pointer;
+            margin-top: 20px;
+            color: #FFF;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+            .btn-one span {
+                transition: all 0.3s;
+            }
+
+            .btn-one::before {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 1;
+                opacity: 0;
+                transition: all 0.3s;
+                border-top-width: 1px;
+                border-bottom-width: 1px;
+                border-top-style: solid;
+                border-bottom-style: solid;
+                border-top-color: rgba(255,255,255,0.5);
+                border-bottom-color: rgba(255,255,255,0.5);
+                transform: scale(0.1, 1);
+            }
+
+            .btn-one:hover span {
+                letter-spacing: 2px;
+            }
+
+            .btn-one:hover::before {
+                opacity: 1;
+                transform: scale(1, 1);
+            }
+
+            .btn-one::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 1;
+                transition: all 0.3s;
+                background-color: rgba(255,255,255,0.1);
+            }
+
+            .btn-one:hover::after {
+                opacity: 0;
+                transform: scale(0.1, 1);
+            }
+
+
+
+
+
+
+
+
+
+        /* style inputs and link buttons */
+        input,
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            margin: 5px 0;
+            opacity: 0.85;
+            display: inline-block;
+            font-size: 17px;
+            line-height: 20px;
+            text-decoration: none; /* remove underline from anchors */
+        }
+
+            input:hover,
+            .btn:hover {
+                opacity: 1;
+            }
+
+        /* add appropriate colors to fb, twitter and google buttons */
+        .fb {
+            background-color: #3B5998;
+            color: white;
+            font-family: Arial,serif;
+        }
+
+        .google {
+            background-color: #dd4b39;
+            color: white;
+            font-family: Arial,serif;
+        }
+
+        /* Two-column layout */
+        .col {
+            float: left;
+            width: 320px;
+            margin: auto;
+            margin-top: 10px;
+            padding: 0;
+        }
+
+        /* Clear floats after the columns */
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="left">
+            <br /><br />
+            <a style="text-decoration: none;" href="/books">
+                <div class="btn-one">
+                    <span>Books</span>
+                </div>
+            </a>
+
+            <a style="text-decoration: none;" href="/authors">
+                <div class="box-1">
+                    <div class="btn-one">
+                        <span>Authors</span>
+                    </div>
+                </div>
+            </a>
+
+            <a style="text-decoration: none;" href="/bookshops">
+                <div class="box-1">
+                    <div class="btn-one">
+                        <span>Bookshops</span>
+                    </div>
+                </div>
+            </a>
+
+            <form id="form" method="post" action="/account/login">
+                @Html.TextBoxFor(m => m.Email, new { placeholder = "Email", @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Email, "", new { @style = "color:red" })
+
+                @Html.PasswordFor(m => m.Password, new { placeholder = "Password", @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Password, "", new { @style = "color:red" })
+                @Html.ValidationMessage("message", "", new { @style = "color:red" })
+
+                @*<button id="loginbtn" class="btn btn-dark btn-lg" type="submit">Login</button>*@
+
+                <div id="registerlinks">
+                    <button style="font-size: 20px;" type="submit" class="btn btn-dark btn-lg">Login</button>
+                    <a style="font-size: 20px;" href="/account/register" id="registerbtn" class="btn btn-dark btn-lg" type="submit">Register</a>
+                </div>
+
+            </form>
+
+        </div>
+        <div id="right">
+            <h3 id="logo" class="text-center">Bookhive</h3>
+            <img src="/library.png" width="550" height="550" alt="library" />
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+﻿@model BookHiveDB.Domain.DomainModels.BookClub
+
+@{
+    ViewData["Title"] = "Invitation";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <form class="col-lg-6" method="post" asp-action="SendInvitation">
+            <div class="form-group">
+                <input name="bookClubId" value="@Model.Id" class="form-control" hidden/>
+            </div>
+            <div class="form-group">
+                <input name="senderId" value="@Model.BookHiveApplicationUser.Id" class="form-control" hidden/>
+            </div>
+            <div class="form-group">
+                <label>Receiver email</label>
+                <input name="receiverEmail" type="text" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>Message</label>
+                <input name="message" type="text" class="form-control" />
+            </div>
+            <a asp-controller="BookClub" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-primary">Back</a>
+            <button type="submit" class="btn text-white" style="background-color: #008C76;">Send Invitation</button>
+        </form>
+    </div>
+</div>

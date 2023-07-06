@@ -1,0 +1,139 @@
+﻿@model BookHiveDB.Domain.DomainModels.BookShop
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+      integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+      crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=""></script>
+
+<style>
+    #container {
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    #right {
+        margin-right: 50px;
+        margin-top: 50px;
+    }
+
+    #left {
+        display: flex;
+        justify-content: space-evenly;
+        width: 500px;
+        align-items: center;
+        margin-right: 150px;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #left input {
+        width: 450px;
+    }
+    #map {
+        height: 700px;
+        width: 500px;
+    }
+</style>
+
+<div id="container">
+    <div id="left">
+        <h2>Create a Book Shop</h2>
+        <br /><br />
+        <div>
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="address" class="control-label"></label>
+                    <input asp-for="address" class="form-control" />
+                    <span asp-validation-for="address" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="city" class="control-label"></label>
+                    <input asp-for="city" class="form-control" />
+                    <span asp-validation-for="city" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="name" class="control-label"></label>
+                    <input asp-for="name" class="form-control" />
+                    <span asp-validation-for="name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="bookshopEmail" class="control-label"></label>
+                    <input asp-for="bookshopEmail" class="form-control" />
+                    <span asp-validation-for="bookshopEmail" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="phoneNumber" class="control-label"></label>
+                    <input asp-for="phoneNumber" class="form-control" />
+                    <span asp-validation-for="phoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="websiteLink" class="control-label"></label>
+                    <input asp-for="websiteLink" class="form-control" />
+                    <span asp-validation-for="websiteLink" class="text-danger"></span>
+                </div>
+                @*<div class="form-group">
+                    <label asp-for="latitude" class="control-label"></label>
+                    <input asp-for="latitude" class="form-control" />
+                    <span asp-validation-for="latitude" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="longitude" class="control-label"></label>
+                    <input asp-for="longitude" class="form-control" />
+                    <span asp-validation-for="longitude" class="text-danger"></span>
+                </div>*@
+                <div class="form-group">
+                    <label asp-for="grade" class="control-label"></label>
+                    <input asp-for="grade" class="form-control" />
+                    <span asp-validation-for="grade" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="numGraders" class="control-label"></label>
+                    <input asp-for="numGraders" class="form-control" />
+                    <span asp-validation-for="numGraders" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input id="submit" type="submit" value="Create" class="btn btn-primary" disabled />
+                </div>
+
+                <input name="latitude" type="hidden" id="latitude">
+                <input name="longitude" type="hidden" id="longitude">
+            </form>
+        </div>
+    </div>
+    <div id="right">
+        <h5 class="text-center">Choose the location of the bookshop</h5>
+        <div id="map"></div>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+<script>
+    var map = L.map('map').setView([41.994626, 21.430379], 13);
+    const attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+    const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+    const tiles = L.tileLayer(tileUrl, { attribution })
+    tiles.addTo(map);
+
+    var user = L.marker();
+    map.on('click', onMapClick);
+    function onMapClick(e) {
+        user.setLatLng(e.latlng).addTo(map);
+        document.getElementById("submit").disabled = false;
+        document.getElementById("latitude").value = e.latlng.lat;
+        document.getElementById("longitude").value = e.latlng.lng;
+    }
+
+</script>

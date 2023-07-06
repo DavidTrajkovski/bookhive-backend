@@ -1,0 +1,40 @@
+﻿@model BookHiveDB.Domain.DTO.BookClubsLoggedInUser
+@{
+    ViewData["Title"] = "My Bookclubs";
+}
+
+<div class="container">
+    <div class="p-3">
+        <h1>List of BookClubs which you have joined</h1>
+    </div>
+    @foreach (var item in Model.bookClubs)
+    {
+        <div class="row mb-3 justify-content-center">
+            <div class="card shadow-sm col-6">
+                <div class="card-body ">
+                    <h5 class="card-title">@item.name</h5>
+                    <p class="card-text">@item.description</p>
+                    <div class="d-grid gap-2 d-md-block">
+                        @if (item.isMember(Model.user) || item.BookHiveApplicationUser.Equals(Model.user))
+                        {
+                            <a class="btn btn-primary"
+                               asp-controller="BookClub" asp-action="Details" asp-route-id="@item.Id">
+                                View
+                            </a>
+                        }
+                        @if (item.isMember(Model.user) || item.BookHiveApplicationUser.Equals(Model.user))
+                        {
+                            <a class="btn btn-danger"
+                               asp-controller="User" asp-action="LeaveBookClubPage" asp-route-bookClubId="@item.Id">
+                                Leave
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    <div class="p-3">
+        <a asp-controller="User" asp-action="Index" class="btn btn-primary">Back</a>
+    </div>
+</div>
