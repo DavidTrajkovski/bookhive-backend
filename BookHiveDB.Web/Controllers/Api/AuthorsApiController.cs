@@ -1,81 +1,79 @@
 ﻿using BookHiveDB.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System;
 using AutoMapper;
 using BookHiveDB.Domain.Dtos.REST.Author;
 using BookHiveDB.Domain.Models;
 
-namespace BookHiveDB.Web.Controllers.Api
+namespace BookHiveDB.Web.Controllers.Api;
+
+[ApiController]
+[Route("api/authors")]
+public class AuthorsApiController : ControllerBase
 {
-    [ApiController]
-    [Route("api/authors")]
-    public class AuthorsApiController : ControllerBase
+    private readonly IAuthorService _authorService;
+    private readonly IMapper _mapper;
+
+    public AuthorsApiController(IAuthorService authorService, IMapper mapper)
     {
-        private readonly IAuthorService _authorService;
-        private readonly IMapper _mapper;
+        _authorService = authorService;
+        _mapper = mapper;
+    }
 
-        public AuthorsApiController(IAuthorService authorService, IMapper mapper)
-        {
-            _authorService = authorService;
-            _mapper = mapper;
-        }
+    [HttpGet]
+    public IActionResult GetAllAuthors()
+    {
+        var authors = _authorService.findAll();
+        return Ok(authors);
+    }
 
-        [HttpGet]
-        public IActionResult GetAllAuthors()
-        {
-            var authors = _authorService.findAll();
-            return Ok(authors);
-        }
+    [HttpGet("{id:guid}")]
+    public IActionResult GetAuthorById(Guid id)
+    {
+        var author = _authorService.findById(id);
 
-        [HttpGet("{id:guid}")]
-        public IActionResult GetAuthorById(Guid id)
-        {
-            var author = _authorService.findById(id);
+        if (author == null)
+            return NotFound();
 
-            if (author == null)
-                return NotFound();
+        var authorDto = _mapper.Map<AuthorDto>(author);
 
-            var authorDto = _mapper.Map<AuthorDto>(author);
+        return Ok(authorDto);
+    }
 
-            return Ok(authorDto);
-        }
+    [HttpPost]
+    public IActionResult CreateAuthor([FromBody] Author author)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
 
-        [HttpPost]
-        public IActionResult CreateAuthor([FromBody] Author author)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+        var createdAuthor = _authorService.Insert(author);
+        return CreatedAtAction(nameof(GetAuthorById), new { id = createdAuthor.Id }, createdAuthor);
+    }
 
-            var createdAuthor = _authorService.Insert(author);
-            return CreatedAtAction(nameof(GetAuthorById), new { id = createdAuthor.Id }, createdAuthor);
-        }
+    [HttpPut("{id:guid}")]
+    public IActionResult UpdateAuthor(Guid id, [FromBody] Author updatedAuthor)
+    {
+        var existingAuthor = _authorService.findById(id);
+        if (existingAuthor == null)
+            return NotFound();
 
-        [HttpPut("{id:guid}")]
-        public IActionResult UpdateAuthor(Guid id, [FromBody] Author updatedAuthor)
-        {
-            var existingAuthor = _authorService.findById(id);
-            if (existingAuthor == null)
-                return NotFound();
+        existingAuthor.Name = updatedAuthor.Name;
+        existingAuthor.Surname = updatedAuthor.Surname;
+        existingAuthor.Age = updatedAuthor.Age;
+        existingAuthor.Biography = updatedAuthor.Biography;
 
-            existingAuthor.Name = updatedAuthor.Name;
-            existingAuthor.Surname = updatedAuthor.Surname;
-            existingAuthor.Age = updatedAuthor.Age;
-            existingAuthor.Biography = updatedAuthor.Biography;
+        var updatedAuthorResult = _authorService.Update(existingAuthor);
+        return Ok(updatedAuthorResult);
+    }
 
-            var updatedAuthorResult = _authorService.Update(existingAuthor);
-            return Ok(updatedAuthorResult);
-        }
+    [HttpDelete("{id:guid}")]
+    public IActionResult DeleteAuthor(Guid id)
+    {
+        var author = _authorService.findById(id);
+        if (author == null)
+            return NotFound();
 
-        [HttpDelete("{id:guid}")]
-        public IActionResult DeleteAuthor(Guid id)
-        {
-            var author = _authorService.findById(id);
-            if (author == null)
-                return NotFound();
-
-            _authorService.deleteById(id);
-            return Ok("Author deleted successfully.");
-        }
+        _authorService.deleteById(id);
+        return Ok("Author deleted successfully.");
     }
 }
