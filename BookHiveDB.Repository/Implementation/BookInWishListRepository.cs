@@ -1,12 +1,11 @@
-﻿using BookHiveDB.Domain.DomainModels;
-using BookHiveDB.Domain.Identity;
+﻿using BookHiveDB.Domain.Identity;
 using BookHiveDB.Domain.Relations;
 using BookHiveDB.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using BookHiveDB.Domain.Models;
 
 namespace BookHiveDB.Repository.Implementation
 {
@@ -35,7 +34,7 @@ namespace BookHiveDB.Repository.Implementation
         public List<BookInWishList> FindByUser(BookHiveApplicationUser user)
         {
             return entities
-                .Include(b => b.Book).Include("Book.authorBooks.Author")
+                .Include(b => b.Book).ThenInclude(b => b.Authors)
                 .Include(b => b.User)
                 .Where(s => s.UserId.Equals(user.Id))
                 .ToList();
@@ -44,7 +43,7 @@ namespace BookHiveDB.Repository.Implementation
         public BookInWishList FindByUserAndBook(BookHiveApplicationUser user, Book Book)
         {
             return entities
-                .Include(b => b.Book).Include("Book.authorBooks.Author")
+                .Include(b => b.Book).ThenInclude(b => b.Authors)
                 .Include(b => b.User)
                 .SingleOrDefaultAsync(s => s.UserId.Equals(user.Id) && s.BookId.Equals(Book.Id))
                 .Result;
@@ -53,7 +52,7 @@ namespace BookHiveDB.Repository.Implementation
         public BookInWishList Get(Guid? id)
         {
             return entities
-                .Include(b => b.Book).Include("Book.authorBooks.Author")
+                .Include(b => b.Book).ThenInclude(b => b.Authors)
                 .Include(b => b.User)
                 .SingleOrDefaultAsync(s => s.Id == id)
                 .Result;
@@ -62,7 +61,7 @@ namespace BookHiveDB.Repository.Implementation
         public List<BookInWishList> GetAll()
         {
             return entities
-                .Include(b => b.Book).Include("Book.authorBooks.Author")
+                .Include(b => b.Book).ThenInclude(b => b.Authors)
                 .Include(b => b.User)
                 .ToListAsync()
                 .Result;

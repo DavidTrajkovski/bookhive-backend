@@ -1,4 +1,5 @@
-﻿@model BookHiveDB.Domain.DomainModels.Author
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model BookHiveDB.Domain.Models.Author
 
 @{
     ViewData["Title"] = "Edit";
@@ -12,24 +13,24 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="name" class="control-label"></label>
-                <input asp-for="name" class="form-control" />
-                <span asp-validation-for="name" class="text-danger"></span>
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="surname" class="control-label"></label>
-                <input asp-for="surname" class="form-control" />
-                <span asp-validation-for="surname" class="text-danger"></span>
+                <label asp-for="Surname" class="control-label"></label>
+                <input asp-for="Surname" class="form-control" />
+                <span asp-validation-for="Surname" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="age" class="control-label"></label>
-                <input asp-for="age" class="form-control" />
-                <span asp-validation-for="age" class="text-danger"></span>
+                <label asp-for="Age" class="control-label"></label>
+                <input asp-for="Age" class="form-control" />
+                <span asp-validation-for="Age" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="biography" class="control-label"></label>
-                <input asp-for="biography" class="form-control" />
-                <span asp-validation-for="biography" class="text-danger"></span>
+                <label asp-for="Biography" class="control-label"></label>
+                <input asp-for="Biography" class="form-control" />
+                <span asp-validation-for="Biography" class="text-danger"></span>
             </div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">

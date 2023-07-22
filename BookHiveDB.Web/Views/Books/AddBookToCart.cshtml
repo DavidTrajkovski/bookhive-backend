@@ -1,4 +1,5 @@
-﻿@model BookHiveDB.Domain.DTO.AddToShoppingCartDto
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model BookHiveDB.Domain.DTO.AddToShoppingCartDto
 
 @{ ViewData["Title"] = "Index";
                 Layout = "~/Views/Shared/_Layout.cshtml"; }
@@ -10,8 +11,8 @@
         <form method="post" asp-action="AddBookToCart">
             <input type="hidden" asp-for="BookId" />
             <div class="form-group">
-                <label asp-for="Book.name"></label>
-                <input disabled asp-for="Book.name" class="form-control" />
+                <label asp-for="Book.Name"></label>
+                <input disabled asp-for="Book.Name" class="form-control" />
             </div>
 
             <div class="form-group">

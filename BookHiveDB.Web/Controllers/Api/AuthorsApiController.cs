@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System;
-using BookHiveDB.Domain.DomainModels;
+using BookHiveDB.Domain.Models;
 
 namespace BookHiveDB.Web.Controllers.Api
 {
@@ -51,10 +51,10 @@ namespace BookHiveDB.Web.Controllers.Api
             if (existingAuthor == null)
                 return NotFound();
 
-            existingAuthor.name = updatedAuthor.name;
-            existingAuthor.surname = updatedAuthor.surname;
-            existingAuthor.age = updatedAuthor.age;
-            existingAuthor.biography = updatedAuthor.biography;
+            existingAuthor.Name = updatedAuthor.Name;
+            existingAuthor.Surname = updatedAuthor.Surname;
+            existingAuthor.Age = updatedAuthor.Age;
+            existingAuthor.Biography = updatedAuthor.Biography;
 
             Author updatedAuthorResult = authorService.Update(existingAuthor);
             return Ok(updatedAuthorResult);

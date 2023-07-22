@@ -22,62 +22,34 @@ namespace BookHiveDB.Repository.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("BookHiveDB.Domain.DomainModels.Author", b =>
+            modelBuilder.Entity("AuthorBook", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<Guid>("AuthoredBooksId")
                         .HasColumnType("uuid");
 
-                    b.Property<int>("age")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("AuthorsId")
+                        .HasColumnType("uuid");
 
-                    b.Property<string>("biography")
-                        .HasColumnType("text");
+                    b.HasKey("AuthoredBooksId", "AuthorsId");
 
-                    b.Property<string>("name")
-                        .HasColumnType("text");
+                    b.HasIndex("AuthorsId");
 
-                    b.Property<string>("surname")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Author");
+                    b.ToTable("AuthorBook");
                 });
 
-            modelBuilder.Entity("BookHiveDB.Domain.DomainModels.Book", b =>
+            modelBuilder.Entity("BookBookShop", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<Guid>("BookShopsId")
                         .HasColumnType("uuid");
 
-                    b.Property<double>("Price")
-                        .HasColumnType("double precision");
+                    b.Property<Guid>("BooksId")
+                        .HasColumnType("uuid");
 
-                    b.Property<string>("coverImageUrl")
-                        .HasColumnType("text");
+                    b.HasKey("BookShopsId", "BooksId");
 
-                    b.Property<DateTime>("datePublished")
-                        .HasColumnType("timestamp with time zone");
+                    b.HasIndex("BooksId");
 
-                    b.Property<string>("description")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("isValid")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("isbn")
-                        .HasColumnType("text");
-
-                    b.Property<string>("name")
-                        .HasColumnType("text");
-
-                    b.Property<int>("totalPages")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Book");
+                    b.ToTable("BookBookShop");
                 });
 
             modelBuilder.Entity("BookHiveDB.Domain.DomainModels.BookClub", b =>
@@ -141,20 +113,6 @@ namespace BookHiveDB.Repository.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("BookShop");
-                });
-
-            modelBuilder.Entity("BookHiveDB.Domain.DomainModels.Genre", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("GenreName")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Genre");
                 });
 
             modelBuilder.Entity("BookHiveDB.Domain.DomainModels.Invitation", b =>
@@ -373,67 +331,65 @@ namespace BookHiveDB.Repository.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("BookHiveDB.Domain.Relations.AuthorBook", b =>
+            modelBuilder.Entity("BookHiveDB.Domain.Models.Author", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("AuthorId")
-                        .HasColumnType("uuid");
+                    b.Property<int>("Age")
+                        .HasColumnType("integer");
 
-                    b.Property<Guid>("BookId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("Biography")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Surname")
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthorId");
-
-                    b.HasIndex("BookId");
-
-                    b.ToTable("AuthorBook");
+                    b.ToTable("Author");
                 });
 
-            modelBuilder.Entity("BookHiveDB.Domain.Relations.BookGenre", b =>
+            modelBuilder.Entity("BookHiveDB.Domain.Models.Book", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("BookId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("CoverImageUrl")
+                        .HasColumnType("text");
 
-                    b.Property<Guid>("GenreId")
-                        .HasColumnType("uuid");
+                    b.Property<DateTime>("DatePublished")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<int[]>("Genres")
+                        .HasColumnType("integer[]");
+
+                    b.Property<bool>("IsValid")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Isbn")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("double precision");
+
+                    b.Property<int>("TotalPages")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BookId");
-
-                    b.HasIndex("GenreId");
-
-                    b.ToTable("BookGenre");
-                });
-
-            modelBuilder.Entity("BookHiveDB.Domain.Relations.BookInBookShop", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("BookId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("BookShopId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BookId");
-
-                    b.HasIndex("BookShopId");
-
-                    b.ToTable("BookInBookShop");
+                    b.ToTable("Book");
                 });
 
             modelBuilder.Entity("BookHiveDB.Domain.Relations.BookInOrder", b =>
@@ -658,6 +614,36 @@ namespace BookHiveDB.Repository.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("AuthorBook", b =>
+                {
+                    b.HasOne("BookHiveDB.Domain.Models.Book", null)
+                        .WithMany()
+                        .HasForeignKey("AuthoredBooksId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BookHiveDB.Domain.Models.Author", null)
+                        .WithMany()
+                        .HasForeignKey("AuthorsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("BookBookShop", b =>
+                {
+                    b.HasOne("BookHiveDB.Domain.DomainModels.BookShop", null)
+                        .WithMany()
+                        .HasForeignKey("BookShopsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BookHiveDB.Domain.Models.Book", null)
+                        .WithMany()
+                        .HasForeignKey("BooksId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("BookHiveDB.Domain.DomainModels.BookClub", b =>
                 {
                     b.HasOne("BookHiveDB.Domain.Identity.BookHiveApplicationUser", "BookHiveApplicationUser")
@@ -744,8 +730,8 @@ namespace BookHiveDB.Repository.Migrations
 
             modelBuilder.Entity("BookHiveDB.Domain.DomainModels.UserBook", b =>
                 {
-                    b.HasOne("BookHiveDB.Domain.DomainModels.Book", "Book")
-                        .WithMany("userBooks")
+                    b.HasOne("BookHiveDB.Domain.Models.Book", "Book")
+                        .WithMany("UserBooks")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -759,66 +745,9 @@ namespace BookHiveDB.Repository.Migrations
                     b.Navigation("BookHiveApplicationUser");
                 });
 
-            modelBuilder.Entity("BookHiveDB.Domain.Relations.AuthorBook", b =>
-                {
-                    b.HasOne("BookHiveDB.Domain.DomainModels.Author", "Author")
-                        .WithMany("authorBooks")
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BookHiveDB.Domain.DomainModels.Book", "Book")
-                        .WithMany("authorBooks")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Author");
-
-                    b.Navigation("Book");
-                });
-
-            modelBuilder.Entity("BookHiveDB.Domain.Relations.BookGenre", b =>
-                {
-                    b.HasOne("BookHiveDB.Domain.DomainModels.Book", "Book")
-                        .WithMany("BookGenres")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BookHiveDB.Domain.DomainModels.Genre", "Genre")
-                        .WithMany("BookGenres")
-                        .HasForeignKey("GenreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Book");
-
-                    b.Navigation("Genre");
-                });
-
-            modelBuilder.Entity("BookHiveDB.Domain.Relations.BookInBookShop", b =>
-                {
-                    b.HasOne("BookHiveDB.Domain.DomainModels.Book", "Book")
-                        .WithMany("BookInBookShops")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BookHiveDB.Domain.DomainModels.BookShop", "BookShop")
-                        .WithMany("BookInBookShops")
-                        .HasForeignKey("BookShopId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Book");
-
-                    b.Navigation("BookShop");
-                });
-
             modelBuilder.Entity("BookHiveDB.Domain.Relations.BookInOrder", b =>
                 {
-                    b.HasOne("BookHiveDB.Domain.DomainModels.Book", "Book")
+                    b.HasOne("BookHiveDB.Domain.Models.Book", "Book")
                         .WithMany("BooksInOrders")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -837,7 +766,7 @@ namespace BookHiveDB.Repository.Migrations
 
             modelBuilder.Entity("BookHiveDB.Domain.Relations.BookInShoppingCart", b =>
                 {
-                    b.HasOne("BookHiveDB.Domain.DomainModels.Book", "Book")
+                    b.HasOne("BookHiveDB.Domain.Models.Book", "Book")
                         .WithMany("BookInShoppingCarts")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -856,7 +785,7 @@ namespace BookHiveDB.Repository.Migrations
 
             modelBuilder.Entity("BookHiveDB.Domain.Relations.BookInWishList", b =>
                 {
-                    b.HasOne("BookHiveDB.Domain.DomainModels.Book", "Book")
+                    b.HasOne("BookHiveDB.Domain.Models.Book", "Book")
                         .WithMany("BookInWishLists")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -939,28 +868,6 @@ namespace BookHiveDB.Repository.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BookHiveDB.Domain.DomainModels.Author", b =>
-                {
-                    b.Navigation("authorBooks");
-                });
-
-            modelBuilder.Entity("BookHiveDB.Domain.DomainModels.Book", b =>
-                {
-                    b.Navigation("BookGenres");
-
-                    b.Navigation("BookInBookShops");
-
-                    b.Navigation("BookInShoppingCarts");
-
-                    b.Navigation("BookInWishLists");
-
-                    b.Navigation("BooksInOrders");
-
-                    b.Navigation("authorBooks");
-
-                    b.Navigation("userBooks");
-                });
-
             modelBuilder.Entity("BookHiveDB.Domain.DomainModels.BookClub", b =>
                 {
                     b.Navigation("Invitations");
@@ -968,16 +875,6 @@ namespace BookHiveDB.Repository.Migrations
                     b.Navigation("Topics");
 
                     b.Navigation("UserInBookClubs");
-                });
-
-            modelBuilder.Entity("BookHiveDB.Domain.DomainModels.BookShop", b =>
-                {
-                    b.Navigation("BookInBookShops");
-                });
-
-            modelBuilder.Entity("BookHiveDB.Domain.DomainModels.Genre", b =>
-                {
-                    b.Navigation("BookGenres");
                 });
 
             modelBuilder.Entity("BookHiveDB.Domain.DomainModels.Order", b =>
@@ -1014,6 +911,17 @@ namespace BookHiveDB.Repository.Migrations
                     b.Navigation("UserInBookClubs");
 
                     b.Navigation("userBooks");
+                });
+
+            modelBuilder.Entity("BookHiveDB.Domain.Models.Book", b =>
+                {
+                    b.Navigation("BookInShoppingCarts");
+
+                    b.Navigation("BookInWishLists");
+
+                    b.Navigation("BooksInOrders");
+
+                    b.Navigation("UserBooks");
                 });
 #pragma warning restore 612, 618
         }

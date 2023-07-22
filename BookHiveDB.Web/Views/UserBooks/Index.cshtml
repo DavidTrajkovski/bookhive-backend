@@ -1,120 +1,121 @@
-﻿@model IEnumerable<UserBook>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous">
-    </script>
-<script>
-        $(document).ready(function () {
-            $('#exampleModal').on('show.bs.modal', function (event) {
-                console.log("test")
-                var button = $(event.relatedTarget)
-                var bookId = button.data('book_id')
-                var modal = $(this)
-                modal.find('.modal-body #bookId').val(bookId)
-            })
-        });
-    </script>
-
-
-<div class="container">
-    <div class="p-3">
-        <h1>List of the books I read</h1>
-    </div>
-    @foreach (var userBook in Model)
-    {
-        <div class="row">
-            <div class="shadow card mb-3  mx-auto" style="max-width: 820px;">
-                <div class="row g-0">
-                    <div class="col-md-4">
-                        <img src="@userBook.Book.coverImageUrl"
-                             alt="@userBook.Book.name"
-                             class="img-fluid p-2"/>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title"
-                                style="font-weight: bold">
-                                @userBook.Book.name
-                            </h5>
-                            <p class="card-text">
-                                @userBook.Book.description
-                            </p>
-                            <p class="card-text">
-                                Author/s:
-                                @foreach (var authorBook in userBook.Book.authorBooks)
-                                {
-                                    <small class="text-muted">@authorBook.Author.name @authorBook.Author.surname</small>
-                                }
-                            </p>
-                            <div class="p-2">
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: @userBook.getPercentageRead(@userBook.Book.totalPages)%" aria-valuenow="@userBook.getPercentageRead(@userBook.Book.totalPages)" aria-valuemin="0" aria-valuemax="100">
-                                        @userBook.getPercentageRead(@userBook.Book.totalPages)%
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="card-text">
-                                last page read: <b>@userBook.lastPageRead</b>
-                            </p>
-                            <div class="button-box" style="font-family: sans-serif">
-                                <div class="d-inline-block p-0">
-                                    <a asp-controller="UserBooks" asp-action="Delete" class="btn btn-outline-danger" asp-route-id="@userBook.Id">
-                                        Remove
-                                    </a>
-                                    @*                                        <form method="POST" name="id"
-                                              asp-action="DeletePage" asp-controller="UserBooks" asp-route-id="@userBook.Id">
-                                            <button type="submit" class="btn btn-outline-danger">
-                                                Remove
-                                            </button>
-                                        </form>*@
-                                </div>
-                                <div class="d-inline-block p-0">
-
-                                    <a class="btn btn-outline-primary" asp-controller="Books" asp-action="Details" asp-route-id="@userBook.BookId">
-                                        Details
-                                    </a>
-
-                                </div>
-                                <div class="d-inline-block p-0">
-                                    <button type="button" class="btn btn-outline-warning"
-                                            data-book_id="@userBook.BookId" data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal">
-                                        Edit
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    }
-    <div class="p-3">
-        <a asp-controller="User" asp-action="Index" class="btn btn-primary">Back</a>
-    </div>
-</div>
-
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Last Page Read</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form th:method="POST" action="/UserBooks/editLastPageRead/">
-                    <input type="hidden" id="bookId" name="bookId" value=""/>
-                    <label for="lastPage">Edit your last page read:</label>
-                    <input class="mb-2" type="number" min="0" id="lastPage" name="lastPage"/>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+﻿@* @model IEnumerable<UserBook> *@
+@* *@
+@* <script src="https://code.jquery.com/jquery-3.6.0.min.js" *@
+@*         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"> *@
+@*     </script> *@
+@* <script> *@
+@*         $(document).ready(function () { *@
+@*             $('#exampleModal').on('show.bs.modal', function (event) { *@
+@*                 console.log("test") *@
+@*                 var button = $(event.relatedTarget) *@
+@*                 var bookId = button.data('book_id') *@
+@*                 var modal = $(this) *@
+@*                 modal.find('.modal-body #bookId').val(bookId) *@
+@*             }) *@
+@*         }); *@
+@*     </script> *@
+@* *@
+@* *@
+@* <div class="container"> *@
+@*     <div class="p-3"> *@
+@*         <h1>List of the books I read</h1> *@
+@*     </div> *@
+@*     @foreach (var userBook in Model) *@
+@*     { *@
+@*         <div class="row"> *@
+@*             <div class="shadow card mb-3  mx-auto" style="max-width: 820px;"> *@
+@*                 <div class="row g-0"> *@
+@*                     <div class="col-md-4"> *@
+@*                         <img src="@userBook.Book.coverImageUrl" *@
+@*                              alt="@userBook.Book.name" *@
+@*                              class="img-fluid p-2"/> *@
+@*                     </div> *@
+@*                     <div class="col-md-8"> *@
+@*                         <div class="card-body"> *@
+@*                             <h5 class="card-title" *@
+@*                                 style="font-weight: bold"> *@
+@*                                 @userBook.Book.name *@
+@*                             </h5> *@
+@*                             <p class="card-text"> *@
+@*                                 @userBook.Book.description *@
+@*                             </p> *@
+@*                             <p class="card-text"> *@
+@*                                 Author/s: *@
+@*                                 @foreach (var authorBook in userBook.Book.Authors) *@
+@*                                 { *@
+@*                                     <small class="text-muted">@authorBook.Author.name @authorBook.Author.surname</small> *@
+@*                                 } *@
+@*                             </p> *@
+@*                             <div class="p-2"> *@
+@*                                 <div class="progress"> *@
+@*                                     <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: @userBook.getPercentageRead(@userBook.Book.totalPages)%" aria-valuenow="@userBook.getPercentageRead(@userBook.Book.totalPages)" aria-valuemin="0" aria-valuemax="100"> *@
+@*                                         @userBook.getPercentageRead(@userBook.Book.totalPages)% *@
+@*                                     </div> *@
+@*                                 </div> *@
+@*                             </div> *@
+@*                             <p class="card-text"> *@
+@*                                 last page read: <b>@userBook.lastPageRead</b> *@
+@*                             </p> *@
+@*                             <div class="button-box" style="font-family: sans-serif"> *@
+@*                                 <div class="d-inline-block p-0"> *@
+@*                                     <a asp-controller="UserBooks" asp-action="Delete" class="btn btn-outline-danger" asp-route-id="@userBook.Id"> *@
+@*                                         Remove *@
+@*                                     </a> *@
+@*                                 @*                                        <form method="POST" name="id" *@
+@*                                               asp-action="DeletePage" asp-controller="UserBooks" asp-route-id="@userBook.Id"> *@
+@*                                             <button type="submit" class="btn btn-outline-danger"> *@
+@*                                                 Remove *@
+@*                                             </button> *@
+@*                                         </form> *@
+@*                                         *@
+@*                                 </div> *@
+@*                                 <div class="d-inline-block p-0"> *@
+@* *@
+@*                                     <a class="btn btn-outline-primary" asp-controller="Books" asp-action="Details" asp-route-id="@userBook.BookId"> *@
+@*                                         Details *@
+@*                                     </a> *@
+@* *@
+@*                                 </div> *@
+@*                                 <div class="d-inline-block p-0"> *@
+@*                                     <button type="button" class="btn btn-outline-warning" *@
+@*                                             data-book_id="@userBook.BookId" data-bs-toggle="modal" *@
+@*                                             data-bs-target="#exampleModal"> *@
+@*                                         Edit *@
+@*                                     </button> *@
+@*                                 </div> *@
+@*                             </div> *@
+@*                         </div> *@
+@*                     </div> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+@*     } *@
+@*     <div class="p-3"> *@
+@*         <a asp-controller="User" asp-action="Index" class="btn btn-primary">Back</a> *@
+@*     </div> *@
+@* </div> *@
+@* *@
+@* *@
+@* <!-- Modal --> *@
+@* <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" *@
+@*      aria-hidden="true"> *@
+@*     <div class="modal-dialog" role="document"> *@
+@*         <div class="modal-content"> *@
+@*             <div class="modal-header"> *@
+@*                 <h5 class="modal-title" id="exampleModalLabel">Last Page Read</h5> *@
+@*                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> *@
+@*             </div> *@
+@*             <div class="modal-body"> *@
+@*                 <form th:method="POST" action="/UserBooks/editLastPageRead/"> *@
+@*                     <input type="hidden" id="bookId" name="bookId" value=""/> *@
+@*                     <label for="lastPage">Edit your last page read:</label> *@
+@*                     <input class="mb-2" type="number" min="0" id="lastPage" name="lastPage"/> *@
+@*                     <div class="modal-footer"> *@
+@*                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> *@
+@*                         <button type="submit" class="btn btn-primary">Save changes</button> *@
+@*                     </div> *@
+@*                 </form> *@
+@*             </div> *@
+@*         </div> *@
+@*     </div> *@
+@* </div> *@

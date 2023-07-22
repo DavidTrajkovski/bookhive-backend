@@ -1,13 +1,12 @@
-﻿using BookHiveDB.Domain.DomainModels;
-using BookHiveDB.Service.Interface;
-using Microsoft.AspNetCore.Http;
+﻿using BookHiveDB.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System;
-using BookHiveDB.Domain.Relations;
-using BookHiveDB.Service.Implementation;
 using System.Linq;
-using BookHiveDB.Repository.Startup;
+using AutoMapper;
+using BookHiveDB.Domain.DTO.REST.Book;
+using BookHiveDB.Domain.Enumerations;
+using BookHiveDB.Domain.Models;
 
 namespace BookHiveDB.Web.Controllers.Api
 {
@@ -17,13 +16,13 @@ namespace BookHiveDB.Web.Controllers.Api
     {
         private readonly IBookService bookService;
         private readonly IAuthorService authorService;
-        private readonly IGenreInitializer genreInitializer;
+        private readonly IMapper _mapper;
 
-        public BooksRestController(IBookService bookService, IAuthorService authorService, IGenreInitializer genreInitializer)
+        public BooksRestController(IBookService bookService, IAuthorService authorService, IMapper mapper)
         {
             this.bookService = bookService;
             this.authorService = authorService;
-            this.genreInitializer = genreInitializer;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -37,31 +36,28 @@ namespace BookHiveDB.Web.Controllers.Api
         public IActionResult GetBookById(Guid id)
         {
             Book book = bookService.findById(id);
+            
             if (book == null)
                 return NotFound();
 
-            return Ok(book);
+            var bookDto = _mapper.Map<BookDto>(book);
+
+            return Ok(bookDto);
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] Book book, [FromQuery] List<Guid> authors, [FromQuery] List<Guid> genres)
+        public IActionResult Create([FromBody] CreateBookDto createBookDto)
         {
-            book.Id = Guid.NewGuid();
-            book.authorBooks = new List<AuthorBook>();
-            book.BookGenres = new List<BookGenre>();
+            var authors = createBookDto.AuthorIds.Select((authorId) => authorService.findById(authorId));
 
-            foreach (var author in authors.Select(authorGuid => authorService.findById(authorGuid)))
-            {
-                book.authorBooks.Add(new AuthorBook { Author = author, AuthorId = author.Id, Book = book, BookId = book.Id });
-            }
+            var newBook = _mapper.Map<Book>(createBookDto);
+            newBook.Authors.AddRange(authors);
+            newBook.Genres.AddRange(new [] { Genre.CRIME , Genre.DRAMA});
+            var newlyCreatedBook = bookService.CreateNewBook(newBook);
 
-            foreach (var genre in genres.Select(genreGuid => genreInitializer.GetById(genreGuid)))
-            {
-                book.BookGenres.Add(new BookGenre { Genre = genre, GenreId = genre.Id, Book = book, BookId = book.Id });
-            }
-
-            bookService.CreateNewBook(book);
-            return CreatedAtAction(nameof(GetBookById), new { id = book.Id }, book);
+            var bookDto = _mapper.Map<BookDto>(newlyCreatedBook);
+            // Don't return newBook, return a DTO
+            return Ok(bookDto);
         }
 
         

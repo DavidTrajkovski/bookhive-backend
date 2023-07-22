@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BookHiveDB.Domain.Models;
 
 namespace BookHiveDB.Repository.Implementation
 {
     public class BookShopRepository : IBookShopRepository
     {
-
         private readonly ApplicationDbContext context;
         private DbSet<BookShop> entities;
 
@@ -19,19 +19,21 @@ namespace BookHiveDB.Repository.Implementation
             this.context = context;
             this.entities = context.Set<BookShop>();
         }
+
         public void Delete(BookShop entity)
         {
             if (entity == null)
             {
                 throw new ArgumentNullException("entity");
             }
+
             entities.Remove(entity);
             context.SaveChanges();
         }
 
         public List<BookShop> findAllByName(string Containing)
         {
-            return entities.Include(z => z.BookInBookShops)
+            return entities.Include(z => z.Books)
                 .Include("BookInBookShops.Book")
                 .Where(s => s.name.Contains(Containing))
                 .ToList();
@@ -39,41 +41,26 @@ namespace BookHiveDB.Repository.Implementation
 
         public BookShop Get(Guid? id)
         {
-            return entities.Include(z=>z.BookInBookShops)
+            return entities.Include(z => z.Books)
                 .Include("BookInBookShops.Book")
                 .SingleOrDefaultAsync(s => s.Id == id).Result;
         }
 
         public IEnumerable<BookShop> GetAll()
         {
-            return entities.Include(z => z.BookInBookShops)
+            return entities.Include(z => z.Books)
                 .Include("BookInBookShops.Book")
                 .ToListAsync().Result;
         }
 
-        public List<BookShop> getAllByBooks(Book Book)
+        public List<BookShop> getAllByBooks(Book book)
         {
-            List<BookShop> bookshops = new List<BookShop>();
+            var bookshopsByBook = entities
+                .Include(bs => bs.Books)
+                .Where(b => b.Books.Contains(book))
+                .ToList();
 
-            foreach(BookShop BookShop in entities.Include(z => z.BookInBookShops).Include("BookInBookShops.Book").ToList())
-            {
-                foreach(BookInBookShop BookInBookShop in BookShop.BookInBookShops)
-                {
-                    if (BookInBookShop.Book.Equals(Book))
-                    {
-                        bookshops.Add(BookShop);
-                    }
-                }
-            }
-
-            //json
-            foreach(BookShop bookShop in bookshops)
-            {
-                bookShop.BookInBookShops = null;
-            }
-
-
-            return bookshops;
+            return bookshopsByBook;
         }
 
         public void Insert(BookShop entity)
@@ -82,6 +69,7 @@ namespace BookHiveDB.Repository.Implementation
             {
                 throw new ArgumentNullException("entity");
             }
+
             entities.Add(entity);
             context.SaveChanges();
         }
@@ -92,6 +80,7 @@ namespace BookHiveDB.Repository.Implementation
             {
                 throw new ArgumentNullException("entity");
             }
+
             entities.Update(entity);
             context.SaveChanges();
         }

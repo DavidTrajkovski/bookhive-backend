@@ -2,7 +2,7 @@
 using BookHiveDB.Domain.DTO;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using BookHiveDB.Domain.Models;
 
 namespace BookHiveDB.Service.Interface
 {
@@ -10,9 +10,9 @@ namespace BookHiveDB.Service.Interface
     {
         List<Book> findAll();
         Book findById(Guid id);
-        Book add(string isbn, string name, string description, string ciu, DateTime datePublished, List<Guid> authorIds, List<Genre> genres);
+        Book add(string isbn, string name, string description, string ciu, DateTime datePublished, List<Guid> authorIds);
 
-        Book edit(Guid id, string isbn, string name, string description, string ciu, DateTime datePublished, List<Guid> authorIds, List<Genre> genres);
+        Book edit(Guid id, string isbn, string name, string description, string ciu, DateTime datePublished, List<Guid> authorIds);
 
         Book CreateNewBook(Book Book);
 

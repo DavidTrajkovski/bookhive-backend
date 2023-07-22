@@ -1,5 +1,6 @@
 ﻿using BookHiveDB.Domain.DomainModels;
 using BookHiveDB.Domain.Identity;
+using BookHiveDB.Domain.Models;
 using BookHiveDB.Domain.Relations;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -25,10 +26,6 @@ namespace BookHiveDB.Repository
                 .Property(z => z.Id)
                 .ValueGeneratedOnAdd();
 
-            builder.Entity<AuthorBook>()
-                .Property(z => z.Id)
-                .ValueGeneratedOnAdd();
-
             builder.Entity<BookClub>()
                 .Property(z => z.Id)
                 .ValueGeneratedOnAdd();
@@ -49,14 +46,6 @@ namespace BookHiveDB.Repository
                 .Property(z => z.Id)
                 .ValueGeneratedOnAdd();
 
-            builder.Entity<Genre>()
-                .Property(z => z.Id)
-                .ValueGeneratedOnAdd();
-
-            builder.Entity<BookGenre>()
-                .Property(z => z.Id)
-                .ValueGeneratedOnAdd();
-
             builder.Entity<BookInWishList>()
                 .Property(z => z.Id)
                 .ValueGeneratedOnAdd();
@@ -72,29 +61,8 @@ namespace BookHiveDB.Repository
 
             builder.Entity<UserBook>()
                 .HasOne(z => z.Book)
-                .WithMany(z => z.userBooks)
+                .WithMany(z => z.UserBooks)
                 .HasForeignKey(z => z.BookId);
-
-
-            builder.Entity<AuthorBook>()
-                .HasOne(z => z.Author)
-                .WithMany(z => z.authorBooks)
-                .HasForeignKey(z => z.AuthorId);
-
-            builder.Entity<AuthorBook>()
-                .HasOne(z => z.Book)
-                .WithMany(z => z.authorBooks)
-                .HasForeignKey(z => z.BookId);
-
-            builder.Entity<BookGenre>()
-                .HasOne(z => z.Book)
-                .WithMany(z => z.BookGenres)
-                .HasForeignKey(z => z.BookId);
-
-            builder.Entity<BookGenre>()
-                .HasOne(z => z.Genre)
-                .WithMany(z => z.BookGenres)
-                .HasForeignKey(z => z.GenreId);
 
             builder.Entity<BookInWishList>()
                 .HasOne(z => z.User)
@@ -165,16 +133,6 @@ namespace BookHiveDB.Repository
                 .HasOne(z => z.User)
                 .WithMany(z => z.BookInWishLists)
                 .HasForeignKey(z => z.UserId);
-
-            builder.Entity<BookInBookShop>()
-                .HasOne(z => z.BookShop)
-                .WithMany(z => z.BookInBookShops)
-                .HasForeignKey(z => z.BookShopId);
-
-            builder.Entity<BookInBookShop>()
-                .HasOne(z => z.Book)
-                .WithMany(z => z.BookInBookShops)
-                .HasForeignKey(z => z.BookId);
 
             builder.Entity<BookInShoppingCart>()
                 .HasOne(z => z.Book)

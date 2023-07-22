@@ -2,7 +2,7 @@
 using BookHiveDB.Domain.Identity;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using BookHiveDB.Domain.Models;
 
 namespace BookHiveDB.Service.Interface
 {

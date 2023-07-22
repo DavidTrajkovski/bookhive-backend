@@ -3,7 +3,6 @@ using BookHiveDB.Domain.Identity;
 using BookHiveDB.Repository;
 using BookHiveDB.Repository.Implementation;
 using BookHiveDB.Repository.Interface;
-using BookHiveDB.Repository.Startup;
 using BookHiveDB.Service.Implementation;
 using BookHiveDB.Service.Interface;
 using BookHiveDB.Service;
@@ -24,7 +23,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
 
-builder.Services.AddAutoMapper(typeof(Program).Assembly);
+builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -58,7 +57,7 @@ builder.Services.AddScoped(typeof(IPostRepository), typeof(PostRepository));
 builder.Services.AddScoped(typeof(ITopicRepository), typeof(TopicRepository));
 builder.Services.AddScoped(typeof(IUserInBookClubRepository), typeof(UserInBookClubRepository));
 builder.Services.AddScoped(typeof(IBookInWishListRepository), typeof(BookInWishListRepository));
-builder.Services.AddScoped<IGenreInitializer, GenreInitializer>();
+// builder.Services.AddScoped<IGenreInitializer, GenreInitializer>();
 
 builder.Services.AddTransient<IAuthorService, AuthorService>();
 builder.Services.AddTransient<IShoppingCartService, ShoppingCartService>();
@@ -114,11 +113,11 @@ builder.Services.ConfigureApplicationCookie(options =>
 var app = builder.Build();
 
 
-using (var scope = app.Services.CreateScope())
-{
-    var genreInitializer = scope.ServiceProvider.GetService<IGenreInitializer>();
-    genreInitializer.Seed().Wait();
-}
+// using (var scope = app.Services.CreateScope())
+// {
+//     var genreInitializer = scope.ServiceProvider.GetService<IGenreInitializer>();
+//     genreInitializer.Seed().Wait();
+// }
 
 StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe")["SecretKey"];
 

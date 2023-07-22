@@ -1,14 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using BookHiveDB.Domain.DomainModels;
-using BookHiveDB.Repository;
 using BookHiveDB.Service.Interface;
-using BookHiveDB.Service.Implementation;
 
 namespace BookHiveDB.Web.Controllers
 {

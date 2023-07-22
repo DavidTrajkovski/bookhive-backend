@@ -1,10 +1,9 @@
-﻿using BookHiveDB.Domain.DomainModels;
-using BookHiveDB.Repository.Interface;
+﻿using BookHiveDB.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using BookHiveDB.Domain.Models;
 
 namespace BookHiveDB.Repository.Implementation
 {
@@ -31,20 +30,19 @@ namespace BookHiveDB.Repository.Implementation
 
         public List<Book> FindAllByIsValidTrue()
         {
-            return entities.Where(z => z.isValid == true).ToListAsync().Result;
+            return entities.Where(z => z.IsValid == true).ToListAsync().Result;
         }
 
         public Book Get(Guid? id)
         {
-            return entities.Include(z=>z.authorBooks).Include("authorBooks.Author")
-                .Include(z=>z.BookGenres).Include("BookGenres.Genre")
-                .Include(z=>z.BookInBookShops).Include("BookInBookShops.BookShop")
+            return entities.Include(z=>z.Authors)
+                .Include(z=>z.BookShops).Include("BookInBookShops.BookShop")
                 .SingleOrDefaultAsync(s => s.Id == id).Result;
         }
 
         public List<Book> GetAll()
         {
-            return entities.Include(z=>z.authorBooks).Include("authorBooks.Author").ToListAsync().Result.ToList();
+            return entities.Include(z=>z.Authors).ToListAsync().Result.ToList();
         }
 
         public void Insert(Book entity)
