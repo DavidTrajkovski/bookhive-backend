@@ -19,10 +19,18 @@ using System;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddDefaultIdentity<BookHiveApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-.AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
+                       throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
+
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+builder.Services
+    .AddIdentity<BookHiveApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultUI()
+    .AddDefaultTokenProviders();
 
 var emailService = new EmailSettings();
 builder.Configuration.GetSection("EmailSettings").Bind(emailService);
@@ -85,7 +93,7 @@ builder.Services.Configure<IdentityOptions>(options =>
 
     // User settings.
     options.User.AllowedUserNameCharacters =
-    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
     options.User.RequireUniqueEmail = false;
 });
 
