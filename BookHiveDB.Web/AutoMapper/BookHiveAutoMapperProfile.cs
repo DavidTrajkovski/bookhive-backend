@@ -10,10 +10,12 @@ public class BookHiveAutoMapperProfile : Profile
 {
     public BookHiveAutoMapperProfile()
     {
+        // Author
         CreateMap<CreateAuthorDto, Author>();
         CreateMap<Author, AuthorDto>();
         CreateMap<Author, BookAuthorInfoDto>();
         
+        // Book
         CreateMap<CreateBookDto, Book>();
         CreateMap<Book, BookDto>()
             .ForMember(dest => dest.Genres,
