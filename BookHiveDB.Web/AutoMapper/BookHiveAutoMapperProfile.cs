@@ -8,6 +8,6 @@ public class BookHiveAutoMapperProfile : Profile
 {
     public BookHiveAutoMapperProfile()
     {
-        CreateMap<Author, AuthorDTO>();
+        
     }
 }
