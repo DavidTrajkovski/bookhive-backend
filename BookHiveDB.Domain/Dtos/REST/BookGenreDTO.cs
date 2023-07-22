@@ -1,17 +1,13 @@
-﻿using BookHiveDB.Domain.DTO.REST;
-using BookHiveDB.Domain.Relations;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using BookHiveDB.Domain.DTO.REST.Book;
+﻿using System;
+using BookHiveDB.Domain.DTO.REST;
+using BookHiveDB.Domain.Dtos.REST.Book;
 
-namespace BookHiveDB.Domain.DTO.REST
+namespace BookHiveDB.Domain.Dtos.REST;
+
+public class BookGenreDTO : BaseEntity
 {
-    public class BookGenreDTO : BaseEntity
-    {
-        public Guid BookId { get; set; }
-        public BookDto Book { get; set; }
-        public Guid GenreId { get; set; }
-        public GenreDTO Genre { get; set; }
-    }
+    public Guid BookId { get; set; }
+    public BookDto Book { get; set; }
+    public Guid GenreId { get; set; }
+    public GenreDTO Genre { get; set; }
 }

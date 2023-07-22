@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using AutoMapper;
-using BookHiveDB.Domain.DTO.REST.Book;
+using BookHiveDB.Domain.Dtos.REST.Book;
 using BookHiveDB.Domain.Enumerations;
 using BookHiveDB.Domain.Models;
 

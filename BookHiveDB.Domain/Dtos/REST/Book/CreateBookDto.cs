@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BookHiveDB.Domain.DTO.REST.Book;
+namespace BookHiveDB.Domain.Dtos.REST.Book;
 
 public class CreateBookDto
 {

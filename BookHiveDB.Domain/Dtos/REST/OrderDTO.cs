@@ -5,11 +5,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace BookHiveDB.Domain.DTO.REST
+namespace BookHiveDB.Domain.DTO.REST;
+
+public class OrderDTO : BaseEntity
 {
-    public class OrderDTO : BaseEntity
-    {
-        public string UserId { get; set; }
-        public BookHiveApplicationUserDTO User { get; set; }
-    }
+    public string UserId { get; set; }
+    public BookHiveApplicationUserDTO User { get; set; }
 }

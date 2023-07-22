@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System;
+using AutoMapper;
+using BookHiveDB.Domain.Dtos.REST.Author;
 using BookHiveDB.Domain.Models;
 
 namespace BookHiveDB.Web.Controllers.Api
@@ -11,10 +13,12 @@ namespace BookHiveDB.Web.Controllers.Api
     public class AuthorsApiController : ControllerBase
     {
         private readonly IAuthorService authorService;
+        private readonly IMapper _mapper;
 
-        public AuthorsApiController(IAuthorService authorService)
+        public AuthorsApiController(IAuthorService authorService, IMapper mapper)
         {
             this.authorService = authorService;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -28,10 +32,13 @@ namespace BookHiveDB.Web.Controllers.Api
         public IActionResult GetAuthorById(Guid id)
         {
             Author author = authorService.findById(id);
+            
             if (author == null)
                 return NotFound();
 
-            return Ok(author);
+            var authorDto = _mapper.Map<AuthorDto>(author);
+            
+            return Ok(authorDto);
         }
 
         [HttpPost]
