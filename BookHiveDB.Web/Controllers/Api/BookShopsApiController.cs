@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using AutoMapper;
 using BookHiveDB.Domain.DomainModels;
+using BookHiveDB.Domain.Dtos.Rest.BookShop;
 using BookHiveDB.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,23 +14,31 @@ namespace BookHiveDB.Web.Controllers.Api;
 public class BookShopsApiController : ControllerBase
 {
     private readonly IBookShopService _bookShopService;
+    private readonly IBookService _bookService;
+    private readonly IMapper _mapper;
 
-    public BookShopsApiController(IBookShopService bookShopService)
+    public BookShopsApiController(IBookShopService bookShopService, IBookService bookService, IMapper mapper)
     {
         _bookShopService = bookShopService;
+        _bookService = bookService;
+        _mapper = mapper;
     }
 
 
-    [HttpGet("[action]")]
-    public List<BookShop> GetBookShopsByBook(Guid bookId)
+    [HttpGet("book/{bookId:guid}")]
+    public IActionResult GetBookShopsByBook(Guid bookId)
     {
-        return _bookShopService.getAllByBooks(bookId);
+        var bookShopsByBook = _bookShopService.getAllByBooks(bookId);
+        var bookShopDtos = _mapper.Map<List<BookShopDto>>(bookShopsByBook);
+
+        return Ok(bookShopDtos);
     }
 
     [HttpGet]
     public IActionResult GetAllBookShops()
     {
         var bookShops = _bookShopService.GetAll();
+
         return Ok(bookShops);
     }
 
@@ -35,28 +46,40 @@ public class BookShopsApiController : ControllerBase
     public IActionResult GetBookShopById(Guid id)
     {
         var bookShop = _bookShopService.Get(id);
-        if (bookShop == null)
-            return NotFound();
+
+        if (bookShop is null) return NotFound();
 
         return Ok(bookShop);
     }
 
     [HttpPost]
-    public IActionResult CreateBookShop([FromBody] BookShop bookShop)
+    public IActionResult CreateBookShop([FromBody] CreateBookShopDto createBookShopDto)
     {
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
+        var newBookShop = _mapper.Map<BookShop>(createBookShopDto);
+        _bookShopService.Insert(newBookShop);
+        var bookShopDto = _mapper.Map<BookShopDto>(newBookShop);
 
-        _bookShopService.Insert(bookShop);
-        return CreatedAtAction(nameof(GetBookShopById), new { id = bookShop.Id }, bookShop);
+        return Ok(bookShopDto);
+    }
+
+    [HttpPost("add-books")]
+    public IActionResult AddBooksToBookShop([FromBody] AddBooksToBookShopDto addBooksToBookShopDto)
+    {
+        var bookShop = _bookShopService.Get(addBooksToBookShopDto.BookShopId);
+        var books = addBooksToBookShopDto.BookIds.Select(book => _bookService.findById(book));
+        bookShop.Books.AddRange(books);
+        _bookShopService.Update(bookShop);
+
+        var bookShopDto = _mapper.Map<BookShopDto>(bookShop);
+
+        return Ok(bookShopDto);
     }
 
     [HttpPut("{id:guid}")]
     public IActionResult UpdateBookShop(Guid id, [FromBody] BookShop updatedBookShop)
     {
         var existingBookShop = _bookShopService.Get(id);
-        if (existingBookShop == null)
-            return NotFound();
+        if (existingBookShop is null) return NotFound();
 
         existingBookShop.address = updatedBookShop.address;
         existingBookShop.city = updatedBookShop.city;
@@ -70,6 +93,7 @@ public class BookShopsApiController : ControllerBase
         existingBookShop.numGraders = updatedBookShop.numGraders;
 
         _bookShopService.Update(existingBookShop);
+
         return Ok(existingBookShop);
     }
 
@@ -77,10 +101,11 @@ public class BookShopsApiController : ControllerBase
     public IActionResult DeleteBookShop(Guid id)
     {
         var bookShop = _bookShopService.Get(id);
-        if (bookShop == null)
-            return NotFound();
+
+        if (bookShop is null) return NotFound();
 
         _bookShopService.DeleteById(id);
-        return Ok("Book shop deleted successfully.");
+
+        return Ok();
     }
 }

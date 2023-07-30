@@ -8,8 +8,4 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.9" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Dtos\Rest\BookShop\" />
-  </ItemGroup>
-
 </Project>
