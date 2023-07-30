@@ -1,8 +1,7 @@
-﻿using BookHiveDB.Domain.DomainModels;
-using System;
+﻿using System;
 using BookHiveDB.Domain.Models;
 
-namespace BookHiveDB.Domain.DTO
+namespace BookHiveDB.Domain.Dtos.Mvc
 {
     public class AddToShoppingCartDto
     {

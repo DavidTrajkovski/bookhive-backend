@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BookHiveDB.Domain.DTO
+namespace BookHiveDB.Domain.Dtos.Mvc
 {
     public class UserRegistrationDto
     {

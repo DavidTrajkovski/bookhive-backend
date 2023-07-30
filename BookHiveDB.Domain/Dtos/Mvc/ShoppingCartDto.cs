@@ -1,7 +1,7 @@
-﻿using BookHiveDB.Domain.Relations;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using BookHiveDB.Domain.Relations;
 
-namespace BookHiveDB.Domain.DTO
+namespace BookHiveDB.Domain.Dtos.Mvc
 {
     public class ShoppingCartDto
     {

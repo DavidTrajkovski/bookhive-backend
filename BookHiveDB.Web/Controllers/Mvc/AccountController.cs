@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using BookHiveDB.Domain.DomainModels;
 using BookHiveDB.Domain.DTO;
+using BookHiveDB.Domain.Dtos.Mvc;
 using BookHiveDB.Domain.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Claims;
 using BookHiveDB.Domain.DTO;
+using BookHiveDB.Domain.Dtos.Mvc;
 using BookHiveDB.Domain.Models;
 using BookHiveDB.Service.Interface;
 using Microsoft.AspNetCore.Mvc;

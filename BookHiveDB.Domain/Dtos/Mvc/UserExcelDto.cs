@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BookHiveDB.Domain.DTO
+﻿namespace BookHiveDB.Domain.Dtos.Mvc
 {
     public class UserExcelDto
     {

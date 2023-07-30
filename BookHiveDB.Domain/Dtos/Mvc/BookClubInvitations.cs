@@ -1,7 +1,7 @@
-﻿using BookHiveDB.Domain.DomainModels;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using BookHiveDB.Domain.DomainModels;
 
-namespace BookHiveDB.Domain.DTO
+namespace BookHiveDB.Domain.Dtos.Mvc
 {
     public class BookClubInvitations
     {

@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using BookHiveDB.Domain;
 using BookHiveDB.Domain.DTO;
+using BookHiveDB.Domain.Dtos.Mvc;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookHiveDB.Web.Controllers.Mvc

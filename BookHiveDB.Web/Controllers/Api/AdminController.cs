@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using BookHiveDB.Domain.Dtos.Mvc;
 
 namespace BookHiveDB.Web.Controllers
 {

@@ -2,6 +2,7 @@
 using BookHiveDB.Domain.DTO;
 using System;
 using System.Collections.Generic;
+using BookHiveDB.Domain.Dtos.Mvc;
 using BookHiveDB.Domain.Models;
 
 namespace BookHiveDB.Service.Interface
