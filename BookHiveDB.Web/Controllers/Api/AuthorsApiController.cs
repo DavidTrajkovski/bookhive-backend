@@ -1,6 +1,7 @@
 ﻿using BookHiveDB.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using AutoMapper;
 using BookHiveDB.Domain.Dtos.REST.Author;
 using BookHiveDB.Domain.Models;
@@ -24,7 +25,9 @@ public class AuthorsApiController : ControllerBase
     public IActionResult GetAllAuthors()
     {
         var authors = _authorService.findAll();
-        return Ok(authors);
+        var authorDtos = _mapper.Map<List<AuthorDto>>(authors);
+
+        return Ok(authorDtos);
     }
 
     [HttpGet("{id:guid}")]
