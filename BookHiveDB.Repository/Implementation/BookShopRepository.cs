@@ -33,23 +33,23 @@ namespace BookHiveDB.Repository.Implementation
 
         public List<BookShop> findAllByName(string Containing)
         {
-            return entities.Include(z => z.Books)
-                .Include("BookInBookShops.Book")
+            return entities
+                .Include(z => z.Books)
                 .Where(s => s.name.Contains(Containing))
                 .ToList();
         }
 
         public BookShop Get(Guid? id)
         {
-            return entities.Include(z => z.Books)
-                .Include("BookInBookShops.Book")
+            return entities
+                .Include(bs => bs.Books)
                 .SingleOrDefaultAsync(s => s.Id == id).Result;
         }
 
         public IEnumerable<BookShop> GetAll()
         {
-            return entities.Include(z => z.Books)
-                .Include("BookInBookShops.Book")
+            return entities
+                .Include(z => z.Books)
                 .ToListAsync().Result;
         }
 

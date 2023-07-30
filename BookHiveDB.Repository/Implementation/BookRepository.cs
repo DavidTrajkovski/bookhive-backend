@@ -24,6 +24,7 @@ namespace BookHiveDB.Repository.Implementation
             {
                 throw new ArgumentNullException("entity");
             }
+
             entities.Remove(entity);
             context.SaveChanges();
         }
@@ -35,14 +36,15 @@ namespace BookHiveDB.Repository.Implementation
 
         public Book Get(Guid? id)
         {
-            return entities.Include(z=>z.Authors)
-                .Include(z=>z.BookShops).Include("BookInBookShops.BookShop")
+            return entities
+                .Include(z => z.Authors)
+                .Include(z => z.BookShops)
                 .SingleOrDefaultAsync(s => s.Id == id).Result;
         }
 
         public List<Book> GetAll()
         {
-            return entities.Include(z=>z.Authors).ToListAsync().Result.ToList();
+            return entities.Include(z => z.Authors).ToListAsync().Result.ToList();
         }
 
         public void Insert(Book entity)
@@ -51,6 +53,7 @@ namespace BookHiveDB.Repository.Implementation
             {
                 throw new ArgumentNullException("entity");
             }
+
             entities.Add(entity);
             context.SaveChanges();
         }
@@ -61,6 +64,7 @@ namespace BookHiveDB.Repository.Implementation
             {
                 throw new ArgumentNullException("entity");
             }
+
             entities.Update(entity);
             context.SaveChanges();
         }
