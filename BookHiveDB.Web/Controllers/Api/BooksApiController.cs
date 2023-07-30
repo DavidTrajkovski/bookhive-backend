@@ -1,6 +1,7 @@
 ﻿using BookHiveDB.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using BookHiveDB.Domain.Dtos.REST.Book;
@@ -28,7 +29,8 @@ public class BooksRestController : ControllerBase
     public IActionResult GetAllBooks()
     {
         var books = _bookService.findAll();
-        return Ok(books);
+        var bookDtos = _mapper.Map<List<BookDto>>(books);
+        return Ok(bookDtos);
     }
 
     [HttpGet("{id:guid}")]
