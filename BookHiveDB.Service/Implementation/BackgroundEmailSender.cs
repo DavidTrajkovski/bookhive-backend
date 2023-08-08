@@ -2,6 +2,7 @@
 using BookHiveDB.Repository.Interface;
 using BookHiveDB.Service.Interface;
 using System.Threading.Tasks;
+using BookHiveDB.Domain.Models;
 
 namespace BookHiveDB.Service.Implementation
 {

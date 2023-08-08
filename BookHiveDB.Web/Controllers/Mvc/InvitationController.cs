@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using BookHiveDB.Domain.DomainModels;
 using BookHiveDB.Domain.Identity;
+using BookHiveDB.Domain.Models;
 using BookHiveDB.Service.Interface;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

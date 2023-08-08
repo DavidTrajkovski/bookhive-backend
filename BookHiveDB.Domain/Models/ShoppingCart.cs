@@ -1,10 +1,8 @@
-﻿using BookHiveDB.Domain.Identity;
+﻿using System.Collections.Generic;
+using BookHiveDB.Domain.Identity;
 using BookHiveDB.Domain.Relations;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace BookHiveDB.Domain.DomainModels;
+namespace BookHiveDB.Domain.Models;
 
 public class ShoppingCart : BaseEntity
 {

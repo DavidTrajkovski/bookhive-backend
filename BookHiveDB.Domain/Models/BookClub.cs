@@ -1,8 +1,8 @@
-﻿using BookHiveDB.Domain.Identity;
+﻿using System.Collections.Generic;
+using BookHiveDB.Domain.Identity;
 using BookHiveDB.Domain.Relations;
-using System.Collections.Generic;
 
-namespace BookHiveDB.Domain.DomainModels;
+namespace BookHiveDB.Domain.Models;
 
 public class BookClub : BaseEntity
 {

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -10,9 +9,7 @@ using BookHiveDB.Domain.Identity;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using BookHiveDB.Domain.DomainModels;
-using BookHiveDB.Domain.DTO;
-using System.Linq;
+using BookHiveDB.Domain.Dtos.Mvc;
 
 namespace BookHiveDB.Web.Controllers.Api
 {

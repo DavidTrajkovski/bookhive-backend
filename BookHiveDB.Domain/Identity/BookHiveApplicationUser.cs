@@ -2,6 +2,7 @@
 using BookHiveDB.Domain.Relations;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
+using BookHiveDB.Domain.Models;
 
 namespace BookHiveDB.Domain.Identity
 {

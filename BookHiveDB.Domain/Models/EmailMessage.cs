@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace BookHiveDB.Domain.DomainModels;
+namespace BookHiveDB.Domain.Models;
 
 public class EmailMessage : BaseEntity
 {

@@ -1,5 +1,6 @@
 ﻿using System;
 using BookHiveDB.Domain.DomainModels;
+using BookHiveDB.Domain.Models;
 using BookHiveDB.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

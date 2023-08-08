@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using BookHiveDB.Domain.DomainModels;
 using BookHiveDB.Domain.Dtos.Rest.BookShop;
+using BookHiveDB.Domain.Models;
 using BookHiveDB.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using BookHiveDB.Domain.DomainModels;
+using BookHiveDB.Domain.Models;
 
 namespace BookHiveDB.Domain.Dtos.Mvc
 {

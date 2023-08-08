@@ -1,8 +1,8 @@
-﻿using BookHiveDB.Domain.Identity;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using BookHiveDB.Domain.Identity;
 
-namespace BookHiveDB.Domain.DomainModels;
+namespace BookHiveDB.Domain.Models;
 
 public class Topic : BaseEntity
 {

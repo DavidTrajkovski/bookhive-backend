@@ -1,9 +1,7 @@
-﻿using BookHiveDB.Domain.Identity;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
+using BookHiveDB.Domain.Identity;
 
-namespace BookHiveDB.Domain.DomainModels;
+namespace BookHiveDB.Domain.Models;
 
 public class Post : BaseEntity
 {

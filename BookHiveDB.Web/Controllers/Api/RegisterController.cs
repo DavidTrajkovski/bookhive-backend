@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
+using BookHiveDB.Domain.Dtos.Mvc;
+using BookHiveDB.Domain.Models;
 
 namespace BookHiveDB.Web.Controllers.Api
 {

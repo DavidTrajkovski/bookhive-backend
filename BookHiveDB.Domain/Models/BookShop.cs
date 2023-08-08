@@ -1,9 +1,7 @@
-﻿using BookHiveDB.Domain.Relations;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using BookHiveDB.Domain.Models;
 
-namespace BookHiveDB.Domain.DomainModels;
+namespace BookHiveDB.Domain.Models;
 
 public class BookShop : BaseEntity
 {

@@ -6,6 +6,7 @@ using MimeKit;
 using System.Collections.Generic;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using BookHiveDB.Domain.Models;
 
 namespace BookHiveDB.Service.Implementation
 {

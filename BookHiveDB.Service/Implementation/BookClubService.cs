@@ -6,6 +6,7 @@ using BookHiveDB.Service.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BookHiveDB.Domain.Models;
 
 namespace BookHiveDB.Service.Implementation
 {

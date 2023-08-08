@@ -1,6 +1,7 @@
 ﻿using BookHiveDB.Domain.DomainModels;
 using BookHiveDB.Domain.Identity;
 using System;
+using BookHiveDB.Domain.Models;
 
 namespace BookHiveDB.Domain.Relations
 {
