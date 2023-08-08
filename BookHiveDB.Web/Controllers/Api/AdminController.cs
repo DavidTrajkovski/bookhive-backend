@@ -3,6 +3,7 @@ using BookHiveDB.Domain.DomainModels;
 using BookHiveDB.Domain.DTO;
 using BookHiveDB.Domain.Identity;
 using BookHiveDB.Service.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +31,7 @@ namespace BookHiveDB.Web.Controllers
         }
 
         [HttpGet("[action]")]
+        [Authorize(Roles = "Administrator")]
         public List<Order> GetOrders()
         {
             var result = this._orderService.getAllOrders();
