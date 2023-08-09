@@ -38,18 +38,18 @@ public class BookShopsApiController : ControllerBase
     public IActionResult GetAllBookShops()
     {
         var bookShops = _bookShopService.GetAll();
-
-        return Ok(bookShops);
+        var bookshopDtos = _mapper.Map<List<BookShopDto>>(bookShops);
+        return Ok(bookshopDtos);
     }
 
     [HttpGet("{id:guid}")]
     public IActionResult GetBookShopById(Guid id)
     {
         var bookShop = _bookShopService.Get(id);
-
         if (bookShop is null) return NotFound();
+        var bookshopDto = _mapper.Map<BookShopDto>(bookShop);
 
-        return Ok(bookShop);
+        return Ok(bookshopDto);
     }
 
     [HttpPost]
