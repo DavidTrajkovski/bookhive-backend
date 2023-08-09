@@ -1,8 +1,7 @@
 ﻿using BookHiveDB.Domain.DomainModels;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
+using BookHiveDB.Domain.Models;
 
 namespace BookHiveDB.Service.Interface
 {

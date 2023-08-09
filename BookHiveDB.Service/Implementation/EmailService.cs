@@ -3,11 +3,10 @@ using BookHiveDB.Domain.DomainModels;
 using BookHiveDB.Service.Interface;
 using MailKit.Security;
 using MimeKit;
-using System;
 using System.Collections.Generic;
 using System.Net.Mail;
-using System.Text;
 using System.Threading.Tasks;
+using BookHiveDB.Domain.Models;
 
 namespace BookHiveDB.Service.Implementation
 {

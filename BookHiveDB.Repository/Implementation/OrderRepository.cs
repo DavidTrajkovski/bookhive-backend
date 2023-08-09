@@ -3,6 +3,7 @@ using BookHiveDB.Domain.DomainModels;
 using BookHiveDB.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using BookHiveDB.Domain.Models;
 
 namespace BookHiveDB.Repository.Implementation
 {

@@ -1,6 +1,7 @@
 ﻿@using Microsoft.Extensions.Options
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @inject IOptions<BookHiveDB.Domain.StripeSettings> Stripe
-@model BookHiveDB.Domain.DTO.ShoppingCartDto
+@model BookHiveDB.Domain.Dtos.Mvc.ShoppingCartDto
 
 
 <div class="container">
@@ -49,7 +50,7 @@
 
                         <tr>
                             <th scope="row">@(i + 1)</th>
-                            <td>@item.Book.name</td>
+                            <td>@item.Book.Name</td>
                             <td>@item.Quantity</td>
                             <td>$@item.Book.Price</td>
                             <td>$@(item.Book.Price * item.Quantity)</td>

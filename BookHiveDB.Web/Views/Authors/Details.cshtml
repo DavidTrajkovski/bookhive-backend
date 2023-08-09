@@ -1,122 +1,122 @@
-﻿@model BookHiveDB.Domain.DomainModels.Author
-
-@{
-    ViewData["Title"] = "Details";
-    Layout = null;
-}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>About author</title>
-
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap" rel="stylesheet">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&display=swap" rel="stylesheet">
-
-    <style>
-        .button {
-            background-color: #2f4f4f;
-            padding: 10px;
-            border-radius: 5px;
-            text-decoration: none;
-            color: white;
-            font-family: 'Oswald', sans-serif;
-        }
-
-        .button:hover {
-            color: lightgray;
-            background-color: #3f5f5f;
-        }
-
-
-        body {
-            background-color: #9ed9cc;
-            font-family: 'IBM Plex Sans', sans-serif;
-            font-size: 30px;
-        }
-
-        h1 {
-            font-family: 'Oswald', sans-serif;
-        }
-
-        .container {
-            display: flex;
-            justify-content: space-between;
-            width: 80%;
-            margin: 40px auto auto;
-        }
-
-        #middle {
-            width: 80%;
-            margin: 40px auto auto;
-        }
-
-        #books {
-            width: 80%;
-            margin: 40px auto auto;
-        }
-
-        li {
-            margin-bottom: 15px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div id="left">
-            <h1>@Model.name @Model.surname</h1>
-            <h3>Age: @Model.age</h3>
-        </div>
-        <div id="right">
-            <img alt="avatar" src="/writer.png" height="300" width="300" />
-        </div>
-    </div>
-    <div id="middle">
-        <p>@Model.biography</p>
-    </div>
-    @if (Model.authorBooks.Count != 0)
-    {
-        <div id="books">
-            <h2>Some of the author's books:</h2>
-            <ul>
-                @if (Model.authorBooks.Count != 0)
-                    {@foreach (var item in Model.authorBooks)
-                    {
-                        @if (item != null)
-                        {
-                            <li style="list-style-image: url(./book_resized.png); margin-bottom: 15px; ">
-                                @item.Book.name
-                            </li>
-                        }
-                    }}
-            </ul>
-        </div>
-    }
-    <br /><br />
-
-    <div class="mt-5 container">
-        <a asp-action="Index" class="button">Back to Author List</a>
-    </div>
-
-
-
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#sidebarCollapse').on('click', function () {
-                $('#sidebar').toggleClass('active');
-            });
-        });
-    </script>
-
-</body>
-</html>
+﻿@* @model BookHiveDB.Domain.DomainModels.Author *@
+@* *@
+@* @{ *@
+@*     ViewData["Title"] = "Details"; *@
+@*     Layout = null; *@
+@* } *@
+@* <!DOCTYPE html> *@
+@* <html lang="en"> *@
+@* <head> *@
+@*     <meta charset="UTF-8"> *@
+@*     <title>About author</title> *@
+@* *@
+@* *@
+@*     <link rel="preconnect" href="https://fonts.googleapis.com"> *@
+@*     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> *@
+@*     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap" rel="stylesheet"> *@
+@* *@
+@*     <link rel="preconnect" href="https://fonts.googleapis.com"> *@
+@*     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> *@
+@*     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&display=swap" rel="stylesheet"> *@
+@* *@
+@*     <style> *@
+@*         .button { *@
+@*             background-color: #2f4f4f; *@
+@*             padding: 10px; *@
+@*             border-radius: 5px; *@
+@*             text-decoration: none; *@
+@*             color: white; *@
+@*             font-family: 'Oswald', sans-serif; *@
+@*         } *@
+@* *@
+@*         .button:hover { *@
+@*             color: lightgray; *@
+@*             background-color: #3f5f5f; *@
+@*         } *@
+@* *@
+@* *@
+@*         body { *@
+@*             background-color: #9ed9cc; *@
+@*             font-family: 'IBM Plex Sans', sans-serif; *@
+@*             font-size: 30px; *@
+@*         } *@
+@* *@
+@*         h1 { *@
+@*             font-family: 'Oswald', sans-serif; *@
+@*         } *@
+@* *@
+@*         .container { *@
+@*             display: flex; *@
+@*             justify-content: space-between; *@
+@*             width: 80%; *@
+@*             margin: 40px auto auto; *@
+@*         } *@
+@* *@
+@*         #middle { *@
+@*             width: 80%; *@
+@*             margin: 40px auto auto; *@
+@*         } *@
+@* *@
+@*         #books { *@
+@*             width: 80%; *@
+@*             margin: 40px auto auto; *@
+@*         } *@
+@* *@
+@*         li { *@
+@*             margin-bottom: 15px; *@
+@*         } *@
+@*     </style> *@
+@* </head> *@
+@* <body> *@
+@*     <div class="container"> *@
+@*         <div id="left"> *@
+@*             <h1>@Model.Name @Model.Surname</h1> *@
+@*             <h3>Age: @Model.Age</h3> *@
+@*         </div> *@
+@*         <div id="right"> *@
+@*             <img alt="avatar" src="/writer.png" height="300" width="300" /> *@
+@*         </div> *@
+@*     </div> *@
+@*     <div id="middle"> *@
+@*         <p>@Model.Biography</p> *@
+@*     </div> *@
+@*     @if (Model.authorBooks.Count != 0) *@
+@*     { *@
+@*         <div id="books"> *@
+@*             <h2>Some of the author's books:</h2> *@
+@*             <ul> *@
+@*                 @if (Model.authorBooks.Count != 0) *@
+@*                     {@foreach (var item in Model.authorBooks) *@
+@*                     { *@
+@*                         @if (item != null) *@
+@*                         { *@
+@*                             <li style="list-style-image: url(./book_resized.png); margin-bottom: 15px; "> *@
+@*                                 @item.Book.name *@
+@*                             </li> *@
+@*                         } *@
+@*                     }} *@
+@*             </ul> *@
+@*         </div> *@
+@*     } *@
+@*     <br /><br /> *@
+@* *@
+@*     <div class="mt-5 container"> *@
+@*         <a asp-action="Index" class="button">Back to Author List</a> *@
+@*     </div> *@
+@* *@
+@* *@
+@* *@
+@*     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" *@
+@*             integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" *@
+@*             crossorigin="anonymous"></script> *@
+@* *@
+@*     <script type="text/javascript"> *@
+@*         $(document).ready(function () { *@
+@*             $('#sidebarCollapse').on('click', function () { *@
+@*                 $('#sidebar').toggleClass('active'); *@
+@*             }); *@
+@*         }); *@
+@*     </script> *@
+@* *@
+@* </body> *@
+@* </html> *@

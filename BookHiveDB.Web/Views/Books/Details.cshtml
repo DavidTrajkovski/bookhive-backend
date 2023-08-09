@@ -1,10 +1,11 @@
-﻿@model BookHiveDB.Domain.DomainModels.Book
+﻿@*
+@model BookHiveDB.Domain.DomainModels.Book
 @{
     ViewData["Title"] = "Details";
     Layout = null;
 }
 
-<!DOCTYPE html>
+$1$ <!DOCTYPE html> #1#
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -75,7 +76,7 @@
         <div id="left">
             <h1>@Model.name</h1>
             <ul>
-                @foreach (var author in Model.authorBooks)
+                @foreach (var author in Model.Authors)
                 {
                     <li>@author.Author.name</li>
                 }
@@ -131,3 +132,4 @@
     </div>
 </body>
 </html>
+*@

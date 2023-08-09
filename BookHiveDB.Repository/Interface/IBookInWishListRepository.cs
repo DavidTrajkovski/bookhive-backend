@@ -1,9 +1,8 @@
-﻿using BookHiveDB.Domain.DomainModels;
-using BookHiveDB.Domain.Identity;
+﻿using BookHiveDB.Domain.Identity;
 using BookHiveDB.Domain.Relations;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using BookHiveDB.Domain.Models;
 
 namespace BookHiveDB.Repository.Interface
 {

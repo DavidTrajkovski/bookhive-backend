@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using BookHiveDB.Domain.Dtos.Mvc;
+using BookHiveDB.Domain.Models;
 
 namespace BookHiveDB.Service.Implementation
 {
@@ -123,7 +125,7 @@ namespace BookHiveDB.Service.Implementation
                 {
                     var currentItem = result[i - 1];
                     totalPrice += currentItem.Quantity * currentItem.Book.Price;
-                    sb.AppendLine(i.ToString() + ". " + currentItem.Book.name + " with quantity of: " + currentItem.Quantity + " and price of: $" + currentItem.Book.Price);
+                    sb.AppendLine(i.ToString() + ". " + currentItem.Book.Name + " with quantity of: " + currentItem.Quantity + " and price of: $" + currentItem.Book.Price);
                 }
 
                 sb.AppendLine("Total price for your order: " + totalPrice.ToString());

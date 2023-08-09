@@ -1,4 +1,5 @@
-﻿@model BookHiveDB.Domain.DomainModels.Book
+﻿@*
+@model BookHiveDB.Domain.Models.Book
 
 @{
     ViewData["Title"] = "Create";
@@ -53,7 +54,7 @@
                 @foreach (Author author in ViewData["authors"] as IList<Author>)
                 {
                     <option value="@author.Id">
-                        @author.name
+                        @author.Name
                     </option>
                 }
 
@@ -80,4 +81,5 @@
 <div>
     <a asp-action="Index" class="btn btn-primary">Back to List</a>
 </div>
+*@
 

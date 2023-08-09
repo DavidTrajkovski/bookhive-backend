@@ -1,92 +1,87 @@
-﻿using BookHiveDB.Domain.DomainModels;
-using BookHiveDB.Service.Interface;
-using Microsoft.AspNetCore.Http;
+﻿using BookHiveDB.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System;
-using BookHiveDB.Domain.Relations;
-using BookHiveDB.Service.Implementation;
+using System.Collections.Generic;
 using System.Linq;
-using BookHiveDB.Repository.Startup;
+using AutoMapper;
+using BookHiveDB.Domain.Dtos.REST.Book;
+using BookHiveDB.Domain.Enumerations;
+using BookHiveDB.Domain.Models;
 
-namespace BookHiveDB.Web.Controllers.Api
+namespace BookHiveDB.Web.Controllers.Api;
+
+[ApiController]
+[Route("api/books")]
+public class BooksRestController : ControllerBase
 {
-    [ApiController]
-    [Route("api/books")]
-    public class BooksRestController : ControllerBase
+    private readonly IBookService _bookService;
+    private readonly IAuthorService _authorService;
+    private readonly IMapper _mapper;
+
+    public BooksRestController(IBookService bookService, IAuthorService authorService, IMapper mapper)
     {
-        private readonly IBookService bookService;
-        private readonly IAuthorService authorService;
-        private readonly IGenreInitializer genreInitializer;
+        _bookService = bookService;
+        _authorService = authorService;
+        _mapper = mapper;
+    }
 
-        public BooksRestController(IBookService bookService, IAuthorService authorService, IGenreInitializer genreInitializer)
-        {
-            this.bookService = bookService;
-            this.authorService = authorService;
-            this.genreInitializer = genreInitializer;
-        }
+    [HttpGet]
+    public IActionResult GetAllBooks()
+    {
+        var books = _bookService.findAll();
+        var bookDtos = _mapper.Map<List<BookDto>>(books);
+        return Ok(bookDtos);
+    }
 
-        [HttpGet]
-        public IActionResult GetAllBooks()
-        {
-            List<Book> books = bookService.findAll();
-            return Ok(books);
-        }
+    [HttpGet("{id:guid}")]
+    public IActionResult GetBookById(Guid id)
+    {
+        var book = _bookService.findById(id);
 
-        [HttpGet("{id}")]
-        public IActionResult GetBookById(Guid id)
-        {
-            Book book = bookService.findById(id);
-            if (book == null)
-                return NotFound();
+        if (book == null)
+            return NotFound();
 
-            return Ok(book);
-        }
+        var bookDto = _mapper.Map<BookDto>(book);
 
-        [HttpPost]
-        public IActionResult Create([FromBody] Book book, [FromQuery] List<Guid> authors, [FromQuery] List<Guid> genres)
-        {
-            book.Id = Guid.NewGuid();
-            book.authorBooks = new List<AuthorBook>();
-            book.BookGenres = new List<BookGenre>();
+        return Ok(bookDto);
+    }
 
-            foreach (var author in authors.Select(authorGuid => authorService.findById(authorGuid)))
-            {
-                book.authorBooks.Add(new AuthorBook { Author = author, AuthorId = author.Id, Book = book, BookId = book.Id });
-            }
+    [HttpPost]
+    public IActionResult CreateBook([FromBody] CreateBookDto createBookDto)
+    {
+        var authors = createBookDto.AuthorIds.Select((authorId) => _authorService.findById(authorId));
 
-            foreach (var genre in genres.Select(genreGuid => genreInitializer.GetById(genreGuid)))
-            {
-                book.BookGenres.Add(new BookGenre { Genre = genre, GenreId = genre.Id, Book = book, BookId = book.Id });
-            }
+        var newBook = _mapper.Map<Book>(createBookDto);
+        newBook.Authors.AddRange(authors);
+        // TODO: This is TEMPORARY, need to fix the adding of genres logic.
+        newBook.Genres.AddRange(new[] { Genre.CRIME, Genre.DRAMA });
+        var newlyCreatedBook = _bookService.CreateNewBook(newBook);
 
-            bookService.CreateNewBook(book);
-            return CreatedAtAction(nameof(GetBookById), new { id = book.Id }, book);
-        }
+        var bookDto = _mapper.Map<BookDto>(newlyCreatedBook);
 
-        
+        return Ok(bookDto);
+    }
 
-        [HttpPost("{id}")]
-        public IActionResult UpdateBook(Guid id, [FromBody] Book book)
-        {
-            Book existingBook = bookService.findById(id);
-            if (existingBook == null)
-                return NotFound();
+    [HttpPut("{id:guid}")]
+    public IActionResult UpdateBook(Guid id, [FromBody] Book book)
+    {
+        var existingBook = _bookService.findById(id);
+        if (existingBook == null)
+            return NotFound();
 
-            book.Id = existingBook.Id;
-            Book updatedBook = bookService.Update(book);
-            return Ok(updatedBook);
-        }
+        book.Id = existingBook.Id;
+        var updatedBook = _bookService.Update(book);
+        return Ok(updatedBook);
+    }
 
-        [HttpPost("delete/{id}")]
-        public IActionResult DeleteBook(Guid id)
-        {
-            Book existingBook = bookService.findById(id);
-            if (existingBook == null)
-                return NotFound();
+    [HttpDelete("{id:guid}")]
+    public IActionResult DeleteBook(Guid id)
+    {
+        var existingBook = _bookService.findById(id);
+        if (existingBook == null)
+            return NotFound();
 
-            bookService.deleteById(id);
-            return Ok();
-        }
+        _bookService.deleteById(id);
+        return Ok();
     }
 }

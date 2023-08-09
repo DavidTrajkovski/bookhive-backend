@@ -6,7 +6,9 @@ using BookHiveDB.Service.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using BookHiveDB.Domain.Dtos.Mvc;
+using BookHiveDB.Domain.Enumerations;
+using BookHiveDB.Domain.Models;
 
 namespace BookHiveDB.Service.Implementation
 {
@@ -26,40 +28,30 @@ namespace BookHiveDB.Service.Implementation
 
         }
 
-        public Book add(string isbn, string name, string description, string ciu, DateTime datePublished, List<Guid> authorIds, List<Genre> genres)
+        public Book add(string isbn, string name, string description, string ciu, DateTime datePublished, List<Guid> authorIds)
         {
+            var authors = authorIds.Select((authorId) => authorRepository.Get(authorId));
+            
             Book book = new Book
             {
-                isbn = isbn,
-                name = name,
-                description = description,
-                coverImageUrl = ciu,
-                datePublished = datePublished
+                Isbn = isbn,
+                Name = name,
+                Description = description,
+                CoverImageUrl = ciu,
+                DatePublished = datePublished
             };
+            
+            book.Authors.AddRange(authors);
 
             BookRepository.Insert(book);
 
-
-            List<Author> authors = new List<Author>();
-            foreach(Guid guid in authorIds)
-            {
-                authors.Add(authorRepository.Get(guid));
-            }
-            List<AuthorBook> authorBooks = new List<AuthorBook>();
-            foreach(Author author in authors)
-            {
-                authorBooks.Add(new AuthorBook { Author = author, AuthorId = author.Id, Book = book, BookId = book.Id });
-            }
-
-            book.authorBooks = authorBooks;
-
-            List<BookGenre> bookGenres = new List<BookGenre>();
-            foreach(Genre genre in genres)
-            {
-                bookGenres.Add(new BookGenre { Genre = genre, GenreId = genre.Id, Book = book, BookId = book.Id });
-            }
-            book.BookGenres = bookGenres;
-            BookRepository.Update(book);
+            // List<BookGenre> bookGenres = new List<BookGenre>();
+            // foreach(Genre genre in genres)
+            // {
+            //     bookGenres.Add(new BookGenre { Genre = genre, GenreId = genre.Id, Book = book, BookId = book.Id });
+            // }
+            // book.BookGenres = bookGenres;
+            // BookRepository.Update(book);
             return book;
             
         }
@@ -70,33 +62,24 @@ namespace BookHiveDB.Service.Implementation
             BookRepository.Delete(book);
         }
 
-        public Book edit(Guid id, string isbn, string name, string description, string ciu, DateTime datePublished, List<Guid> authorIds, List<Genre> genres)
+        public Book edit(Guid id, string isbn, string name, string description, string ciu, DateTime datePublished, List<Guid> authorIds)
         {
+            var authors = authorIds.Select((authorId) => authorRepository.Get(authorId));
+            
             Book book = BookRepository.Get(id);
-            book.isbn = isbn;
-            book.name = name;
-            book.description = description;
-            book.coverImageUrl = ciu;
-            book.datePublished = datePublished;
+            book.Isbn = isbn;
+            book.Name = name;
+            book.Description = description;
+            book.CoverImageUrl = ciu;
+            book.DatePublished = datePublished;
+            book.Authors.AddRange(authors);
 
-            List<Author> authors = new List<Author>();
-            foreach (Guid guid in authorIds)
-            {
-                authors.Add(authorRepository.Get(guid));
-            }
-            List<AuthorBook> authorBooks = new List<AuthorBook>();
-            foreach (Author author in authors)
-            {
-                authorBooks.Add(new AuthorBook { Author = author, AuthorId = author.Id, Book = book, BookId = book.Id });
-            }
-            book.authorBooks = authorBooks;
-
-            List<BookGenre> bookGenres = new List<BookGenre>();
-            foreach (Genre genre in genres)
-            {
-                bookGenres.Add(new BookGenre { Genre = genre, GenreId = genre.Id, Book = book, BookId = book.Id });
-            }
-            book.BookGenres = bookGenres;
+            // List<BookGenre> bookGenres = new List<BookGenre>();
+            // foreach (Genre genre in genres)
+            // {
+            //     bookGenres.Add(new BookGenre { Genre = genre, GenreId = genre.Id, Book = book, BookId = book.Id });
+            // }
+            // book.BookGenres = bookGenres;
 
             BookRepository.Update(book);
 

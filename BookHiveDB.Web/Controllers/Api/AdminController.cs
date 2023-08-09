@@ -1,18 +1,16 @@
 ﻿using BookHiveDB.Domain;
 using BookHiveDB.Domain.DomainModels;
-using BookHiveDB.Domain.DTO;
 using BookHiveDB.Domain.Identity;
 using BookHiveDB.Service.Interface;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using BookHiveDB.Domain.Dtos.Mvc;
+using BookHiveDB.Domain.Models;
 
-namespace BookHiveDB.Web.Controllers
+namespace BookHiveDB.Web.Controllers.Api
 {
     [Route("api/[controller]")]
     [ApiController]

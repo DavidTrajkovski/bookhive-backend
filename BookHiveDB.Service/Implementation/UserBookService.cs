@@ -5,7 +5,7 @@ using BookHiveDB.Service.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using BookHiveDB.Domain.Models;
 
 namespace BookHiveDB.Service.Implementation
 {
@@ -42,8 +42,8 @@ namespace BookHiveDB.Service.Implementation
 
             UserBook userbook = this.FindByUserAndBook(user, book);
 
-            if (lastPageRead > book.totalPages)
-                userbook.lastPageRead = book.totalPages;
+            if (lastPageRead > book.TotalPages)
+                userbook.lastPageRead = book.TotalPages;
             else
                 userbook.lastPageRead = lastPageRead;
 

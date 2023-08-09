@@ -3,7 +3,6 @@ using BookHiveDB.Domain.Identity;
 using BookHiveDB.Repository;
 using BookHiveDB.Repository.Implementation;
 using BookHiveDB.Repository.Interface;
-using BookHiveDB.Repository.Startup;
 using BookHiveDB.Service.Implementation;
 using BookHiveDB.Service.Interface;
 using BookHiveDB.Service;
@@ -18,6 +17,7 @@ using System;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,7 +27,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
 
-builder.Services.AddAutoMapper(typeof(Program).Assembly);
+builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -37,21 +37,29 @@ builder.Services
     .AddDefaultUI()
     .AddDefaultTokenProviders();
 
+var localDevelopment = "localDevelopmentServer";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: localDevelopment,
+        policy => { policy.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod(); });
+});
+
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(
     options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
     {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        ValidAudience = builder.Configuration["Jwt:Issuer"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-    };
-}
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Issuer"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        };
+    }
 );
 
 builder.Services.AddAuthorization();
@@ -81,7 +89,7 @@ builder.Services.AddScoped(typeof(IPostRepository), typeof(PostRepository));
 builder.Services.AddScoped(typeof(ITopicRepository), typeof(TopicRepository));
 builder.Services.AddScoped(typeof(IUserInBookClubRepository), typeof(UserInBookClubRepository));
 builder.Services.AddScoped(typeof(IBookInWishListRepository), typeof(BookInWishListRepository));
-builder.Services.AddScoped<IGenreInitializer, GenreInitializer>();
+// builder.Services.AddScoped<IGenreInitializer, GenreInitializer>();
 
 builder.Services.AddTransient<IAuthorService, AuthorService>();
 builder.Services.AddTransient<IShoppingCartService, ShoppingCartService>();
@@ -97,7 +105,11 @@ builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IBookInWishListService, BookInWishListService>();
 
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddJsonOptions(o =>
+{
+    o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+});
+
 builder.Services.AddRazorPages();
 
 
@@ -137,11 +149,11 @@ builder.Services.ConfigureApplicationCookie(options =>
 var app = builder.Build();
 
 
-using (var scope = app.Services.CreateScope())
-{
-    var genreInitializer = scope.ServiceProvider.GetService<IGenreInitializer>();
-    genreInitializer.Seed().Wait();
-}
+// using (var scope = app.Services.CreateScope())
+// {
+//     var genreInitializer = scope.ServiceProvider.GetService<IGenreInitializer>();
+//     genreInitializer.Seed().Wait();
+// }
 
 StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe")["SecretKey"];
 
@@ -155,8 +167,9 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
+
+app.UseCors(localDevelopment);
 
 app.UseAuthentication();
 app.UseAuthorization();

@@ -1,4 +1,6 @@
-﻿@model BookHiveDB.Domain.DomainModels.BookShop
+﻿@*
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model BookHiveDB.Domain.DomainModels.BookShop
 
 @{
     ViewData["Title"] = "Details";
@@ -88,18 +90,18 @@
     </div>
 </div>
 
-@*<div id="middle"><p>Grade: </p><span>@Model.grade</span><span> by @Model.numGraders graders.</span></div>*@
+$1$<div id="middle"><p>Grade: </p><span>@Model.grade</span><span> by @Model.numGraders graders.</span></div>#1#
 
-@if (Model.BookInBookShops.Count() > 0)
+@if (Model.Books.Count() > 0)
 {
     <div id="books">
         <h2 style="text-align: center; margin-bottom: 0;">Books you can find in this bookshop:</h2>
         <div style="display: flex; justify-content: center; margin-top: 0;">
             <ul>
-                @foreach (var bookinbookshop in Model.BookInBookShops)
+                @foreach (var bookinbookshop in Model.Books)
                 {
                     <a style="text-decoration: none; color: darkslategray" href="/books/details/@bookinbookshop.Book.Id">
-                        <li>@bookinbookshop.Book.name</li>
+                        <li>@bookinbookshop.Book.Name</li>
                     </a>
                 }
             </ul>
@@ -114,3 +116,4 @@
 
 </body>
 </html>
+*@

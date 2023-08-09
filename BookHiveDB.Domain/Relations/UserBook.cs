@@ -1,6 +1,7 @@
 ﻿using BookHiveDB.Domain.Identity;
 using System;
 using System.Text.Json.Serialization;
+using BookHiveDB.Domain.Models;
 
 namespace BookHiveDB.Domain.DomainModels
 {

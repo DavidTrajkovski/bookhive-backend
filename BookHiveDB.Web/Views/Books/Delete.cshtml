@@ -1,4 +1,5 @@
-﻿@model BookHiveDB.Domain.DomainModels.Book
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model BookHiveDB.Domain.Models.Book
 
 @{
     ViewData["Title"] = "Delete";
@@ -12,34 +13,34 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.isbn)
+            @Html.DisplayNameFor(model => model.Isbn)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.isbn)
+            @Html.DisplayFor(model => model.Isbn)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.name)
+            @Html.DisplayNameFor(model => model.Name)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.name)
+            @Html.DisplayFor(model => model.Name)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.description)
+            @Html.DisplayNameFor(model => model.Description)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.description)
+            @Html.DisplayFor(model => model.Description)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.datePublished)
+            @Html.DisplayNameFor(model => model.DatePublished)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.datePublished)
+            @Html.DisplayFor(model => model.DatePublished)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.coverImageUrl)
+            @Html.DisplayNameFor(model => model.CoverImageUrl)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.coverImageUrl)
+            @Html.DisplayFor(model => model.CoverImageUrl)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Price)
@@ -48,10 +49,10 @@
             @Html.DisplayFor(model => model.Price)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.isValid)
+            @Html.DisplayNameFor(model => model.IsValid)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.isValid)
+            @Html.DisplayFor(model => model.IsValid)
         </dd>
     </dl>
     
