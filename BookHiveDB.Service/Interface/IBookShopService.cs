@@ -14,5 +14,6 @@ namespace BookHiveDB.Service.Interface
         void DeleteById(Guid id);
         List<BookShop> getAllByBooks(Guid bookId);
         List<BookShop> findAllByName(string Containing);
+        List<Book> GetBooksForBookshop(Guid bookshopId);
     }
 }
