@@ -43,6 +43,7 @@ namespace BookHiveDB.Repository.Implementation
         {
             return entities
                 .Include(bs => bs.Books)
+                .ThenInclude(b => b.Authors)
                 .SingleOrDefaultAsync(s => s.Id == id).Result;
         }
 
