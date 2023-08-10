@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using BookHiveDB.Domain.Dtos.REST.Book;
 using BookHiveDB.Domain.Dtos.Rest.BookShop;
+using BookHiveDB.Domain.Exceptions;
 using BookHiveDB.Domain.Models;
 using BookHiveDB.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
@@ -50,6 +52,22 @@ public class BookShopsApiController : ControllerBase
         var bookshopDto = _mapper.Map<BookShopDto>(bookShop);
 
         return Ok(bookshopDto);
+    }
+
+    [HttpGet("{id:guid}/books")]
+    public IActionResult GetBooksForBookshop(Guid id)
+    {
+        try
+        {
+            var books = _bookShopService.GetBooksForBookshop(id);
+            var bookShopBookDtos = _mapper.Map<List<BookShopBookDto>>(books);
+
+            return Ok(bookShopBookDtos);
+        }
+        catch (EntityNotFoundException e)
+        {
+            return NotFound(e.Message);
+        }
     }
 
     [HttpPost]
