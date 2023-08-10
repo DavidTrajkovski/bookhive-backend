@@ -4,6 +4,7 @@ using BookHiveDB.Service.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BookHiveDB.Domain.Exceptions;
 using BookHiveDB.Domain.Models;
 
 namespace BookHiveDB.Service.Implementation
@@ -28,6 +29,13 @@ namespace BookHiveDB.Service.Implementation
         public List<BookShop> findAllByName(string Containing)
         {
             return bookShopRepository.findAllByName(Containing);
+        }
+
+        public List<Book> GetBooksForBookshop(Guid bookshopId)
+        {
+            var bookshop = Get(bookshopId);
+            if (bookshop is null) throw new EntityNotFoundException($"Bookshop with ID: {bookshopId} not found.");
+            return bookshop.Books;
         }
 
         public BookShop Get(Guid? id)
