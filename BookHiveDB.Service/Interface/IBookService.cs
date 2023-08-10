@@ -4,12 +4,14 @@ using System;
 using System.Collections.Generic;
 using BookHiveDB.Domain.Dtos.Mvc;
 using BookHiveDB.Domain.Models;
+using BookHiveDB.Domain.Enumerations;
 
 namespace BookHiveDB.Service.Interface
 {
     public interface IBookService
     {
         List<Book> findAll();
+        List<String> findAllGenres();
         Book findById(Guid id);
         Book add(string isbn, string name, string description, string ciu, DateTime datePublished, List<Guid> authorIds);
 
