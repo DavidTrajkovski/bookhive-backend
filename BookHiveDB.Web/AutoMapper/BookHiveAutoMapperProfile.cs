@@ -17,13 +17,14 @@ public class BookHiveAutoMapperProfile : Profile
         CreateMap<CreateAuthorDto, Author>();
         CreateMap<Author, AuthorDto>();
         CreateMap<Author, BookAuthorInfoDto>();
-        
+
         // Book
         CreateMap<CreateBookDto, Book>();
         CreateMap<Book, BookDto>()
             .ForMember(dest => dest.Genres,
                 opt => opt.MapFrom(
                     src => src.Genres.Select(g => g.ToString())));
+        CreateMap<Book, BookShopBookDto>();
 
         // BookShop
         CreateMap<CreateBookShopDto, BookShop>();
