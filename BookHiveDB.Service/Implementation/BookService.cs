@@ -97,6 +97,10 @@ namespace BookHiveDB.Service.Implementation
         {
             return BookRepository.GetAll();
         }
+        public List<String> findAllGenres()
+        {
+            return Enum.GetNames<Genre>().ToList();
+        }
 
         public Book findById(Guid id)
         {

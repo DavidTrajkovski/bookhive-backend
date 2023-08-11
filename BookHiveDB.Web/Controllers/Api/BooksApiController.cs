@@ -33,6 +33,13 @@ public class BooksRestController : ControllerBase
         return Ok(bookDtos);
     }
 
+    [HttpGet("genres")]
+    public IActionResult GetAllGenres()
+    {
+        var genres = _bookService.findAllGenres();
+        return Ok(genres);
+    }
+
     [HttpGet("{id:guid}")]
     public IActionResult GetBookById(Guid id)
     {
