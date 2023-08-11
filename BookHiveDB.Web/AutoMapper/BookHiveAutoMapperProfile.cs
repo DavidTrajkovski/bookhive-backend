@@ -20,6 +20,7 @@ public class BookHiveAutoMapperProfile : Profile
         
         // Book
         CreateMap<CreateBookDto, Book>();
+        CreateMap<Book, AuthorBookDto>().ForMember(dest => dest.bookName, opt => opt.MapFrom(src => src.Name));
         CreateMap<Book, BookDto>()
             .ForMember(dest => dest.Genres,
                 opt => opt.MapFrom(
