@@ -25,6 +25,20 @@ public class BooksRestController : ControllerBase
         _mapper = mapper;
     }
 
+    [HttpGet("filter")]
+    public IActionResult GetBooksByCriteria(int page = 1, int pageSize = 10, string nameSearch = "", List<Genre> genres = null)
+    {
+        try
+        {
+            var bookDtos = _bookService.GetBooksByCriteria(page, pageSize, nameSearch, genres);
+            return Ok(bookDtos);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "An error occurred while retrieving books.");
+        }
+    }
+
     [HttpGet]
     public IActionResult GetAllBooks()
     {
@@ -39,6 +53,8 @@ public class BooksRestController : ControllerBase
         var genres = _bookService.findAllGenres();
         return Ok(genres);
     }
+
+
 
     [HttpGet("{id:guid}")]
     public IActionResult GetBookById(Guid id)
