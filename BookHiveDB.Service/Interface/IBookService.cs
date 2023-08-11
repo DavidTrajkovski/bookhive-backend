@@ -12,7 +12,7 @@ namespace BookHiveDB.Service.Interface
     public interface IBookService
     {
 
-        List<BookDto> GetBooksByCriteria(int page, int pageSize, string nameSearch, List<Genre> genres);
+        List<BookDto> GetBooksByCriteria(int page, int pageSize, string nameSearch, List<string> genres);
         List<Book> findAll();
         List<String> findAllGenres();
         Book findById(Guid id);

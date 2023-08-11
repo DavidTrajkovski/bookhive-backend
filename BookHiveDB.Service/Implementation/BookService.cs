@@ -1,16 +1,14 @@
-﻿using BookHiveDB.Domain.DomainModels;
-using BookHiveDB.Domain.DTO;
-using BookHiveDB.Domain.Relations;
+﻿using BookHiveDB.Domain.Relations;
 using BookHiveDB.Repository.Interface;
 using BookHiveDB.Service.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using BookHiveDB.Domain.Dtos.Mvc;
 using BookHiveDB.Domain.Enumerations;
 using BookHiveDB.Domain.Models;
 using BookHiveDB.Domain.Dtos.REST.Book;
-using Org.BouncyCastle.Crypto;
 
 namespace BookHiveDB.Service.Implementation
 {
@@ -32,8 +30,23 @@ namespace BookHiveDB.Service.Implementation
         }
 
 
-        public List<BookDto> GetBooksByCriteria(int page, int pageSize, string nameSearch, List<Genre> genres)
+        public List<BookDto> GetBooksByCriteria(int page, int pageSize, string nameSearch, List<string> genreStrings)
         {
+
+            List<Genre> genres = new List<Genre>();
+
+            Genre parsedGenre;
+
+            if (genreStrings != null) {
+                foreach (string genreString in genreStrings)
+                {
+                    if (Enum.TryParse(genreString, out parsedGenre))
+                    {
+                        genres.Add(parsedGenre);
+                    }
+                }
+            }
+
             var allBooks = BookRepository.GetAll();
 
             if (!string.IsNullOrWhiteSpace(nameSearch))

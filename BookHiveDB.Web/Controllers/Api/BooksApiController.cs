@@ -26,7 +26,7 @@ public class BooksRestController : ControllerBase
     }
 
     [HttpGet("filter")]
-    public IActionResult GetBooksByCriteria(int page = 1, int pageSize = 10, string nameSearch = "", List<Genre> genres = null)
+    public IActionResult GetBooksByCriteria(int page = 1, int pageSize = 10, string nameSearch = "", [FromQuery(Name = "genres")] List<string> genres = null)
     {
         try
         {
