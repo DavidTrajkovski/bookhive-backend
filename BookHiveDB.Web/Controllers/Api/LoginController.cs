@@ -17,13 +17,13 @@ namespace BookHiveDB.Web.Controllers.Api
     [ApiController]
     public class LoginController : Controller
     {
-
         private readonly UserManager<BookHiveApplicationUser> _userManager;
         private readonly SignInManager<BookHiveApplicationUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private IConfiguration _config;
 
-        public LoginController(IConfiguration config, UserManager<BookHiveApplicationUser> userManager, SignInManager<BookHiveApplicationUser> signInManager, RoleManager<IdentityRole> roleManager)
+        public LoginController(IConfiguration config, UserManager<BookHiveApplicationUser> userManager,
+            SignInManager<BookHiveApplicationUser> signInManager, RoleManager<IdentityRole> roleManager)
         {
             _config = config;
             _userManager = userManager;
@@ -55,6 +55,7 @@ namespace BookHiveDB.Web.Controllers.Api
             {
                 return null;
             }
+
             return user;
         }
 
@@ -65,21 +66,19 @@ namespace BookHiveDB.Web.Controllers.Api
             var roles = _userManager.GetRolesAsync(user).Result;
 
             var claims = new[]
-        {
-            new Claim(ClaimTypes.Name, user.FirstName),
-            new Claim(ClaimTypes.Role, roles[0])
-        };
+            {
+                new Claim("name", $"{user.FirstName} {user.LastName}"),
+                new Claim("email", user.Email),
+                new Claim("role", roles[0])
+            };
 
             var token = new JwtSecurityToken(_config["Jwt:Issuer"],
-              _config["Jwt:Issuer"],
-              claims,
-              expires: DateTime.Now.AddMinutes(120),
-              signingCredentials: credentials);
+                _config["Jwt:Issuer"],
+                claims,
+                expires: DateTime.Now.AddMinutes(120),
+                signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-
-
-
     }
 }

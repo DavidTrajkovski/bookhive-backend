@@ -71,8 +71,8 @@
         <div id="container">
             @Html.ValidationSummary()
             <div class="inside">
-                @Html.TextBoxFor(m => m.Name, new { placeholder = "Name", @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.Name)
+                @Html.TextBoxFor(m => m.FirstName, new { placeholder = "Name", @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.FirstName)
 
                 @Html.TextBoxFor(m => m.LastName, new { placeholder = "Last Name", @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.LastName)
@@ -85,10 +85,6 @@
             <div class="inside">
                 @Html.PasswordFor(m => m.Password, new { placeholder = "Password", @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.Password)
-
-                @Html.PasswordFor(m => m.ConfirmPassword, new { placeholder = "Confirm Password", @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.ConfirmPassword)
-
             </div>
 
         </div>
