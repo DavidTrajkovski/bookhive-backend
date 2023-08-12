@@ -40,10 +40,10 @@ public class AuthorsApiController : ControllerBase
         return Ok(authorDtos);
     }
 
-    [HttpGet("authorbookdtos")]
-    public IActionResult GetAllAuthorBookDtosByAuthor(Guid authorId)
+    [HttpGet("{id:guid}/authorbookdtos")]
+    public IActionResult GetAllAuthorBookDtosByAuthor(Guid id)
     {
-        var author = _authorService.findById(authorId);
+        var author = _authorService.findById(id);
         var authorBooks = author.AuthoredBooks;
         var authorBooksDtos = _mapper.Map<List<AuthorBookDto>>(authorBooks);
 
