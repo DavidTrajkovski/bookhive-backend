@@ -10,10 +10,10 @@ public class BookClub : BaseEntity
     public string description { get; set; }
     public string BookHiveApplicationUserId { get; set; }
     public BookHiveApplicationUser BookHiveApplicationUser { get; set; }
-    public virtual ICollection<UserInBookClub> UserInBookClubs { get; set; }
-    public virtual ICollection<Topic> Topics { get; set; }
+    public List<UserInBookClub> UserInBookClubs { get; init; } = new();
+    public List<Topic> Topics { get; init; } = new();
 
-    public virtual ICollection<Invitation> Invitations { get; set; }
+    public List<Invitation> Invitations { get; init; } = new();
 
     public bool isMember(BookHiveApplicationUser user)
     {
