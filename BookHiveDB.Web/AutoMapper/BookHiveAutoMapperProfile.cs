@@ -4,6 +4,7 @@ using AutoMapper;
 using BookHiveDB.Domain.DomainModels;
 using BookHiveDB.Domain.Dtos.REST.Author;
 using BookHiveDB.Domain.Dtos.REST.Book;
+using BookHiveDB.Domain.Dtos.Rest.BookClub;
 using BookHiveDB.Domain.Dtos.Rest.BookShop;
 using BookHiveDB.Domain.Models;
 
@@ -30,5 +31,12 @@ public class BookHiveAutoMapperProfile : Profile
         // BookShop
         CreateMap<CreateBookShopDto, BookShop>();
         CreateMap<BookShop, BookShopDto>();
+
+        // BookClubs
+        CreateMap<CreateBookClubDto, BookClub>().ForMember(dest => dest.BookHiveApplicationUserId,
+            opt => opt.MapFrom(src => src.OwnerId));
+        CreateMap<BookClub, BookClubDto>().ForMember(dest => dest.Owner,
+            opt => opt.MapFrom(src =>
+                $"{src.BookHiveApplicationUser.FirstName} {src.BookHiveApplicationUser.LastName}"));
     }
 }
