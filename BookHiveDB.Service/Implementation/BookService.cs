@@ -1,14 +1,14 @@
-﻿using BookHiveDB.Domain.DomainModels;
-using BookHiveDB.Domain.DTO;
-using BookHiveDB.Domain.Relations;
+﻿using BookHiveDB.Domain.Relations;
 using BookHiveDB.Repository.Interface;
 using BookHiveDB.Service.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using BookHiveDB.Domain.Dtos.Mvc;
 using BookHiveDB.Domain.Enumerations;
 using BookHiveDB.Domain.Models;
+using BookHiveDB.Domain.Dtos.REST.Book;
 
 namespace BookHiveDB.Service.Implementation
 {
@@ -18,14 +18,54 @@ namespace BookHiveDB.Service.Implementation
         private readonly IRepository<BookInShoppingCart> _bookInShoppingCartRepository;
         private readonly IRepository<Author> authorRepository;
         private readonly IUserRepository userRepository;
+        private readonly IMapper _mapper;
 
-        public BookService(IBookRepository BookRepository, IRepository<Author> _authorRepository, IUserRepository userRepository, IRepository<BookInShoppingCart> bookInShoppingCartRepository)
+        public BookService(IBookRepository BookRepository, IRepository<Author> _authorRepository, IUserRepository userRepository, IRepository<BookInShoppingCart> bookInShoppingCartRepository, IMapper mapper)
         {
             this.BookRepository = BookRepository;
             this.authorRepository = _authorRepository;
             this.userRepository = userRepository;
             this._bookInShoppingCartRepository = bookInShoppingCartRepository;
+            this._mapper = mapper;
+        }
 
+
+        public List<BookDto> GetBooksByCriteria(int page, int pageSize, string nameSearch, List<string> genreStrings)
+        {
+
+            List<Genre> genres = new List<Genre>();
+
+            Genre parsedGenre;
+
+            if (genreStrings != null) {
+                foreach (string genreString in genreStrings)
+                {
+                    if (Enum.TryParse(genreString, out parsedGenre))
+                    {
+                        genres.Add(parsedGenre);
+                    }
+                }
+            }
+
+            var allBooks = BookRepository.GetAll();
+
+            if (!string.IsNullOrWhiteSpace(nameSearch))
+            {
+                allBooks = allBooks.Where(book => book.Name.Contains(nameSearch, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+
+            if (genres != null && genres.Any())
+            {
+                allBooks = allBooks.Where(book => genres.All(g => book.Genres.Contains(g))).ToList();
+            }
+
+            int startIndex = (page - 1) * pageSize;
+            List<Book> pagedBooks = allBooks.Skip(startIndex).Take(pageSize).ToList();
+
+
+            var bookDtos = _mapper.Map<List<BookDto>>(pagedBooks);
+
+            return bookDtos;
         }
 
         public Book add(string isbn, string name, string description, string ciu, DateTime datePublished, List<Guid> authorIds)

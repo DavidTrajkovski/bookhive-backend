@@ -101,7 +101,7 @@ namespace BookHiveDB.Web.Controllers.Mvc
                 {
                     var user = new BookHiveApplicationUser
                     {
-                        FirstName = request.Name,
+                        FirstName = request.FirstName,
                         LastName = request.LastName,
                         UserName = request.Email,
                         NormalizedUserName = request.Email,

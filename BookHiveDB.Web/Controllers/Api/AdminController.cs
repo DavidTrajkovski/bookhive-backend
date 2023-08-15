@@ -56,7 +56,7 @@ namespace BookHiveDB.Web.Controllers.Api
                 {
                     var user = new BookHiveApplicationUser
                     {
-                        FirstName = item.Name,
+                        FirstName = item.FirstName,
                         LastName = item.LastName,
                         UserName = item.Email,
                         NormalizedUserName = item.Email,

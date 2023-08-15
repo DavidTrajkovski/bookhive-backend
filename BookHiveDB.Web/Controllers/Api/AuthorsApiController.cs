@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using AutoMapper;
 using BookHiveDB.Domain.Dtos.REST.Author;
 using BookHiveDB.Domain.Models;
+using BookHiveDB.Domain.Dtos.REST.Book;
 
 namespace BookHiveDB.Web.Controllers.Api;
 
@@ -21,6 +22,15 @@ public class AuthorsApiController : ControllerBase
         _mapper = mapper;
     }
 
+    [HttpGet("bookauthorinfo")]
+    public IActionResult GetAllBookAuthorInfoDtos()
+    {
+        var authors = _authorService.findAll();
+        var authorDtos = _mapper.Map<List<BookAuthorInfoDto>>(authors);
+
+        return Ok(authorDtos);
+    }
+
     [HttpGet]
     public IActionResult GetAllAuthors()
     {
@@ -29,6 +39,18 @@ public class AuthorsApiController : ControllerBase
 
         return Ok(authorDtos);
     }
+
+    [HttpGet("{id:guid}/authorbookdtos")]
+    public IActionResult GetAllAuthorBookDtosByAuthor(Guid id)
+    {
+        var author = _authorService.findById(id);
+        var authorBooks = author.AuthoredBooks;
+        var authorBooksDtos = _mapper.Map<List<AuthorBookDto>>(authorBooks);
+
+        return Ok(authorBooksDtos);
+    }
+
+
 
     [HttpGet("{id:guid}")]
     public IActionResult GetAuthorById(Guid id)
