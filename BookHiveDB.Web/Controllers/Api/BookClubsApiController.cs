@@ -13,12 +13,14 @@ namespace BookHiveDB.Web.Controllers.Api;
 public class BookClubsApiController : Controller
 {
     private readonly IBookClubService _bookClubService;
+    private readonly ITopicService _topicService;
     private readonly IMapper _mapper;
 
-    public BookClubsApiController(IBookClubService bookClubService, IMapper mapper)
+    public BookClubsApiController(IBookClubService bookClubService, IMapper mapper, ITopicService topicService)
     {
         _bookClubService = bookClubService;
         _mapper = mapper;
+        _topicService = topicService;
     }
 
     [HttpGet]
@@ -39,6 +41,19 @@ public class BookClubsApiController : Controller
         var bookClubDto = _mapper.Map<BookClubDto>(bookclub);
 
         return Ok(bookClubDto);
+    }
+
+    [HttpGet("{bookclubId:guid}/topics")]
+    public IActionResult GetTopicsForBookClub(Guid bookclubId)
+    {
+        var bookclub = _bookClubService.findById(bookclubId);
+
+        if (bookclub is null) return NotFound();
+
+        var topics = _topicService.findByBookClub(bookclubId);
+        var topicDtos = _mapper.Map<List<TopicDto>>(topics);
+
+        return Ok(topicDtos);
     }
 
     [HttpPost]
