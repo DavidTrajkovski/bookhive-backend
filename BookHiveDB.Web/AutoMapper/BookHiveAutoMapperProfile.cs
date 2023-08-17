@@ -6,6 +6,7 @@ using BookHiveDB.Domain.Dtos.REST.Author;
 using BookHiveDB.Domain.Dtos.REST.Book;
 using BookHiveDB.Domain.Dtos.Rest.BookClub;
 using BookHiveDB.Domain.Dtos.Rest.BookShop;
+using BookHiveDB.Domain.Identity;
 using BookHiveDB.Domain.Models;
 
 namespace BookHiveDB.Web.AutoMapper;
@@ -38,6 +39,7 @@ public class BookHiveAutoMapperProfile : Profile
         CreateMap<BookClub, BookClubDto>().ForMember(dest => dest.Owner,
             opt => opt.MapFrom(src =>
                 $"{src.BookHiveApplicationUser.FirstName} {src.BookHiveApplicationUser.LastName}"));
+        CreateMap<BookHiveApplicationUser, MemberDto>();
 
         // Topics
         CreateMap<Topic, TopicDto>()
