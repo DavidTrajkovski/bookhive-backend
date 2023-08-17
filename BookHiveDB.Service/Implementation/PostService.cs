@@ -55,7 +55,10 @@ namespace BookHiveDB.Service.Implementation
         public List<Post> findByTopic(Guid topicId)
         {
             Topic topic = topicRepository.findById(topicId);
-            return postRepository.findByTopic(topic).ToList();
+            return postRepository.findByTopic(topic)
+                .OrderByDescending(p => p.dateCreated.Date)
+                .ThenBy(p => p.dateCreated.TimeOfDay)
+                .ToList();
         }
 
         public Post save(string content, string userId, Guid topicId)
@@ -65,7 +68,7 @@ namespace BookHiveDB.Service.Implementation
             Post post = new Post { Topic = topic, content = content, 
                                    BookHiveApplicationUser = user, 
                                    BookHiveApplicationUserId = userId, 
-                                   dateCreated = DateTime.Now, 
+                                   dateCreated = DateTime.UtcNow, 
                                    TopicId = topicId };
             postRepository.Insert(post);
             return post;
