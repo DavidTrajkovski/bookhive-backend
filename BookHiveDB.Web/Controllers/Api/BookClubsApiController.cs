@@ -56,6 +56,19 @@ public class BookClubsApiController : Controller
         return Ok(topicDtos);
     }
 
+    [HttpGet("{bookclubId:guid}/members")]
+    public IActionResult GetMembersForBookClub(Guid bookclubId)
+    {
+        var bookclub = _bookClubService.findById(bookclubId);
+
+        if (bookclub is null) return NotFound();
+
+        var members = _bookClubService.getAllMembers(bookclub);
+        var memberDtos = _mapper.Map<List<MemberDto>>(members);
+
+        return Ok(memberDtos);
+    }
+    
     [HttpPost]
     public IActionResult CreateBookClub([FromBody] CreateBookClubDto createBookClubDto)
     {
@@ -65,5 +78,12 @@ public class BookClubsApiController : Controller
         var bookclubDto = _mapper.Map<BookClubDto>(newlyCreatedBookClub);
 
         return Ok(bookclubDto);
+    }
+
+    [HttpDelete("{bookclubId:guid}/members/{memberId:guid}")]
+    public IActionResult KickMemberFromBookClub(Guid bookclubId, Guid memberId)
+    {
+        _bookClubService.removeUserFromBookclub(bookclubId, memberId.ToString());
+        return Ok();
     }
 }
