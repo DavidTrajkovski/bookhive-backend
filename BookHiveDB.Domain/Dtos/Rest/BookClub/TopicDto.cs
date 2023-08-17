@@ -7,5 +7,5 @@ public class TopicDto : BaseEntity
     public Guid BookclubId { get; set; }
     public string Title { get; set; }
     public string CreatedBy { get; set; }
-    public DateTime DateCreated { get; set; }
+    public DateTime Date { get; set; }
 }
