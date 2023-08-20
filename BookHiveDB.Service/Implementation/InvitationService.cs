@@ -55,7 +55,7 @@ namespace BookHiveDB.Service.Implementation
             BookHiveApplicationUser sender = userRepository.Get(senderId);
             BookHiveApplicationUser receiver = userRepository.FindByEmail(receiverEmail);
             BookClub bookClub = bookClubRepository.findById(bookClubId);
-            Invitation invitation = new Invitation { BookClub = bookClub, BookClubId = bookClubId, isRequest = isRequest, message = message, UserReceiver = receiver, UserReceiverId = receiver.Id, UserSender = sender, UserSenderId = senderId };
+            Invitation invitation = new Invitation { BookClub = bookClub, BookClubId = bookClubId, IsRequest = isRequest, Message = message, UserReceiver = receiver, UserReceiverId = receiver.Id, UserSender = sender, UserSenderId = senderId };
             invitationRepository.Insert(invitation);
             return invitation;
         }

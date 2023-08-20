@@ -79,7 +79,7 @@ namespace BookHiveDB.Repository.Implementation
             return entities.Include(z => z.UserSender)
                 .Include(z => z.UserReceiver)
                 .Include(z => z.BookClub)
-                .Where(z => z.BookClub.Equals(bookClub) && z.isRequest.Equals(isRequest)).ToList();
+                .Where(z => z.BookClub.Equals(bookClub) && z.IsRequest.Equals(isRequest)).ToList();
         }
 
         public List<Invitation> findByReceiverAndIsRequest(BookHiveApplicationUser receiver, bool isRequest)
@@ -87,7 +87,7 @@ namespace BookHiveDB.Repository.Implementation
             return entities.Include(z => z.UserSender)
                 .Include(z => z.UserReceiver)
                 .Include(z => z.BookClub)
-                .Where(z => z.UserReceiver.Equals(receiver) && z.isRequest.Equals(isRequest)).ToList();
+                .Where(z => z.UserReceiver.Equals(receiver) && z.IsRequest.Equals(isRequest)).ToList();
         }
     }
 }
