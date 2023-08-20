@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using BookHiveDB.Service.Interface;
 
 namespace BookHiveDB.Web.Controllers.Api
 {
@@ -12,17 +13,26 @@ namespace BookHiveDB.Web.Controllers.Api
     [ApiController]
     public class AccountApiController : ControllerBase
     {
-
+        private readonly IUserService _userService;
         private readonly UserManager<BookHiveApplicationUser> _userManager;
         private readonly SignInManager<BookHiveApplicationUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AccountApiController(UserManager<BookHiveApplicationUser> userManager, SignInManager<BookHiveApplicationUser> signInManager, RoleManager<IdentityRole> roleManager)
+        public AccountApiController(UserManager<BookHiveApplicationUser> userManager, SignInManager<BookHiveApplicationUser> signInManager, RoleManager<IdentityRole> roleManager, IUserService userService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _userService = userService;
         }
+
+        [HttpGet("emails")]
+        public IActionResult GetBookHiveUserEmails()
+        {
+            var emails = _userService.BookHiveUserEmails();
+            return Ok(emails);
+        }
+        
         [HttpPost("edit")]
         //[Authorize("Default")]
         public IActionResult EditProfile([FromBody] UpdateUserDTO userDTO)
