@@ -52,5 +52,10 @@ public class BookHiveAutoMapperProfile : Profile
                 opt => opt.MapFrom(src =>
                     $"{src.BookHiveApplicationUser.FirstName} {src.BookHiveApplicationUser.LastName}"))
             .ForMember(dest => dest.CreatorId, opt => opt.MapFrom(src => src.BookHiveApplicationUserId));
+
+        // Invitations
+        CreateMap<Invitation, InvitationDto>()
+            .ForMember(dest => dest.BookClubName, opt => opt.MapFrom(src => src.BookClub.name))
+            .ForMember(dest => dest.SenderEmail, opt => opt.MapFrom(src => src.UserSender.Email));
     }
 }
