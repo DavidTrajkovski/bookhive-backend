@@ -11,6 +11,6 @@ public class Invitation : BaseEntity
     public BookHiveApplicationUser UserSender { get; set; }
     public string UserReceiverId { get; set; }
     public BookHiveApplicationUser UserReceiver { get; set; }
-    public string message { get; set; }
-    public bool isRequest { get; set; }
+    public string Message { get; set; }
+    public bool IsRequest { get; set; }
 }
