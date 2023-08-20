@@ -41,7 +41,7 @@ public class InvitationsApiController : ControllerBase
         var user = _userService.findById(userId);
         if (user is null) return NotFound("User not found");
 
-        var invitations = _invitationService.findByReceiver(user.Email);
+        var invitations = _invitationService.findByReceiver(user.Email).Where(i => i.IsRequest == false);
         var invitationDtos = _mapper.Map<List<InvitationDto>>(invitations);
 
         return Ok(invitationDtos);
@@ -57,7 +57,7 @@ public class InvitationsApiController : ControllerBase
         var user = _userService.findById(userId);
         if (user is null) return NotFound("User not found");
 
-        var invitationsCount = _invitationService.findByReceiver(user.Email).Count;
+        var invitationsCount = _invitationService.findByReceiver(user.Email).Count(i => i.IsRequest == false);
 
         return Ok(invitationsCount);
     }
@@ -68,6 +68,31 @@ public class InvitationsApiController : ControllerBase
     {
         var requestsCountForBookClub = _invitationService.findByBookClubAndIsRequest(bookclubId, true).Count;
         return Ok(requestsCountForBookClub);
+    }
+
+        
+    [HttpGet("{bookclubId:guid}/membership-requests")]
+    [Authorize("Default")]
+    public IActionResult GetMembershipRequestsForBookClub(Guid bookclubId)
+    {
+        var membershipRequests = _invitationService.findByBookClubAndIsRequest(bookclubId, true);
+        var membershipRequestDtos = _mapper.Map<List<InvitationDto>>(membershipRequests);
+        return Ok(membershipRequestDtos);
+    }
+    
+    [HttpPost("{bookclubId:guid}/request-membership")]
+    [Authorize("Default")]
+    public IActionResult RequestBookClubMembership(Guid bookclubId)
+    {
+        var userId = User.Claims.FirstOrDefault(c => c.Type == "id")?.Value;
+        if (string.IsNullOrEmpty(userId)) return BadRequest("Invalid token, ID claim is empty.");
+
+        var user = _userService.findById(userId);
+        if (user is null) return NotFound("User not found");
+
+        var bookClub = _bookclubService.findById(bookclubId);
+        _invitationService.save(user.Id, bookClub.BookHiveApplicationUser.Email, bookclubId, "", true);
+        return Ok();
     }
 
     [HttpPost("send-invitation")]
