@@ -67,6 +67,7 @@ namespace BookHiveDB.Web.Controllers.Api
 
             var claims = new[]
             {
+                new Claim("id", user.Id),
                 new Claim("name", $"{user.FirstName} {user.LastName}"),
                 new Claim("email", user.Email),
                 new Claim("role", roles[0])
