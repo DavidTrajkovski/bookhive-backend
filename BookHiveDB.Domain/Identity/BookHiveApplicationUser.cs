@@ -13,7 +13,7 @@ namespace BookHiveDB.Domain.Identity
         public string Address { get; set; }
         public virtual ICollection<UserBook> userBooks { get; set; }
         public virtual ShoppingCart UserCart { get; set; }
-        public virtual ICollection<BookInWishList> BookInWishLists { get; set; }
+        public List<BookInWishList> BookInWishLists { get; } = new();
         public virtual ICollection<UserInBookClub> UserInBookClubs { get; set; }
         public virtual ICollection<BookClub> BookClubsOwned { get; set; }
         public virtual ICollection<Topic> TopicsCreated { get; set; }

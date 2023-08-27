@@ -1,10 +1,9 @@
 ﻿using BookHiveDB.Domain.Dtos.Rest;
 using BookHiveDB.Domain.Identity;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using BookHiveDB.Domain.Dtos.Rest.Wishlist;
 using BookHiveDB.Service.Interface;
 
 namespace BookHiveDB.Web.Controllers.Api
@@ -13,16 +12,19 @@ namespace BookHiveDB.Web.Controllers.Api
     [ApiController]
     public class AccountApiController : ControllerBase
     {
-        private readonly IUserService _userService;
+
         private readonly UserManager<BookHiveApplicationUser> _userManager;
         private readonly SignInManager<BookHiveApplicationUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-
-        public AccountApiController(UserManager<BookHiveApplicationUser> userManager, SignInManager<BookHiveApplicationUser> signInManager, RoleManager<IdentityRole> roleManager, IUserService userService)
+        private readonly IBookInWishListService _wishListService;
+        private readonly IUserService _userService;
+        
+        public AccountApiController(UserManager<BookHiveApplicationUser> userManager, SignInManager<BookHiveApplicationUser> signInManager, RoleManager<IdentityRole> roleManager, IUserService userService, IBookInWishListService wishListService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _wishListService = wishListService;
             _userService = userService;
         }
 
@@ -68,6 +70,20 @@ namespace BookHiveDB.Web.Controllers.Api
 
             var updateResultWithPasswordChange = _userManager.UpdateAsync(user).Result;
 
+            return Ok();
+        }
+
+        [HttpPost("my-wishlist")]
+        public IActionResult AddBookToMyWishList([FromBody] WishlistDto wishlistDto)
+        {
+            _wishListService.addBookToMyWishlist(wishlistDto.UserId, wishlistDto.BookId);
+            return Ok();
+        }
+        
+        [HttpDelete("my-wishlist")]
+        public IActionResult RemoveBookFromMyWishList([FromBody] WishlistDto wishlistDto)
+        {
+            _wishListService.removeBookFromMyWishlist(wishlistDto.UserId, wishlistDto.BookId);
             return Ok();
         }
     }
