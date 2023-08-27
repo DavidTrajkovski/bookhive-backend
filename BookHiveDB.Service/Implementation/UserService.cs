@@ -1,4 +1,6 @@
-﻿using BookHiveDB.Domain.Identity;
+﻿using System.Collections.Generic;
+using System.Linq;
+using BookHiveDB.Domain.Identity;
 using BookHiveDB.Repository.Interface;
 using BookHiveDB.Service.Interface;
 
@@ -16,6 +18,11 @@ namespace BookHiveDB.Service.Implementation
         public BookHiveApplicationUser findByEmail(string email)
         {
             return userRepository.FindByEmail(email);
+        }
+
+        public IEnumerable<string> BookHiveUserEmails()
+        {
+            return userRepository.GetAll().Select(u => u.Email);
         }
 
         public BookHiveApplicationUser findById(string id)

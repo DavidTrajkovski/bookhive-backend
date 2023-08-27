@@ -1,8 +1,5 @@
-﻿using System;
-using BookHiveDB.Domain.Dtos.Rest;
+﻿using BookHiveDB.Domain.Dtos.Rest;
 using BookHiveDB.Domain.Identity;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -22,12 +19,20 @@ namespace BookHiveDB.Web.Controllers.Api
         private readonly IBookInWishListService _wishListService;
         private readonly IUserService _userService;
         
-        public AccountApiController(UserManager<BookHiveApplicationUser> userManager, SignInManager<BookHiveApplicationUser> signInManager, RoleManager<IdentityRole> roleManager, IBookInWishListService wishListService)
+        public AccountApiController(UserManager<BookHiveApplicationUser> userManager, SignInManager<BookHiveApplicationUser> signInManager, RoleManager<IdentityRole> roleManager, IUserService userService, IBookInWishListService wishListService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _wishListService = wishListService;
+            _userService = userService;
+        }
+
+        [HttpGet("emails")]
+        public IActionResult GetBookHiveUserEmails()
+        {
+            var emails = _userService.BookHiveUserEmails();
+            return Ok(emails);
         }
         
         [HttpPost("edit")]

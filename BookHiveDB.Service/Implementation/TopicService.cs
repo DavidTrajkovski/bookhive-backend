@@ -50,7 +50,10 @@ namespace BookHiveDB.Service.Implementation
         public List<Topic> findByBookClub(Guid id)
         {
             BookClub bookClub = bookClubRepository.findById(id);
-            return topicRepository.findByBookClub(bookClub).ToList();
+            return topicRepository.findByBookClub(bookClub)
+                .OrderByDescending(t => t.date.Date)
+                .ThenBy(t => t.date.TimeOfDay)
+                .ToList();;
         }
 
         public Topic findById(Guid topicId)
