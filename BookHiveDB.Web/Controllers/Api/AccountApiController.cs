@@ -6,6 +6,11 @@ using System.Security.Claims;
 using BookHiveDB.Domain.Dtos.Rest.Wishlist;
 using BookHiveDB.Service.Interface;
 using System;
+using System.Linq;
+using AutoMapper;
+using BookHiveDB.Domain.Dtos.REST.Book;
+using DocumentFormat.OpenXml.Office2010.ExcelAc;
+using System.Collections.Generic;
 
 namespace BookHiveDB.Web.Controllers.Api
 {
@@ -19,14 +24,16 @@ namespace BookHiveDB.Web.Controllers.Api
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IBookInWishListService _wishListService;
         private readonly IUserService _userService;
-        
-        public AccountApiController(UserManager<BookHiveApplicationUser> userManager, SignInManager<BookHiveApplicationUser> signInManager, RoleManager<IdentityRole> roleManager, IUserService userService, IBookInWishListService wishListService)
+        private readonly IMapper _mapper;
+
+        public AccountApiController(UserManager<BookHiveApplicationUser> userManager, SignInManager<BookHiveApplicationUser> signInManager, RoleManager<IdentityRole> roleManager, IUserService userService, IBookInWishListService wishListService, IMapper mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _wishListService = wishListService;
             _userService = userService;
+            _mapper = mapper;
         }
 
         [HttpGet("emails")]
@@ -75,10 +82,13 @@ namespace BookHiveDB.Web.Controllers.Api
         }
 
         [HttpGet("my-wishlist/{id:guid}")]
-        public IActionResult GetMyWishList(Guid id)
+        public IActionResult GetBooksInWishlist(Guid id)
         {
-            var myBooks = _wishListService.getAllBookInWishlistForUser(id.ToString());
-            return Ok(myBooks);
+            var booksInWishlist = _wishListService.getAllBookInWishlistForUser(id.ToString());
+            var books = booksInWishlist.Select(bw => bw.Book).ToList();
+            var bookDtos = _mapper.Map<List<BookDto>>(books);
+
+            return Ok(bookDtos);
         }
 
         [HttpPost("my-wishlist")]
@@ -89,9 +99,9 @@ namespace BookHiveDB.Web.Controllers.Api
         }
         
         [HttpDelete("my-wishlist")]
-        public IActionResult RemoveBookFromMyWishList([FromBody] WishlistDto wishlistDto)
+        public IActionResult RemoveBookFromMyWishList([FromQuery] string userId, Guid bookId)
         {
-            _wishListService.removeBookFromMyWishlist(wishlistDto.UserId, wishlistDto.BookId);
+            _wishListService.removeBookFromMyWishlist(userId, bookId);
             return Ok();
         }
     }
