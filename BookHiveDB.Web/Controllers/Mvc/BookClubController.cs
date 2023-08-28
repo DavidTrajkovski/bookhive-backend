@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BookHiveDB.Domain.DomainModels;
-using BookHiveDB.Domain.DTO;
 using BookHiveDB.Domain.Dtos.Mvc;
 using BookHiveDB.Domain.Identity;
 using BookHiveDB.Domain.Models;

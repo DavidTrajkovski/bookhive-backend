@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using BookHiveDB.Domain.Dtos.REST.Book;
 using BookHiveDB.Domain.Dtos.Rest.BookShop;
 using BookHiveDB.Domain.Exceptions;
 using BookHiveDB.Domain.Models;

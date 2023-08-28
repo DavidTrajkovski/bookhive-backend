@@ -1,6 +1,4 @@
-﻿using BookHiveDB.Domain.DomainModels;
-using BookHiveDB.Domain.DTO;
-using BookHiveDB.Domain.Relations;
+﻿using BookHiveDB.Domain.Relations;
 using BookHiveDB.Repository.Interface;
 using BookHiveDB.Service.Interface;
 using System;

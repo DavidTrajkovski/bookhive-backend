@@ -1,5 +1,4 @@
 ﻿using BookHiveDB.Domain;
-using BookHiveDB.Domain.DomainModels;
 using BookHiveDB.Domain.Identity;
 using BookHiveDB.Service.Interface;
 using Microsoft.AspNetCore.Authorization;

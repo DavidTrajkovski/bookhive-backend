@@ -153,7 +153,7 @@ namespace BookHiveDB.Service.Implementation
             return Book;
         }
 
-        public bool AddToShoppingCart(AddToShoppingCartDto item, string userID)
+        public bool AddToShoppingCart(Domain.Dtos.Rest.ShoppingCart.AddToShoppingCartDto item, string userID)
         {
             var user = this.userRepository.Get(userID);
 

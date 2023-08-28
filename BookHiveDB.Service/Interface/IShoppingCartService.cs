@@ -1,5 +1,4 @@
-﻿using BookHiveDB.Domain.DTO;
-using System;
+﻿using System;
 using BookHiveDB.Domain.Dtos.Mvc;
 
 namespace BookHiveDB.Service.Interface

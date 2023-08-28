@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Security.Claims;
-using BookHiveDB.Domain.DTO;
 using BookHiveDB.Domain.Dtos.Mvc;
 using BookHiveDB.Domain.Models;
 using BookHiveDB.Service.Interface;
@@ -196,8 +195,12 @@ namespace BookHiveDB.Web.Controllers.Mvc
 
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            var result = _bookService.AddToShoppingCart(model, userId);
+            var temp = new BookHiveDB.Domain.Dtos.Rest.ShoppingCart.AddToShoppingCartDto
+            {
+                BookId = model.BookId,
+                Quantity = model.Quantity
+            };
+            var result = _bookService.AddToShoppingCart(temp, userId);
 
             if (result)
             {
