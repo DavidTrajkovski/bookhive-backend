@@ -78,14 +78,28 @@ public class BookClubsApiController : Controller
     }
 
     [HttpGet("{bookclubId:guid}/topics")]
+    [Authorize("Default")]
     public IActionResult GetTopicsForBookClub(Guid bookclubId)
     {
+        var userId = User.Claims.FirstOrDefault(c => c.Type == "id")?.Value;
+        if (string.IsNullOrEmpty(userId)) return BadRequest("Invalid token, ID claim is empty.");
+
+        var user = _userService.findById(userId);
+        if (user is null) return NotFound("User not found");
+
         var bookclub = _bookClubService.findById(bookclubId);
 
         if (bookclub is null) return NotFound();
 
         var topics = _topicService.findByBookClub(bookclubId);
-        var topicDtos = _mapper.Map<List<TopicDto>>(topics);
+        var topicDtos = topics.Select(topic => new TopicDto
+        {
+            Id = topic.Id,
+            BookclubId = topic.BookClubId,
+            Title = topic.title,
+            CreatedBy = $"{topic.BookHiveApplicationUser.FirstName} {topic.BookHiveApplicationUser.LastName}",
+            IsCreator = topic.BookHiveApplicationUserId == userId
+        }).ToList();
 
         return Ok(topicDtos);
     }
@@ -110,6 +124,17 @@ public class BookClubsApiController : Controller
             createBookClubDto.Description);
 
         var bookclubDto = _mapper.Map<BookClubDto>(newlyCreatedBookClub);
+
+        return Ok(bookclubDto);
+    }
+
+    [HttpPut("{bookclubId:guid}")]
+    public IActionResult EditBookClub(Guid bookclubId, [FromBody] CreateBookClubDto createBookClubDto)
+    {
+        var editedBookclub = _bookClubService.edit(bookclubId, createBookClubDto.Name, createBookClubDto.OwnerId,
+            createBookClubDto.Description);
+
+        var bookclubDto = _mapper.Map<BookClubDto>(editedBookclub);
 
         return Ok(bookclubDto);
     }
