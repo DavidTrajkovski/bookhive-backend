@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using BookHiveDB.Domain.Dtos.Rest.Wishlist;
 using BookHiveDB.Service.Interface;
+using System;
 
 namespace BookHiveDB.Web.Controllers.Api
 {
@@ -71,6 +72,13 @@ namespace BookHiveDB.Web.Controllers.Api
             var updateResultWithPasswordChange = _userManager.UpdateAsync(user).Result;
 
             return Ok();
+        }
+
+        [HttpGet("my-wishlist/{id:guid}")]
+        public IActionResult GetMyWishList(Guid id)
+        {
+            var myBooks = _wishListService.getAllBookInWishlistForUser(id.ToString);
+            return Ok(myBooks);
         }
 
         [HttpPost("my-wishlist")]
