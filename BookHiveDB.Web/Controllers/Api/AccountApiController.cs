@@ -77,7 +77,7 @@ namespace BookHiveDB.Web.Controllers.Api
         [HttpGet("my-wishlist/{id:guid}")]
         public IActionResult GetMyWishList(Guid id)
         {
-            var myBooks = _wishListService.getAllBookInWishlistForUser(id.ToString);
+            var myBooks = _wishListService.getAllBookInWishlistForUser(id.ToString());
             return Ok(myBooks);
         }
 
