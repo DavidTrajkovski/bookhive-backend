@@ -65,7 +65,7 @@ namespace BookHiveDB.Service.Implementation
         {
             BookClub bookClub = bookClubRepository.findById(id);
             BookHiveApplicationUser user = userRepository.Get(userId);
-            Topic topic = new Topic { BookClubId = id, BookHiveApplicationUserId = userId, BookClub = bookClub, BookHiveApplicationUser = user, date = DateTime.Now, title = title };
+            Topic topic = new Topic { BookClubId = id, BookHiveApplicationUserId = userId, BookClub = bookClub, BookHiveApplicationUser = user, date = DateTime.UtcNow, title = title };
             topicRepository.Insert(topic);
             return topic;
         }
