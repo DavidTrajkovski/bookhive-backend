@@ -8,4 +8,5 @@ public class TopicDto : BaseEntity
     public string Title { get; set; }
     public string CreatedBy { get; set; }
     public DateTime Date { get; set; }
+    public bool IsCreator { get; set; }
 }

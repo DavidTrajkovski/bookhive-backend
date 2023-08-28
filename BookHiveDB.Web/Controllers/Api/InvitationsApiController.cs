@@ -136,7 +136,7 @@ public class InvitationsApiController : ControllerBase
         var invitation = _invitationService.findById(invitationId);
         if (invitation is null) return NotFound("Request not found");
 
-        _bookclubService.addUserToBookclub(invitation.BookClubId, invitation.UserReceiverId);
+        _bookclubService.addUserToBookclub(invitation.BookClubId, invitation.UserSenderId);
         _invitationService.deleteById(invitationId);
 
         return Ok();
