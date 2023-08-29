@@ -180,9 +180,9 @@ namespace BookHiveDB.Service.Implementation
 
             if (existing != null)
             {
-                existing.Quantity += itemToAdd.Quantity;
-                this._bookInShoppingCartRepository.Update(existing);
-
+                // existing.Quantity += itemToAdd.Quantity;
+                // this._bookInShoppingCartRepository.Update(existing);
+                return false;
             }
             else
             {
