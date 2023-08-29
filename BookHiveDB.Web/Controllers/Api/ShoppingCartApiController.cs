@@ -2,6 +2,7 @@
 using System.Linq;
 using AutoMapper;
 using BookHiveDB.Domain.Dtos.Rest.ShoppingCart;
+using BookHiveDB.Domain.Exceptions;
 using BookHiveDB.Service.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +18,8 @@ public class ShoppingCartApiController : ControllerBase
     private readonly IMapper _mapper;
     private readonly IBookService _bookService;
 
-    public ShoppingCartApiController(IShoppingCartService shoppingCartService, IUserService userService, IMapper mapper, IBookService bookService)
+    public ShoppingCartApiController(IShoppingCartService shoppingCartService, IUserService userService, IMapper mapper,
+        IBookService bookService)
     {
         _shoppingCartService = shoppingCartService;
         _userService = userService;
