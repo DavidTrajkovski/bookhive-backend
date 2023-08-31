@@ -7,6 +7,7 @@ using AutoMapper;
 using BookHiveDB.Domain.Dtos.REST.Book;
 using BookHiveDB.Domain.Enumerations;
 using BookHiveDB.Domain.Models;
+using Irony.Parsing;
 
 namespace BookHiveDB.Web.Controllers.Api;
 
@@ -76,8 +77,19 @@ public class BooksRestController : ControllerBase
 
         var newBook = _mapper.Map<Book>(createBookDto);
         newBook.Authors.AddRange(authors);
-        // TODO: This is TEMPORARY, need to fix the adding of genres logic.
-        newBook.Genres.AddRange(new[] { Genre.CRIME, Genre.DRAMA });
+        List<Genre> Genres = new List<Genre>();
+
+        foreach (string genreString in createBookDto.Genres)
+        {
+            if (Enum.TryParse(genreString, out Genre genreEnum))
+            {
+                Genres.Add(genreEnum);
+            }
+        }
+        newBook.Genres = Genres;
+
+        newBook.DatePublished = DateTime.SpecifyKind(createBookDto.DatePublished, DateTimeKind.Utc);
+
         var newlyCreatedBook = _bookService.CreateNewBook(newBook);
 
         var bookDto = _mapper.Map<BookDto>(newlyCreatedBook);
@@ -86,14 +98,39 @@ public class BooksRestController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
-    public IActionResult UpdateBook(Guid id, [FromBody] Book book)
+    public IActionResult UpdateBook(Guid id, [FromBody] CreateBookDto createBookDto)
     {
         var existingBook = _bookService.findById(id);
         if (existingBook == null)
             return NotFound();
 
-        book.Id = existingBook.Id;
-        var updatedBook = _bookService.Update(book);
+        // Update existingBook's properties with data from createBookDto
+        existingBook.Isbn = createBookDto.Isbn;
+        existingBook.Name = createBookDto.Name;
+        existingBook.Description = createBookDto.Description;
+        existingBook.DatePublished = DateTime.SpecifyKind(createBookDto.DatePublished, DateTimeKind.Utc);
+        existingBook.CoverImageUrl = createBookDto.CoverImageUrl;
+        existingBook.Price = createBookDto.Price;
+        existingBook.TotalPages = createBookDto.TotalPages;
+
+        // Update existingBook's authors
+        var authors = createBookDto.AuthorIds.Select((authorId) => _authorService.findById(authorId));
+        existingBook.Authors.Clear(); // Clear existing authors
+        existingBook.Authors.AddRange(authors);
+
+        // Update existingBook's genres
+        List<Genre> updatedGenres = new List<Genre>();
+        foreach (string genreString in createBookDto.Genres)
+        {
+            if (Enum.TryParse(genreString, out Genre genreEnum))
+            {
+                updatedGenres.Add(genreEnum);
+            }
+        }
+        existingBook.Genres = updatedGenres;
+
+        // Update the existing book in the database
+        var updatedBook = _bookService.Update(existingBook);
         return Ok(updatedBook);
     }
 

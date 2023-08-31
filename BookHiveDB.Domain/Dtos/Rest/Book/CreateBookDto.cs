@@ -12,6 +12,6 @@ public class CreateBookDto
     public string CoverImageUrl { get; set; }
     public double Price { get; set; }
     public int TotalPages { get; set; }
-    // TODO: Add Genres
+    public string[] Genres { get; set; } 
     public IEnumerable<Guid> AuthorIds { get; set; }
 }
