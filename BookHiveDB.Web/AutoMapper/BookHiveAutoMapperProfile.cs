@@ -1,10 +1,12 @@
 ﻿using System.Linq;
 using AutoMapper;
+using BookHiveDB.Domain.DomainModels;
 using BookHiveDB.Domain.Dtos.Rest;
 using BookHiveDB.Domain.Dtos.REST.Author;
 using BookHiveDB.Domain.Dtos.REST.Book;
 using BookHiveDB.Domain.Dtos.Rest.BookClub;
 using BookHiveDB.Domain.Dtos.Rest.BookShop;
+using BookHiveDB.Domain.Dtos.Rest.Library;
 using BookHiveDB.Domain.Dtos.Rest.ShoppingCart;
 using BookHiveDB.Domain.Identity;
 using BookHiveDB.Domain.Models;
@@ -32,6 +34,9 @@ public class BookHiveAutoMapperProfile : Profile
                 opt => opt.MapFrom(
                     src => src.Genres.Select(g => g.ToString())));
         CreateMap<Book, BookShopBookDto>();
+        
+        // Library
+        CreateMap<UserBook, UserBookDto>();
 
         // BookShop
         CreateMap<CreateBookShopDto, BookShop>();
