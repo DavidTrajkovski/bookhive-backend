@@ -34,7 +34,8 @@ namespace BookHiveDB.Repository.Implementation
         public List<UserBook> FindByUser(BookHiveApplicationUser user)
         {
             return entities.Include(z=>z.Book)
-                .Include("Book.authorBooks.Author")
+                .Include(b => b.Book)
+                .ThenInclude(b => b.Authors)
                 .Where(s => s.UserId.Equals(user.Id))
                 .ToList();
         }
