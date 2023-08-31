@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using BookHiveDB.Domain.Dtos.Rest.ShoppingCart;
-using BookHiveDB.Domain.Exceptions;
 using BookHiveDB.Service.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
