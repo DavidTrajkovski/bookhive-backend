@@ -32,6 +32,9 @@ namespace BookHiveDB.Service.Implementation
         {
             BookHiveApplicationUser user = userRepository.Get(userId);
             Book book = bookRepository.Get(bookId);
+            if (bookInWishListRepository.FindByUserAndBook(user, book) != null)
+                return;
+
             BookInWishList obj = new BookInWishList { User = user, UserId = userId, Book = book, BookId = bookId };
             bookInWishListRepository.Insert(obj);
         }
