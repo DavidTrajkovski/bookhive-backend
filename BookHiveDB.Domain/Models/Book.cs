@@ -22,7 +22,7 @@ public class Book : BaseEntity
     public virtual List<Author> Authors { get; } = new();
     public virtual ICollection<BookInOrder> BooksInOrders { get; set; }
     public virtual ICollection<BookInShoppingCart> BookInShoppingCarts { get; set; }
-    public List<Genre> Genres { get; init; } = new();
+    public List<Genre> Genres { get; set; } = new();
     public virtual ICollection<BookInWishList> BookInWishLists { get; set; }
     public virtual List<BookShop> BookShops { get; init; } = new();
 }
