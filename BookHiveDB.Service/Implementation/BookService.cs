@@ -153,7 +153,7 @@ namespace BookHiveDB.Service.Implementation
             return Book;
         }
 
-        public bool AddToShoppingCart(AddToShoppingCartDto item, string userID)
+        public bool AddToShoppingCart(Domain.Dtos.Rest.ShoppingCart.AddToShoppingCartDto item, string userID)
         {
             var user = this.userRepository.Get(userID);
 
@@ -180,9 +180,9 @@ namespace BookHiveDB.Service.Implementation
 
             if (existing != null)
             {
-                existing.Quantity += itemToAdd.Quantity;
-                this._bookInShoppingCartRepository.Update(existing);
-
+                // existing.Quantity += itemToAdd.Quantity;
+                // this._bookInShoppingCartRepository.Update(existing);
+                return false;
             }
             else
             {

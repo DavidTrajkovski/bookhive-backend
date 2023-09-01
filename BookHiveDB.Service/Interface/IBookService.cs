@@ -1,10 +1,7 @@
-﻿using BookHiveDB.Domain.DomainModels;
-using BookHiveDB.Domain.DTO;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using BookHiveDB.Domain.Dtos.Mvc;
 using BookHiveDB.Domain.Models;
-using BookHiveDB.Domain.Enumerations;
 using BookHiveDB.Domain.Dtos.REST.Book;
 
 namespace BookHiveDB.Service.Interface
@@ -25,7 +22,7 @@ namespace BookHiveDB.Service.Interface
         Book Update(Book book);
         void deleteById(Guid id);
 
-        bool AddToShoppingCart(AddToShoppingCartDto item, string userID);
+        bool AddToShoppingCart(Domain.Dtos.Rest.ShoppingCart.AddToShoppingCartDto item, string userID);
         AddToShoppingCartDto GetShoppingCartInfo(Guid? id);
     }
 }

@@ -1,13 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using AutoMapper;
-using BookHiveDB.Domain.DomainModels;
+using BookHiveDB.Domain.Dtos.Rest;
 using BookHiveDB.Domain.Dtos.REST.Author;
 using BookHiveDB.Domain.Dtos.REST.Book;
 using BookHiveDB.Domain.Dtos.Rest.BookClub;
 using BookHiveDB.Domain.Dtos.Rest.BookShop;
+using BookHiveDB.Domain.Dtos.Rest.ShoppingCart;
 using BookHiveDB.Domain.Identity;
 using BookHiveDB.Domain.Models;
+using BookHiveDB.Domain.Relations;
+using ShoppingCartMvcDto = BookHiveDB.Domain.Dtos.Mvc.ShoppingCartDto;
 
 namespace BookHiveDB.Web.AutoMapper;
 
@@ -15,6 +17,8 @@ public class BookHiveAutoMapperProfile : Profile
 {
     public BookHiveAutoMapperProfile()
     {
+        CreateMap<BookHiveApplicationUser, UserDto>();
+        
         // Author
         CreateMap<CreateAuthorDto, Author>();
         CreateMap<Author, AuthorDto>();
@@ -57,5 +61,18 @@ public class BookHiveAutoMapperProfile : Profile
         CreateMap<Invitation, InvitationDto>()
             .ForMember(dest => dest.BookClubName, opt => opt.MapFrom(src => src.BookClub.name))
             .ForMember(dest => dest.SenderEmail, opt => opt.MapFrom(src => src.UserSender.Email));
+
+        // Shopping Cart
+        CreateMap<ShoppingCart, ShoppingCartDto>()
+            .ForMember(dest => dest.Books, opt => opt.MapFrom(src => src.BookInShoppingCarts));
+        
+        // ShoppingCartDto (ShoppingCart)
+        CreateMap<ShoppingCartMvcDto, ShoppingCartInfoDto>()
+            .ForMember(dest => dest.Books, opt => opt.MapFrom(src => src.BookInShoppingCarts));
+        
+        // ShoppingCartBookDto (BookInShoppingCart)
+        CreateMap<BookInShoppingCart, ShoppingCartBookDto>()
+            .ForMember(dest => dest.Book, opt => opt.MapFrom(src => src.Book))
+            .ForMember(dest => dest.ShoppingCart, opt => opt.MapFrom(src => src.ShoppingCart));
     }
 }

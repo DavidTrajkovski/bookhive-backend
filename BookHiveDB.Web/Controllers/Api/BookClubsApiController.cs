@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using BookHiveDB.Domain.Dtos.Rest.BookClub;
-using BookHiveDB.Domain.Models;
 using BookHiveDB.Service.Interface;
-using DocumentFormat.OpenXml.Office2010.ExcelAc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

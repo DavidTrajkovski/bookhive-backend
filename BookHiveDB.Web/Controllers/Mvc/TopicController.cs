@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using BookHiveDB.Domain.DTO;
 using BookHiveDB.Domain.Dtos.Mvc;
 using BookHiveDB.Domain.Identity;
 using BookHiveDB.Service.Interface;

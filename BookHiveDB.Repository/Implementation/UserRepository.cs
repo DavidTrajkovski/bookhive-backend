@@ -28,8 +28,9 @@ namespace BookHiveDB.Repository.Implementation
         {
             return entities
                .Include(z => z.UserCart)
-               .Include("UserCart.BookInShoppingCarts")
-               .Include("UserCart.BookInShoppingCarts.Book")
+               .ThenInclude(s => s.BookInShoppingCarts)
+               .ThenInclude(e => e.Book)
+               .ThenInclude(b => b.Authors)
                .SingleOrDefault(s => s.Id == id);
         }
 
