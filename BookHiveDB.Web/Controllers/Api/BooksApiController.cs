@@ -57,20 +57,10 @@ public class BooksRestController : ControllerBase
 
 
 
-    [HttpGet("{bookId:guid}/preview")]
-    public IActionResult GetBookById(Guid bookId)
-    {
-        var book = _bookService.findById(bookId);
-
-        if (book == null)
-            return NotFound();
-
-        return Ok(book.PdfUrl);
-    }
-
     [HttpGet("{id:guid}")]
-    public IActionResult GetBookPdfUrl(Guid id)
+    public IActionResult GetBookById(Guid id)
     {
+
         var book = _bookService.findById(id);
 
         if (book == null)
@@ -79,6 +69,18 @@ public class BooksRestController : ControllerBase
         var bookDto = _mapper.Map<BookDto>(book);
 
         return Ok(bookDto);
+    }
+
+
+    [HttpGet("{bookId:guid}/preview")]
+    public IActionResult GetBookPdfUrl(Guid bookId)
+    {
+        var book = _bookService.findById(bookId);
+
+        if (book == null)
+            return NotFound();
+
+        return Ok(book.PdfUrl);
     }
 
     [HttpPost]
