@@ -15,6 +15,7 @@ public class Book : BaseEntity
 
     [DataType(DataType.Date)] public DateTime DatePublished { get; set; }
     public string CoverImageUrl { get; set; }
+    public string PdfUrl { get; set; }
     public double Price { get; set; }
     public int TotalPages { get; set; }
     public bool IsValid { get; set; }
