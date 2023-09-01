@@ -10,6 +10,7 @@ public class CreateBookDto
     public string Description { get; set; }
     public DateTime DatePublished { get; set; }
     public string CoverImageUrl { get; set; }
+    public string PdfUrl { get; set; }
     public double Price { get; set; }
     public int TotalPages { get; set; }
     public string[] Genres { get; set; } 

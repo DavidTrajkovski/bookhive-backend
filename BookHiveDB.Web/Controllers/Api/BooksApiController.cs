@@ -57,8 +57,19 @@ public class BooksRestController : ControllerBase
 
 
 
+    [HttpGet("{bookId:guid}/preview")]
+    public IActionResult GetBookById(Guid bookId)
+    {
+        var book = _bookService.findById(bookId);
+
+        if (book == null)
+            return NotFound();
+
+        return Ok(book.PdfUrl);
+    }
+
     [HttpGet("{id:guid}")]
-    public IActionResult GetBookById(Guid id)
+    public IActionResult GetBookPdfUrl(Guid id)
     {
         var book = _bookService.findById(id);
 
