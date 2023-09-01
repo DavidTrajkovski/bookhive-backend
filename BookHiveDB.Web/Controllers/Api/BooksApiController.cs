@@ -8,6 +8,7 @@ using BookHiveDB.Domain.Dtos.REST.Book;
 using BookHiveDB.Domain.Enumerations;
 using BookHiveDB.Domain.Models;
 using Irony.Parsing;
+using BookHiveDB.Domain.Dtos.Rest.Book;
 
 namespace BookHiveDB.Web.Controllers.Api;
 
@@ -80,7 +81,11 @@ public class BooksRestController : ControllerBase
         if (book == null)
             return NotFound();
 
-        return Ok(book.PdfUrl);
+        BookPdfUrl bookPdfUrl = new BookPdfUrl();
+        bookPdfUrl.Id = book.Id;
+        bookPdfUrl.PdfUrl = book.PdfUrl;
+
+        return Ok(bookPdfUrl);
     }
 
     [HttpPost]
