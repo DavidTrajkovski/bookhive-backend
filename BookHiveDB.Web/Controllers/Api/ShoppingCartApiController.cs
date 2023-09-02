@@ -19,16 +19,18 @@ public class ShoppingCartApiController : ControllerBase
     private readonly IShoppingCartService _shoppingCartService;
     private readonly IMapper _mapper;
     private readonly IBookService _bookService;
+    private readonly IBookInWishListService _bookInWishListService;
     private readonly IConfiguration _configuration;
 
     public ShoppingCartApiController(IShoppingCartService shoppingCartService, IUserService userService, IMapper mapper,
-        IBookService bookService, IConfiguration configuration)
+        IBookService bookService, IBookInWishListService bookInWishListService, IConfiguration configuration)
     {
         _shoppingCartService = shoppingCartService;
         _userService = userService;
         _mapper = mapper;
         _bookService = bookService;
         _configuration = configuration;
+        _bookInWishListService = bookInWishListService;
     }
 
     [HttpGet]
@@ -76,6 +78,10 @@ public class ShoppingCartApiController : ControllerBase
         var client = new StripeClient(secretKey);
         var service = new PaymentIntentService(client);
         var paymentIntent = await service.CreateAsync(options);
+
+        var userId = User.Claims.FirstOrDefault(c => c.Type == "id")?.Value;
+        this._bookInWishListService.clearAllBoughtBooksFromWishlistForUser(userId);
+        this.ClearShoppingCart();
 
         return Ok(new { client_secret = paymentIntent.ClientSecret });
     }
