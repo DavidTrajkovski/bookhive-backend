@@ -9,6 +9,7 @@ using BookHiveDB.Domain.Dtos.Mvc;
 using BookHiveDB.Domain.Enumerations;
 using BookHiveDB.Domain.Models;
 using BookHiveDB.Domain.Dtos.REST.Book;
+using BookHiveDB.Domain.Dtos.Rest;
 
 namespace BookHiveDB.Service.Implementation
 {
@@ -30,7 +31,7 @@ namespace BookHiveDB.Service.Implementation
         }
 
 
-        public List<BookDto> GetBooksByCriteria(int page, int pageSize, string nameSearch, List<string> genreStrings)
+        public BookFilterResult GetBooksByCriteria(int page, int pageSize, string nameSearch, List<string> genreStrings)
         {
 
             List<Genre> genres = new List<Genre>();
@@ -48,6 +49,7 @@ namespace BookHiveDB.Service.Implementation
             }
 
             var allBooks = BookRepository.GetAll();
+            var totalBooksCount = allBooks.Count();
 
             if (!string.IsNullOrWhiteSpace(nameSearch))
             {
@@ -65,7 +67,13 @@ namespace BookHiveDB.Service.Implementation
 
             var bookDtos = _mapper.Map<List<BookDto>>(pagedBooks);
 
-            return bookDtos;
+            var result = new BookFilterResult
+            {
+                BookDtos = bookDtos,
+                TotalBooksCount = totalBooksCount
+            };
+
+            return result;
         }
 
         public Book add(string isbn, string name, string description, string ciu, DateTime datePublished, List<Guid> authorIds)

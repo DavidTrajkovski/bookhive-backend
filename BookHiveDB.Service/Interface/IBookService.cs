@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using BookHiveDB.Domain.Dtos.Mvc;
 using BookHiveDB.Domain.Models;
 using BookHiveDB.Domain.Dtos.REST.Book;
+using BookHiveDB.Domain.Dtos.Rest;
 
 namespace BookHiveDB.Service.Interface
 {
     public interface IBookService
     {
 
-        List<BookDto> GetBooksByCriteria(int page, int pageSize, string nameSearch, List<string> genres);
+        BookFilterResult GetBooksByCriteria(int page, int pageSize, string nameSearch, List<string> genres);
         List<Book> findAll();
         List<String> findAllGenres();
         Book findById(Guid id);

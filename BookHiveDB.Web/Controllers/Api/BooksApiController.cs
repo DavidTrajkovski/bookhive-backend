@@ -32,8 +32,8 @@ public class BooksRestController : ControllerBase
     {
         try
         {
-            var bookDtos = _bookService.GetBooksByCriteria(page, pageSize, nameSearch, genres);
-            return Ok(bookDtos);
+            var bookFilterResult = _bookService.GetBooksByCriteria(page, pageSize, nameSearch, genres);
+            return Ok(bookFilterResult);
         }
         catch (Exception ex)
         {
