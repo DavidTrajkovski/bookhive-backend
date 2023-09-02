@@ -11,6 +11,11 @@ using AutoMapper;
 using BookHiveDB.Domain.Dtos.REST.Book;
 using DocumentFormat.OpenXml.Office2010.ExcelAc;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.IdentityModel.Tokens;
+using BookHiveDB.Domain.Dtos.Rest.BookClub;
+using BookHiveDB.Domain.Models;
 
 namespace BookHiveDB.Web.Controllers.Api
 {
@@ -42,12 +47,38 @@ namespace BookHiveDB.Web.Controllers.Api
             var emails = _userService.BookHiveUserEmails();
             return Ok(emails);
         }
-        
+
+        [HttpGet("user")]
+        [Authorize("Default")]
+        public IActionResult GetBookHiveUserDetails()
+        {
+
+            var userIdClaim = User.Claims.FirstOrDefault(claim => claim.Type == "id");
+
+            if (userIdClaim == null)
+            {
+                return BadRequest("User ID claim not found.");
+            }
+
+            var userId = userIdClaim.Value;
+            var user = _userManager.FindByIdAsync(userId).Result;
+            var userDto = _mapper.Map<UserDto>(user);
+
+            return Ok(userDto);
+        }
+
         [HttpPost("edit")]
-        //[Authorize("Default")]
+        [Authorize("Default")]
         public IActionResult EditProfile([FromBody] UpdateUserDTO userDTO)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userIdClaim = User.Claims.FirstOrDefault(claim => claim.Type == "id");
+
+            if (userIdClaim == null)
+            {
+                return BadRequest("User ID claim not found.");
+            }
+
+            var userId = userIdClaim.Value;
             var user = _userManager.FindByIdAsync(userId).Result;
 
 
@@ -60,9 +91,8 @@ namespace BookHiveDB.Web.Controllers.Api
             user.FirstName = userDTO.firstName;
             user.LastName = userDTO.lastName;
             user.Address = userDTO.address;
-            if (userDTO.password == null)
+            if (userDTO.password.IsNullOrEmpty())
             {
-
                 var updateResult = _userManager.UpdateAsync(user).Result;
                 return Ok();
             }
