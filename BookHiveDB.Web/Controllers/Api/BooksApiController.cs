@@ -128,6 +128,7 @@ public class BooksRestController : ControllerBase
         existingBook.Description = createBookDto.Description;
         existingBook.DatePublished = DateTime.SpecifyKind(createBookDto.DatePublished, DateTimeKind.Utc);
         existingBook.CoverImageUrl = createBookDto.CoverImageUrl;
+        existingBook.PdfUrl = createBookDto.PdfUrl;
         existingBook.Price = createBookDto.Price;
         existingBook.TotalPages = createBookDto.TotalPages;
 
