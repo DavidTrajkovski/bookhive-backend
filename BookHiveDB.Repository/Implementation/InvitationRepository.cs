@@ -42,6 +42,7 @@ namespace BookHiveDB.Repository.Implementation
             {
                 throw new ArgumentNullException("entity");
             }
+
             entities.Add(entity);
             context.SaveChanges();
         }
@@ -52,6 +53,7 @@ namespace BookHiveDB.Repository.Implementation
             {
                 throw new ArgumentNullException("entity");
             }
+
             entities.Update(entity);
             context.SaveChanges();
         }
@@ -62,6 +64,7 @@ namespace BookHiveDB.Repository.Implementation
             {
                 throw new ArgumentNullException("entity");
             }
+
             entities.Remove(entity);
             context.SaveChanges();
         }
@@ -88,6 +91,13 @@ namespace BookHiveDB.Repository.Implementation
                 .Include(z => z.UserReceiver)
                 .Include(z => z.BookClub)
                 .Where(z => z.UserReceiver.Equals(receiver) && z.IsRequest.Equals(isRequest)).ToList();
+        }
+
+        public bool membershipRequestExists(BookHiveApplicationUser sender, BookClub bookClub, bool isRequest)
+        {
+            return entities.Include(e => e.UserSender)
+                .Include(e => e.BookClub)
+                .Any(e => e.UserSender.Equals(sender) && e.BookClub.Equals(bookClub) && e.IsRequest.Equals(isRequest));
         }
     }
 }
