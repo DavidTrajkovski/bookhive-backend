@@ -71,7 +71,7 @@ public class BookShopsApiController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = "Administrator")]
+    [Authorize("Default", Roles = "Administrator")]
     public IActionResult CreateBookShop([FromBody] CreateBookShopDto createBookShopDto)
     {
         var newBookShop = _mapper.Map<BookShop>(createBookShopDto);
@@ -82,7 +82,7 @@ public class BookShopsApiController : ControllerBase
     }
 
     [HttpPost("add-books")]
-    [Authorize(Roles = "Administrator")]
+    [Authorize("Default", Roles = "Administrator")]
     public IActionResult AddBooksToBookShop([FromBody] AddBooksToBookShopDto addBooksToBookShopDto)
     {
         var bookShop = _bookShopService.Get(addBooksToBookShopDto.BookShopId);
@@ -96,7 +96,7 @@ public class BookShopsApiController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
-    [Authorize(Roles = "Administrator")]
+    [Authorize("Default", Roles = "Administrator")]
     public IActionResult UpdateBookShop(Guid id, [FromBody] BookShop updatedBookShop)
     {
         var existingBookShop = _bookShopService.Get(id);
@@ -119,7 +119,7 @@ public class BookShopsApiController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
-    [Authorize(Roles = "Administrator")]
+    [Authorize("Default", Roles = "Administrator")]
     public IActionResult DeleteBookShop(Guid id)
     {
         var bookShop = _bookShopService.Get(id);

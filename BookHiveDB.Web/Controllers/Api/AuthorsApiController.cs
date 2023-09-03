@@ -67,7 +67,7 @@ public class AuthorsApiController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = "Administrator")]
+    [Authorize("Default", Roles = "Administrator")]
     public IActionResult CreateAuthor([FromBody] Author author)
     {
         if (!ModelState.IsValid)
@@ -78,7 +78,7 @@ public class AuthorsApiController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
-    [Authorize(Roles = "Administrator")]
+    [Authorize("Default", Roles = "Administrator")]
     public IActionResult UpdateAuthor(Guid id, [FromBody] Author updatedAuthor)
     {
         var existingAuthor = _authorService.findById(id);
@@ -95,7 +95,7 @@ public class AuthorsApiController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
-    [Authorize(Roles = "Administrator")]
+    [Authorize("Default", Roles = "Administrator")]
     public IActionResult DeleteAuthor(Guid id)
     {
         var author = _authorService.findById(id);

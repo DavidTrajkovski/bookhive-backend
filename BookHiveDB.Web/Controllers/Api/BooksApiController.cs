@@ -90,7 +90,7 @@ public class BooksRestController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = "Administrator")]
+    [Authorize("Default", Roles = "Administrator")]
     public IActionResult CreateBook([FromBody] CreateBookDto createBookDto)
     {
         var authors = createBookDto.AuthorIds.Select((authorId) => _authorService.findById(authorId));
@@ -118,7 +118,7 @@ public class BooksRestController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
-    [Authorize(Roles = "Administrator")]
+    [Authorize("Default", Roles = "Administrator")]
     public IActionResult UpdateBook(Guid id, [FromBody] CreateBookDto createBookDto)
     {
         var existingBook = _bookService.findById(id);
@@ -157,7 +157,7 @@ public class BooksRestController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
-    [Authorize(Roles = "Administrator")]
+    [Authorize("Default", Roles = "Administrator")]
     public IActionResult DeleteBook(Guid id)
     {
         var existingBook = _bookService.findById(id);
