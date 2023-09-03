@@ -6,6 +6,7 @@ using AutoMapper;
 using BookHiveDB.Domain.Dtos.REST.Author;
 using BookHiveDB.Domain.Models;
 using BookHiveDB.Domain.Dtos.REST.Book;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BookHiveDB.Web.Controllers.Api;
 
@@ -66,6 +67,7 @@ public class AuthorsApiController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Administrator")]
     public IActionResult CreateAuthor([FromBody] Author author)
     {
         if (!ModelState.IsValid)
@@ -76,6 +78,7 @@ public class AuthorsApiController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
+    [Authorize(Roles = "Administrator")]
     public IActionResult UpdateAuthor(Guid id, [FromBody] Author updatedAuthor)
     {
         var existingAuthor = _authorService.findById(id);
@@ -92,6 +95,7 @@ public class AuthorsApiController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
+    [Authorize(Roles = "Administrator")]
     public IActionResult DeleteAuthor(Guid id)
     {
         var author = _authorService.findById(id);

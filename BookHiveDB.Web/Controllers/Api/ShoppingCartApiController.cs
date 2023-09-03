@@ -79,10 +79,6 @@ public class ShoppingCartApiController : ControllerBase
         var service = new PaymentIntentService(client);
         var paymentIntent = await service.CreateAsync(options);
 
-        var userId = User.Claims.FirstOrDefault(c => c.Type == "id")?.Value;
-        this._bookInWishListService.clearAllBoughtBooksFromWishlistForUser(userId);
-        this.ClearShoppingCart();
-
         return Ok(new { client_secret = paymentIntent.ClientSecret });
     }
 

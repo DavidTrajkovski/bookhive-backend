@@ -15,13 +15,17 @@ public class UserBooksApiController : ControllerBase
 {
     private readonly IUserBookService _userBookService;
     private readonly IUserService _userService;
+    private readonly IBookInWishListService _bookInWishListService;
+    private readonly IShoppingCartService _shoppingCartService;
     private readonly IMapper _mapper;
 
-    public UserBooksApiController(IUserBookService userBookService, IMapper mapper, IUserService userService)
+    public UserBooksApiController(IUserBookService userBookService, IMapper mapper, IUserService userService, IBookInWishListService bookInWishListService, IShoppingCartService shoppingCartService)
     {
         _userBookService = userBookService;
         _mapper = mapper;
         _userService = userService;
+        _bookInWishListService = bookInWishListService;
+        _shoppingCartService = shoppingCartService;
     }
 
     [HttpGet]
@@ -51,6 +55,12 @@ public class UserBooksApiController : ControllerBase
         if (user is null) return NotFound("User not found");
 
         addBooksToLibraryRequest.BookIds.ForEach(bookId => _userBookService.addBookToMyBooks(userId, bookId));
+        _bookInWishListService.clearAllBoughtBooksFromWishlistForUser(userId);
+        
+        var shoppingCart = _shoppingCartService.getShoppingCartInfo(userId);
+        var books = shoppingCart.BookInShoppingCarts;
+        
+        books.ForEach(b => _shoppingCartService.deleteBookFromShoppingCart(userId, b.BookId));
 
         return Ok();
     }

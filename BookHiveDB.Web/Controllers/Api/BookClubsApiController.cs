@@ -71,6 +71,7 @@ public class BookClubsApiController : Controller
         var bookClubDto = _mapper.Map<BookClubDto>(bookclub);
 
         bookClubDto.IsOwner = bookclub.BookHiveApplicationUserId == userId;
+        bookClubDto.RequestCount = _invitationService.findByBookClubAndIsRequest(bookclubId, true).Count;
 
         return Ok(bookClubDto);
     }
@@ -95,6 +96,7 @@ public class BookClubsApiController : Controller
             Id = topic.Id,
             BookclubId = topic.BookClubId,
             Title = topic.title,
+            Date = topic.date,
             CreatedBy = $"{topic.BookHiveApplicationUser.FirstName} {topic.BookHiveApplicationUser.LastName}",
             IsCreator = topic.BookHiveApplicationUserId == userId
         }).ToList();
@@ -103,6 +105,7 @@ public class BookClubsApiController : Controller
     }
 
     [HttpGet("{bookclubId:guid}/members")]
+    [Authorize("Default")]
     public IActionResult GetMembersForBookClub(Guid bookclubId)
     {
         var bookclub = _bookClubService.findById(bookclubId);
@@ -116,17 +119,26 @@ public class BookClubsApiController : Controller
     }
 
     [HttpPost]
+    [Authorize("Default")]
     public IActionResult CreateBookClub([FromBody] CreateBookClubDto createBookClubDto)
     {
+        var userId = User.Claims.FirstOrDefault(c => c.Type == "id")?.Value;
+        if (string.IsNullOrEmpty(userId)) return BadRequest("Invalid token, ID claim is empty.");
+
+        var user = _userService.findById(userId);
+        if (user is null) return NotFound("User not found");
+
         var newlyCreatedBookClub = _bookClubService.save(createBookClubDto.Name, createBookClubDto.OwnerId,
             createBookClubDto.Description);
 
         var bookclubDto = _mapper.Map<BookClubDto>(newlyCreatedBookClub);
+        _bookClubService.addUserToBookclub(newlyCreatedBookClub.Id, userId);
 
         return Ok(bookclubDto);
     }
 
     [HttpPut("{bookclubId:guid}")]
+    [Authorize("Default")]
     public IActionResult EditBookClub(Guid bookclubId, [FromBody] CreateBookClubDto createBookClubDto)
     {
         var editedBookclub = _bookClubService.edit(bookclubId, createBookClubDto.Name, createBookClubDto.OwnerId,
@@ -138,6 +150,7 @@ public class BookClubsApiController : Controller
     }
 
     [HttpDelete("{bookclubId:guid}/members/{memberId:guid}")]
+    [Authorize("Default")]
     public IActionResult KickMemberFromBookClub(Guid bookclubId, Guid memberId)
     {
         _bookClubService.removeUserFromBookclub(bookclubId, memberId.ToString());

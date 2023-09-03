@@ -22,6 +22,14 @@ namespace BookHiveDB.Service.Implementation
             this.bookClubRepository = bookClubRepository;
         }
 
+        public bool membershipRequestExists(string senderId, Guid bookClubId, bool isRequest)
+        {
+            BookHiveApplicationUser sender = userRepository.Get(senderId);
+            BookClub bookClub = bookClubRepository.findById(bookClubId);
+
+            return invitationRepository.membershipRequestExists(sender, bookClub, isRequest);
+        }
+
         public void deleteById(Guid invitationId)
         {
             Invitation invitation = findById(invitationId);
@@ -52,6 +60,8 @@ namespace BookHiveDB.Service.Implementation
 
         public Invitation save(string senderId, string receiverEmail, Guid bookClubId, string message, bool isRequest)
         {
+            if (membershipRequestExists(senderId, bookClubId, true)) return new Invitation();
+            
             BookHiveApplicationUser sender = userRepository.Get(senderId);
             BookHiveApplicationUser receiver = userRepository.FindByEmail(receiverEmail);
             BookClub bookClub = bookClubRepository.findById(bookClubId);

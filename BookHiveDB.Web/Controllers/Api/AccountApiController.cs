@@ -112,6 +112,7 @@ namespace BookHiveDB.Web.Controllers.Api
         }
 
         [HttpGet("my-wishlist/{id:guid}")]
+        [Authorize("Default")]
         public IActionResult GetBooksInWishlist(Guid id)
         {
             var booksInWishlist = _wishListService.getAllBookInWishlistForUser(id.ToString());
@@ -122,6 +123,7 @@ namespace BookHiveDB.Web.Controllers.Api
         }
 
         [HttpPost("my-wishlist")]
+        [Authorize("Default")]
         public IActionResult AddBookToMyWishList([FromBody] WishlistDto wishlistDto)
         {
             _wishListService.addBookToMyWishlist(wishlistDto.UserId, wishlistDto.BookId);
@@ -129,6 +131,7 @@ namespace BookHiveDB.Web.Controllers.Api
         }
         
         [HttpDelete("my-wishlist")]
+        [Authorize("Default")]
         public IActionResult RemoveBookFromMyWishList([FromQuery] string userId, Guid bookId)
         {
             _wishListService.removeBookFromMyWishlist(userId, bookId);

@@ -15,6 +15,7 @@ namespace BookHiveDB.Repository.Interface
         public Invitation findById(Guid? invitationId); 
         List<Invitation> findByReceiver(BookHiveApplicationUser receiver); 
         List<Invitation> findByBookClubAndIsRequest(BookClub bookClub, bool isRequest); 
-        List<Invitation> findByReceiverAndIsRequest(BookHiveApplicationUser receiver, bool isRequest); 
+        List<Invitation> findByReceiverAndIsRequest(BookHiveApplicationUser receiver, bool isRequest);
+        bool membershipRequestExists(BookHiveApplicationUser sender, BookClub bookClub, bool isRequest);
     }
 }
