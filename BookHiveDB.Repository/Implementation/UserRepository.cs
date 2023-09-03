@@ -26,7 +26,7 @@ namespace BookHiveDB.Repository.Implementation
 
         public BookHiveApplicationUser Get(string id)
         {
-            return entities
+            return entities.Include(z => z.BookInWishLists)
                .Include(z => z.UserCart)
                .ThenInclude(s => s.BookInShoppingCarts)
                .ThenInclude(e => e.Book)
