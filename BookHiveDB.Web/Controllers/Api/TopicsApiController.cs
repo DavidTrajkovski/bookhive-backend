@@ -48,6 +48,7 @@ public class TopicsApiController : Controller
     }
 
     [HttpGet("{topicId:guid}/posts")]
+    [Authorize("Default")]
     public IActionResult GetPostsForTopic(Guid topicId)
     {
         var topic = _topicService.findById(topicId);
@@ -59,6 +60,7 @@ public class TopicsApiController : Controller
     }
 
     [HttpPost]
+    [Authorize("Default")]
     public IActionResult CreateTopic([FromBody] CreateTopicDto createTopicDto)
     {
         var newlyCreatedTopic =
@@ -69,6 +71,7 @@ public class TopicsApiController : Controller
     }
     
     [HttpPut("{topicId:guid}")]
+    [Authorize("Default")]
     public IActionResult EditTopic(Guid topicId, [FromBody] CreateTopicDto createTopicDto)
     {
         var editedTopic =
@@ -79,6 +82,7 @@ public class TopicsApiController : Controller
     }
 
     [HttpPost("{topicId:guid}/posts")]
+    [Authorize("Default")]
     public IActionResult AddPostToTopic(Guid topicId, [FromBody] CreateNewPostDto createNewPostDto)
     {
         var newPost = _postService.save(createNewPostDto.Content, createNewPostDto.UserId, createNewPostDto.TopicId);
